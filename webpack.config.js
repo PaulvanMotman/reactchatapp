@@ -1,8 +1,9 @@
 var BrowserSyncPlugin = require('browser-sync-webpack-plugin')
+
 module.exports = {
   entry: __dirname + '/frontend/src/scripts/main.js',
   output: {
-    filename: __dirname + '/frontend/public/js/app.js'
+    filename: __dirname + '/frontend/public/js/main.js'
   },
   module: {
     loaders: [
