@@ -69,30 +69,88 @@
 	console.log('Main js loaded');
 	// import { Menu, Header } from './modules/head.js'
 
-	var Container = function (_React$Component) {
-		_inherits(Container, _React$Component);
+	var Text = function (_React$Component) {
+		_inherits(Text, _React$Component);
 
-		function Container() {
+		function Text(props) {
+			_classCallCheck(this, Text);
+
+			return _possibleConstructorReturn(this, (Text.__proto__ || Object.getPrototypeOf(Text)).call(this, props));
+		}
+
+		_createClass(Text, [{
+			key: 'renderNormal',
+			value: function renderNormal() {
+				// console.log(this.props.children)
+				return _react2.default.createElement(
+					'div',
+					{ className: 'textcloud' },
+					_react2.default.createElement(
+						'p',
+						{ className: 'text' },
+						this.props.children
+					)
+				);
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				return this.renderNormal();
+			}
+		}]);
+
+		return Text;
+	}(_react2.default.Component);
+
+	var Container = function (_React$Component2) {
+		_inherits(Container, _React$Component2);
+
+		function Container(props) {
 			_classCallCheck(this, Container);
 
-			return _possibleConstructorReturn(this, (Container.__proto__ || Object.getPrototypeOf(Container)).apply(this, arguments));
+			var _this2 = _possibleConstructorReturn(this, (Container.__proto__ || Object.getPrototypeOf(Container)).call(this, props));
+
+			_this2.eachText = _this2.eachText.bind(_this2);
+			_this2.add = _this2.add.bind(_this2);
+			_this2.state = { messages: []
+			};
+			return _this2;
 		}
 
 		_createClass(Container, [{
+			key: 'add',
+			value: function add() {
+				console.log("joehoe");
+				var messages = this.state.messages;
+				messages.push(this.refs.newText.value);
+				this.setState({ messages: messages });
+			}
+		}, {
+			key: 'eachText',
+			value: function eachText(text, i) {
+				return _react2.default.createElement(
+					Text,
+					{ key: i, index: i },
+					text
+				);
+			}
+		}, {
 			key: 'render',
 			value: function render() {
+				console.log(this);
 				return _react2.default.createElement(
 					'div',
 					null,
 					_react2.default.createElement(
-						'h1',
-						null,
-						'Waddup dude'
+						'div',
+						{ className: 'chatwindow' },
+						this.state.messages.map(this.eachText)
 					),
+					_react2.default.createElement('textarea', { ref: 'newText' }),
 					_react2.default.createElement(
-						'p',
-						null,
-						'Hows it going?'
+						'button',
+						{ onClick: this.add },
+						'send'
 					)
 				);
 			}
@@ -100,6 +158,26 @@
 
 		return Container;
 	}(_react2.default.Component);
+
+	// class Container extends React.Component {
+	// 	constructor(props) {
+	// 		super(props)
+	// 		this.hello = this.hello.bind(this)
+	// 	} 
+	// 	hello() {
+	// 			console.log(this.refs.newText.value)
+	// 	}
+	// 	render() {
+	// 		return (
+	// 			<div>
+	// 				<textarea ref="newText" ></textarea>
+	// 				<button onClick={this.hello}>send</button>
+	// 			</div>
+	// 		)
+
+	// 	}
+	// }
+
 
 	_reactDom2.default.render(_react2.default.createElement(Container, null), document.getElementById('container'));
 
