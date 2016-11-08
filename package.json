@@ -1,0 +1,36 @@
+{
+  "name": "reactchatapp",
+  "version": "1.0.0",
+  "description": "A chat application build with react ES6",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PaulvanMotman/reactchatapp.git"
+  },
+  "author": "Paul van Motman",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PaulvanMotman/reactchatapp/issues"
+  },
+  "homepage": "https://github.com/PaulvanMotman/reactchatapp#readme",
+  "devDependencies": {
+    "babel-core": "^6.18.2",
+    "babel-loader": "^6.2.7",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-react": "^6.16.0",
+    "browser-sync": "^2.17.5",
+    "browser-sync-webpack-plugin": "^1.1.3",
+    "css-loader": "^0.25.0",
+    "mocha": "^3.1.2",
+    "node-sass": "^3.11.2",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "request": "^2.78.0",
+    "sass-loader": "^4.0.2",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.3"
+  }
+}
