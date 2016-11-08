@@ -2,7 +2,8 @@ console.log('Main js loaded')
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-// import { Menu, Header } from './modules/head.js'
+import Header from './modules/header.js'
+import Footer from './modules/footer.js'
 import '../styles/styles.scss'
 
 
@@ -23,9 +24,6 @@ class Text extends React.Component {
 		return this.renderNormal()
 	}
 }
-
-
-
 
 class Container extends React.Component {
 	constructor(props) {
@@ -52,36 +50,21 @@ class Container extends React.Component {
 		console.log(this)
 		return (
 			<div>
-				<div className="chatwindow">
-					{this.state.messages.map(this.eachText)}
-				</div>
-				<textarea ref="newText"></textarea>
-				<button onClick={this.add}>send</button>
+				<Header />
+				<main>
+					<div className="chatwindow">
+						{this.state.messages.map(this.eachText)}
+					</div>
+					<textarea ref="newText"></textarea>
+					<button onClick={this.add}>send</button>
+				</main>
+				<Footer />
 			</div>
 		)
 
 	}
 }
 
-
-// class Container extends React.Component {
-// 	constructor(props) {
-// 		super(props)
-// 		this.hello = this.hello.bind(this)
-// 	} 
-// 	hello() {
-// 			console.log(this.refs.newText.value)
-// 	}
-// 	render() {
-// 		return (
-// 			<div>
-// 				<textarea ref="newText" ></textarea>
-// 				<button onClick={this.hello}>send</button>
-// 			</div>
-// 		)
-
-// 	}
-// }
 
 
 
