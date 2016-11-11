@@ -119,14 +119,31 @@
 
 			_this2.eachText = _this2.eachText.bind(_this2);
 			_this2.add = _this2.add.bind(_this2);
-			_this2.state = { messages: []
+			_this2.changeView = _this2.changeView.bind(_this2);
+			_this2.state = {
+				action: "register",
+				messages: []
 			};
 			return _this2;
 		}
 
 		_createClass(Container, [{
+			key: 'changeView',
+			value: function changeView() {
+				if (this.state.action == "register") {
+					console.log("register is triggered");
+					this.setState({ action: "login" });
+				} else if (this.state.action == "login") {
+					console.log("login is triggered");
+					this.setState({ messages: [], action: "chat" });
+				} else {
+					console.log("You're chatting!");
+				}
+			}
+		}, {
 			key: 'add',
 			value: function add() {
+				console.log("joehoe");
 				var messages = this.state.messages;
 				messages.push(this.refs.newText.value);
 				this.setState({ messages: messages });
@@ -143,14 +160,17 @@
 		}, {
 			key: 'render',
 			value: function render() {
-				return _react2.default.createElement(
-					'div',
-					{ className: 'body' },
-					_react2.default.createElement(_header2.default, null),
-					_react2.default.createElement(
-						'main',
-						null,
-						_react2.default.createElement(
+				var mainContent;
+				switch (this.state.action) {
+					case "login":
+						mainContent = _react2.default.createElement(
+							'button',
+							{ onClick: this.changeView },
+							'Go to Chatt'
+						);
+						break;
+					case "chat":
+						mainContent = _react2.default.createElement(
 							'div',
 							{ className: 'row' },
 							_react2.default.createElement(
@@ -188,7 +208,24 @@
 									)
 								)
 							)
-						)
+						);
+						break;
+					default:
+						mainContent = _react2.default.createElement(
+							'button',
+							{ onClick: this.changeView },
+							'Go to Login'
+						);
+						break;
+				}
+				return _react2.default.createElement(
+					'div',
+					{ className: 'body' },
+					_react2.default.createElement(_header2.default, null),
+					_react2.default.createElement(
+						'main',
+						null,
+						mainContent
 					),
 					_react2.default.createElement(_footer2.default, null)
 				);
