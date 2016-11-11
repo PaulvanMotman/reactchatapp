@@ -34,7 +34,6 @@ class Container extends React.Component {
 		} 
 	}
 	add() {
-		console.log("joehoe")
 		var messages = this.state.messages
 		messages.push(this.refs.newText.value)
 		this.setState({messages: messages})
@@ -47,21 +46,33 @@ class Container extends React.Component {
 		)
 	}
 	render() {
-		console.log(this)
 		return (
-			<div>
+			<div className="body">
 				<Header />
 				<main>
-					<div className="chatwindow">
-						{this.state.messages.map(this.eachText)}
+					<div className="row">
+						<div className="col s10 offset-s1">
+							<div className="card">
+								<div className="card-content chatwindow">
+									{this.state.messages.map(this.eachText)}
+								</div>
+								<div className="card-action">
+									<div className="row">
+										<div className="col s2">
+											<button onClick={this.add}>send</button>
+										</div>
+										<div className="col s10">
+											<textarea ref="newText"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
-					<textarea ref="newText"></textarea>
-					<button onClick={this.add}>send</button>
 				</main>
 				<Footer />
 			</div>
 		)
-
 	}
 }
 
