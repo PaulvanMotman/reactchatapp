@@ -15,9 +15,12 @@ class Container extends React.Component {
 		super(props)
 		this.changeView = this.changeView.bind(this)
 		this.registerUser = this.registerUser.bind(this)
+		this.loginUser = this.loginUser.bind(this)
 		this.state = {
 			action: "register",
-			database: []
+			database: [],
+			currentUser: {}
+
 		} 
 	}
 	changeView () {
@@ -26,7 +29,11 @@ class Container extends React.Component {
 			this.setState ( { action: "login" } )
 		} else if (this.state.action == "login") {
 			console.log(this.state)
-			this.setState ( { action: "chat" } )
+			this.setState ( { action: "chat" } , () => {
+				console.log(this.state)
+			})
+		} else if (this.state.action == "noUserFound") {
+			console.log(this.state) 
 		} else {
 			console.log("You're chatting!")
 		}
@@ -34,21 +41,38 @@ class Container extends React.Component {
 	registerUser (user) {
 		let database = this.state.database
 		database.push(user)
-		this.setState({
-			database: database
+		this.setState({ database: database }, () => {
+			this.changeView()
 		})
 	}
+	loginUser (user) {
+		let database = this.state.database
+		let currentUser = this.state.currentUser
+		for (let i = database.length - 1; i >= 0; i--) {
+			if (database[i].email == user.email && database[i].password == user.password) {
+				currentUser = database[i]
+				this.setState({ currentUser: currentUser }, () => {
+					this.changeView()
+				})
+			}
+			else {
+				this.setState({ action: "noUserFound" }, () => {
+					this.changeView()
+				})
+			}
+		}
+	}
 	render() {
-		var mainContent
+		let mainContent
 		switch ( this.state.action ) {
 			case "login":
-				mainContent = <Login changeThatView={this.changeView}/>
+				mainContent = <Login changeThatView={this.changeView} loginThatUser={this.loginUser}/>
 				break
 			case "chat":
 				mainContent = <Chat />
 				break
 			default:
-				mainContent = <Register changeThatView={this.changeView} registerThatUser={this.registerUser}/>
+				mainContent = <Register registerThatUser={this.registerUser}/>
 			break
 		}
 		return (

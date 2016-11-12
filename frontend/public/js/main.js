@@ -98,9 +98,12 @@
 
 			_this.changeView = _this.changeView.bind(_this);
 			_this.registerUser = _this.registerUser.bind(_this);
+			_this.loginUser = _this.loginUser.bind(_this);
 			_this.state = {
 				action: "register",
-				database: []
+				database: [],
+				currentUser: {}
+
 			};
 			return _this;
 		}
@@ -108,12 +111,18 @@
 		_createClass(Container, [{
 			key: 'changeView',
 			value: function changeView() {
+				var _this2 = this;
+
 				if (this.state.action == "register") {
 					console.log(this.state);
 					this.setState({ action: "login" });
 				} else if (this.state.action == "login") {
 					console.log(this.state);
-					this.setState({ action: "chat" });
+					this.setState({ action: "chat" }, function () {
+						console.log(_this2.state);
+					});
+				} else if (this.state.action == "noUserFound") {
+					console.log(this.state);
 				} else {
 					console.log("You're chatting!");
 				}
@@ -121,25 +130,47 @@
 		}, {
 			key: 'registerUser',
 			value: function registerUser(user) {
+				var _this3 = this;
+
 				var database = this.state.database;
 				database.push(user);
-				this.setState({
-					database: database
+				this.setState({ database: database }, function () {
+					_this3.changeView();
 				});
+			}
+		}, {
+			key: 'loginUser',
+			value: function loginUser(user) {
+				var _this4 = this;
+
+				var database = this.state.database;
+				var currentUser = this.state.currentUser;
+				for (var i = database.length - 1; i >= 0; i--) {
+					if (database[i].email == user.email && database[i].password == user.password) {
+						currentUser = database[i];
+						this.setState({ currentUser: currentUser }, function () {
+							_this4.changeView();
+						});
+					} else {
+						this.setState({ action: "noUserFound" }, function () {
+							_this4.changeView();
+						});
+					}
+				}
 			}
 		}, {
 			key: 'render',
 			value: function render() {
-				var mainContent;
+				var mainContent = void 0;
 				switch (this.state.action) {
 					case "login":
-						mainContent = _react2.default.createElement(_login2.default, { changeThatView: this.changeView });
+						mainContent = _react2.default.createElement(_login2.default, { changeThatView: this.changeView, loginThatUser: this.loginUser });
 						break;
 					case "chat":
 						mainContent = _react2.default.createElement(_chat2.default, null);
 						break;
 					default:
-						mainContent = _react2.default.createElement(_register2.default, { changeThatView: this.changeView, registerThatUser: this.registerUser });
+						mainContent = _react2.default.createElement(_register2.default, { registerThatUser: this.registerUser });
 						break;
 				}
 				return _react2.default.createElement(
@@ -22308,7 +22339,6 @@
 					password: this.refs.password.value
 				};
 				this.props.registerThatUser(newuser);
-				this.props.changeThatView();
 			}
 		}, {
 			key: 'render',
@@ -22421,7 +22451,7 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	console.log('Register says wsup');
+	console.log('Login says wsup');
 
 	// If you export only one class, use export DEFAULT
 	var Login = function (_React$Component) {
@@ -22432,11 +22462,20 @@
 
 			var _this = _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).call(this, props));
 
-			_this.state = {};
+			_this.login = _this.login.bind(_this);
 			return _this;
 		}
 
 		_createClass(Login, [{
+			key: 'login',
+			value: function login() {
+				var user = {
+					email: this.refs.email.value,
+					password: this.refs.password.value
+				};
+				this.props.loginThatUser(user);
+			}
+		}, {
 			key: 'render',
 			value: function render() {
 				return _react2.default.createElement(
@@ -22492,7 +22531,7 @@
 										{ className: 'col s3 offset-s3' },
 										_react2.default.createElement(
 											'button',
-											{ onClick: this.props.changeThatView },
+											{ onClick: this.login },
 											'Login'
 										)
 									)

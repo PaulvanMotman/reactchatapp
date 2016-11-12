@@ -1,4 +1,4 @@
-console.log( 'Register says wsup' )
+console.log( 'Login says wsup' )
 
 import React from 'react'
 
@@ -6,8 +6,14 @@ import React from 'react'
 export default class Login extends React.Component {
 	constructor(props) {
 		super(props)
-		this.state = {		
-		} 
+		this.login = this.login.bind(this)
+	}
+	login() {
+		let user = {
+			email: this.refs.email.value,
+			password: this.refs.password.value
+		}
+		this.props.loginThatUser(user)
 	}
 	render() {
 		return (	
@@ -32,7 +38,7 @@ export default class Login extends React.Component {
 									<input ref="password"></input>
 								</div>
 								<div className="col s3 offset-s3">
-									<button onClick={this.props.changeThatView}>Login</button>
+									<button onClick={this.login}>Login</button>
 								</div>
 							</div>
 						</div>

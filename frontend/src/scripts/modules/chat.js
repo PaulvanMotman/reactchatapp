@@ -14,7 +14,7 @@ export default class Chat extends React.Component {
 		} 
 	}
 	add() {
-		var messages = this.state.messages
+		let messages = this.state.messages
 		this.state.messages.push(this.refs.newText.value)
 		this.setState({messages: messages})
 	}

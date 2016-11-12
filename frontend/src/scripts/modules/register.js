@@ -15,7 +15,6 @@ export default class Register extends React.Component {
 			password: this.refs.password.value
 		}
 		this.props.registerThatUser(newuser)
-		this.props.changeThatView()
 	}
 	render() {
 		return (	
