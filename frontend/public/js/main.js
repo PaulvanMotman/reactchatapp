@@ -64,7 +64,11 @@
 
 	var _footer2 = _interopRequireDefault(_footer);
 
-	__webpack_require__(174);
+	var _chat = __webpack_require__(174);
+
+	var _chat2 = _interopRequireDefault(_chat);
+
+	__webpack_require__(175);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -76,55 +80,19 @@
 
 	console.log('Main js loaded');
 
-	var Text = function (_React$Component) {
-		_inherits(Text, _React$Component);
-
-		function Text(props) {
-			_classCallCheck(this, Text);
-
-			return _possibleConstructorReturn(this, (Text.__proto__ || Object.getPrototypeOf(Text)).call(this, props));
-		}
-
-		_createClass(Text, [{
-			key: 'renderNormal',
-			value: function renderNormal() {
-				// console.log(this.props.children)
-				return _react2.default.createElement(
-					'div',
-					{ className: 'textcloud' },
-					_react2.default.createElement(
-						'p',
-						{ className: 'text' },
-						this.props.children
-					)
-				);
-			}
-		}, {
-			key: 'render',
-			value: function render() {
-				return this.renderNormal();
-			}
-		}]);
-
-		return Text;
-	}(_react2.default.Component);
-
-	var Container = function (_React$Component2) {
-		_inherits(Container, _React$Component2);
+	var Container = function (_React$Component) {
+		_inherits(Container, _React$Component);
 
 		function Container(props) {
 			_classCallCheck(this, Container);
 
-			var _this2 = _possibleConstructorReturn(this, (Container.__proto__ || Object.getPrototypeOf(Container)).call(this, props));
+			var _this = _possibleConstructorReturn(this, (Container.__proto__ || Object.getPrototypeOf(Container)).call(this, props));
 
-			_this2.eachText = _this2.eachText.bind(_this2);
-			_this2.add = _this2.add.bind(_this2);
-			_this2.changeView = _this2.changeView.bind(_this2);
-			_this2.state = {
-				action: "register",
-				messages: []
+			_this.changeView = _this.changeView.bind(_this);
+			_this.state = {
+				action: "register"
 			};
-			return _this2;
+			return _this;
 		}
 
 		_createClass(Container, [{
@@ -135,27 +103,10 @@
 					this.setState({ action: "login" });
 				} else if (this.state.action == "login") {
 					console.log("login is triggered");
-					this.setState({ messages: [], action: "chat" });
+					this.setState({ action: "chat" });
 				} else {
 					console.log("You're chatting!");
 				}
-			}
-		}, {
-			key: 'add',
-			value: function add() {
-				console.log("joehoe");
-				var messages = this.state.messages;
-				messages.push(this.refs.newText.value);
-				this.setState({ messages: messages });
-			}
-		}, {
-			key: 'eachText',
-			value: function eachText(text, i) {
-				return _react2.default.createElement(
-					Text,
-					{ key: i, index: i },
-					text
-				);
 			}
 		}, {
 			key: 'render',
@@ -170,45 +121,7 @@
 						);
 						break;
 					case "chat":
-						mainContent = _react2.default.createElement(
-							'div',
-							{ className: 'row' },
-							_react2.default.createElement(
-								'div',
-								{ className: 'col s10 offset-s1' },
-								_react2.default.createElement(
-									'div',
-									{ className: 'card' },
-									_react2.default.createElement(
-										'div',
-										{ className: 'card-content chatwindow' },
-										this.state.messages.map(this.eachText)
-									),
-									_react2.default.createElement(
-										'div',
-										{ className: 'card-action' },
-										_react2.default.createElement(
-											'div',
-											{ className: 'row' },
-											_react2.default.createElement(
-												'div',
-												{ className: 'col s2' },
-												_react2.default.createElement(
-													'button',
-													{ onClick: this.add },
-													'send'
-												)
-											),
-											_react2.default.createElement(
-												'div',
-												{ className: 'col s10' },
-												_react2.default.createElement('textarea', { ref: 'newText' })
-											)
-										)
-									)
-								)
-							)
-						);
+						mainContent = _react2.default.createElement(_chat2.default, null);
 						break;
 					default:
 						mainContent = _react2.default.createElement(
@@ -21825,13 +21738,126 @@
 /* 174 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _text = __webpack_require__(179);
+
+	var _text2 = _interopRequireDefault(_text);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	console.log('Chat says wsup');
+
+	// If you export only one class, use export DEFAULT
+	var Chat = function (_React$Component) {
+		_inherits(Chat, _React$Component);
+
+		function Chat(props) {
+			_classCallCheck(this, Chat);
+
+			var _this = _possibleConstructorReturn(this, (Chat.__proto__ || Object.getPrototypeOf(Chat)).call(this, props));
+
+			_this.eachText = _this.eachText.bind(_this);
+			_this.add = _this.add.bind(_this);
+			_this.state = {
+				messages: []
+			};
+			return _this;
+		}
+
+		_createClass(Chat, [{
+			key: 'add',
+			value: function add() {
+				var messages = this.state.messages;
+				this.state.messages.push(this.refs.newText.value);
+				this.setState({ messages: messages });
+			}
+		}, {
+			key: 'eachText',
+			value: function eachText(text, i) {
+				return _react2.default.createElement(
+					_text2.default,
+					{ key: i, index: i },
+					text
+				);
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'div',
+					{ className: 'row' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'col s10 offset-s1' },
+						_react2.default.createElement(
+							'div',
+							{ className: 'card' },
+							_react2.default.createElement(
+								'div',
+								{ className: 'card-content chatwindow' },
+								this.state.messages.map(this.eachText)
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: 'card-action' },
+								_react2.default.createElement(
+									'div',
+									{ className: 'row' },
+									_react2.default.createElement(
+										'div',
+										{ className: 'col s2' },
+										_react2.default.createElement(
+											'button',
+											{ onClick: this.add },
+											'send'
+										)
+									),
+									_react2.default.createElement(
+										'div',
+										{ className: 'col s10' },
+										_react2.default.createElement('textarea', { ref: 'newText' })
+									)
+								)
+							)
+						)
+					)
+				);
+			}
+		}]);
+
+		return Chat;
+	}(_react2.default.Component);
+
+	exports.default = Chat;
+
+/***/ },
+/* 175 */
+/***/ function(module, exports, __webpack_require__) {
+
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(175);
+	var content = __webpack_require__(176);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(177)(content, {});
+	var update = __webpack_require__(178)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -21848,10 +21874,10 @@
 	}
 
 /***/ },
-/* 175 */
+/* 176 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(176)();
+	exports = module.exports = __webpack_require__(177)();
 	// imports
 
 
@@ -21862,7 +21888,7 @@
 
 
 /***/ },
-/* 176 */
+/* 177 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -21917,7 +21943,7 @@
 	};
 
 /***/ },
-/* 177 */
+/* 178 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -22167,6 +22193,61 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
+
+/***/ },
+/* 179 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	console.log('Text says wsup');
+
+	var Text = function (_React$Component) {
+		_inherits(Text, _React$Component);
+
+		function Text(props) {
+			_classCallCheck(this, Text);
+
+			return _possibleConstructorReturn(this, (Text.__proto__ || Object.getPrototypeOf(Text)).call(this, props));
+		}
+
+		_createClass(Text, [{
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'div',
+					{ className: 'textcloud' },
+					_react2.default.createElement(
+						'p',
+						{ className: 'text' },
+						this.props.children
+					)
+				);
+			}
+		}]);
+
+		return Text;
+	}(_react2.default.Component);
+
+	exports.default = Text;
 
 /***/ }
 /******/ ]);
