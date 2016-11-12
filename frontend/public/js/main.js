@@ -88,6 +88,13 @@
 
 	console.log('Main js loaded');
 
+	// STILL TO DO
+
+	// 1. FIX THE START PAGE THAT YOU HAVE A FAILED TO LOG IN MESSAGE
+	// 2. USE CURRENTUSER DATA WITHIN THE CHAT COMPONENT
+	// 3. FIX A LOG OUT
+
+
 	// Import required modules
 
 	// Creating the container class
