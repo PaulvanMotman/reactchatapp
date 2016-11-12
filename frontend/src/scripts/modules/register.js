@@ -1,13 +1,16 @@
 console.log( 'Register says wsup' )
 
+// Import required modules
 import React from 'react'
 
 // If you export only one class, use export DEFAULT
+// Creating the Register class
 export default class Register extends React.Component {
 	constructor(props) {
 		super(props)
 		this.add = this.add.bind(this)
 	}
+	// function that takes the values of the input field and passes it to the registerThatUser function
 	add() {
 		let newuser = {
 			name: this.refs.name.value,

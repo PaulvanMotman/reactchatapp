@@ -88,17 +88,22 @@
 
 	console.log('Main js loaded');
 
+	// Import required modules
+
+	// Creating the container class
 	var Container = function (_React$Component) {
 		_inherits(Container, _React$Component);
 
 		function Container(props) {
 			_classCallCheck(this, Container);
 
+			// This doesnt get auto-binded in ES6, therefore:
 			var _this = _possibleConstructorReturn(this, (Container.__proto__ || Object.getPrototypeOf(Container)).call(this, props));
 
 			_this.changeView = _this.changeView.bind(_this);
 			_this.registerUser = _this.registerUser.bind(_this);
 			_this.loginUser = _this.loginUser.bind(_this);
+			// This state is the main state of the app, and data can be sent to child components by storing it in props
 			_this.state = {
 				action: "register",
 				database: [],
@@ -107,6 +112,8 @@
 			};
 			return _this;
 		}
+		// This function switches the view from register --> login --> chat components
+
 
 		_createClass(Container, [{
 			key: 'changeView',
@@ -127,6 +134,8 @@
 					console.log("You're chatting!");
 				}
 			}
+			// This functions registers a user and stores it the database, which is currently located in the state
+
 		}, {
 			key: 'registerUser',
 			value: function registerUser(user) {
@@ -135,9 +144,12 @@
 				var database = this.state.database;
 				database.push(user);
 				this.setState({ database: database }, function () {
+					// It's important to use a callback here, so the view is changed AFTER the state is set
 					_this3.changeView();
 				});
 			}
+			// This function handles the login
+
 		}, {
 			key: 'loginUser',
 			value: function loginUser(user) {
@@ -145,19 +157,26 @@
 
 				var database = this.state.database;
 				var currentUser = this.state.currentUser;
+				// A loop through the database
 				for (var i = database.length - 1; i >= 0; i--) {
+					// If there is a match with a user in the database..
 					if (database[i].email == user.email && database[i].password == user.password) {
 						currentUser = database[i];
+						// .. the state is updated and the view goes to the chat component
 						this.setState({ currentUser: currentUser }, function () {
 							_this4.changeView();
 						});
-					} else {
-						this.setState({ action: "noUserFound" }, function () {
-							_this4.changeView();
-						});
 					}
+					// If not the user goes back to the starting page (register)
+					else {
+							this.setState({ action: "noUserFound" }, function () {
+								_this4.changeView();
+							});
+						}
 				}
 			}
+			// Render function
+
 		}, {
 			key: 'render',
 			value: function render() {
@@ -21620,7 +21639,10 @@
 
 	console.log('Headers says wsup');
 
+	// Import required modules
+
 	// If you export only one class, use export DEFAULT
+	// Creating the Header class
 	var Header = function (_React$Component) {
 		_inherits(Header, _React$Component);
 
@@ -21693,7 +21715,10 @@
 
 	console.log('Footer says wsup');
 
+	// Import required modules
+
 	// If you export only one class, use export DEFAULT
+	// Creating the Footer class
 	var Footer = function (_React$Component) {
 		_inherits(Footer, _React$Component);
 
@@ -21806,7 +21831,10 @@
 
 	console.log('Chat says wsup');
 
+	// Import required modules
+
 	// If you export only one class, use export DEFAULT
+	// Creating the Chat class
 	var Chat = function (_React$Component) {
 		_inherits(Chat, _React$Component);
 
@@ -21822,6 +21850,8 @@
 			};
 			return _this;
 		}
+		// function that adds new messages to the chat
+
 
 		_createClass(Chat, [{
 			key: 'add',
@@ -21830,6 +21860,8 @@
 				this.state.messages.push(this.refs.newText.value);
 				this.setState({ messages: messages });
 			}
+			// function that creates html tag for each message
+
 		}, {
 			key: 'eachText',
 			value: function eachText(text, i) {
@@ -22262,6 +22294,10 @@
 
 	console.log('Text says wsup');
 
+	// Import required modules
+
+	// If you export only one class, use export DEFAULT
+	// Creating the Text class
 	var Text = function (_React$Component) {
 		_inherits(Text, _React$Component);
 
@@ -22317,7 +22353,10 @@
 
 	console.log('Register says wsup');
 
+	// Import required modules
+
 	// If you export only one class, use export DEFAULT
+	// Creating the Register class
 	var Register = function (_React$Component) {
 		_inherits(Register, _React$Component);
 
@@ -22329,6 +22368,8 @@
 			_this.add = _this.add.bind(_this);
 			return _this;
 		}
+		// function that takes the values of the input field and passes it to the registerThatUser function
+
 
 		_createClass(Register, [{
 			key: 'add',
@@ -22453,7 +22494,10 @@
 
 	console.log('Login says wsup');
 
+	// Import required modules
+
 	// If you export only one class, use export DEFAULT
+	// Creating the Login class
 	var Login = function (_React$Component) {
 		_inherits(Login, _React$Component);
 
@@ -22465,6 +22509,8 @@
 			_this.login = _this.login.bind(_this);
 			return _this;
 		}
+		// function that takes the values of the input field and passes it to the loginThatUser function
+
 
 		_createClass(Login, [{
 			key: 'login',

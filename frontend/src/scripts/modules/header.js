@@ -1,9 +1,10 @@
 console.log( 'Headers says wsup' )
 
+// Import required modules
 import React from 'react'
 
-
 // If you export only one class, use export DEFAULT
+// Creating the Header class
 export default class Header extends React.Component {
 	render() {
 		return (

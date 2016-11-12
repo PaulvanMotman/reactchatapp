@@ -1,13 +1,16 @@
 console.log( 'Login says wsup' )
 
+// Import required modules
 import React from 'react'
 
 // If you export only one class, use export DEFAULT
+// Creating the Login class
 export default class Login extends React.Component {
 	constructor(props) {
 		super(props)
 		this.login = this.login.bind(this)
 	}
+	// function that takes the values of the input field and passes it to the loginThatUser function
 	login() {
 		let user = {
 			email: this.refs.email.value,

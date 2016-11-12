@@ -1,9 +1,11 @@
 console.log( 'Chat says wsup' )
 
+// Import required modules
 import React from 'react'
 import Text from './text.js'
 
 // If you export only one class, use export DEFAULT
+// Creating the Chat class
 export default class Chat extends React.Component {
 	constructor(props) {
 		super(props)
@@ -13,11 +15,13 @@ export default class Chat extends React.Component {
 			messages: []
 		} 
 	}
+	// function that adds new messages to the chat
 	add() {
 		let messages = this.state.messages
 		this.state.messages.push(this.refs.newText.value)
 		this.setState({messages: messages})
 	}
+	// function that creates html tag for each message
 	eachText(text, i) {
 		return (
 			<Text key={i} index={i} >

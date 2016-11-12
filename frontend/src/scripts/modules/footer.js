@@ -1,9 +1,10 @@
 console.log( 'Footer says wsup' )
 
+// Import required modules
 import React from 'react'
 
-
 // If you export only one class, use export DEFAULT
+// Creating the Footer class
 export default class Footer extends React.Component {
 	render() {
 		return (
