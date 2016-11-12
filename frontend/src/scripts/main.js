@@ -5,6 +5,8 @@ import ReactDOM from 'react-dom'
 import Header from './modules/header.js'
 import Footer from './modules/footer.js'
 import Chat from './modules/chat.js'
+import Register from './modules/register.js'
+import Login from './modules/login.js'
 import '../styles/styles.scss'
 
 
@@ -31,13 +33,13 @@ class Container extends React.Component {
 		var mainContent
 		switch ( this.state.action ) {
 			case "login":
-				mainContent = <button onClick={this.changeView}>Go to Chatt</button>
+				mainContent = <Login changeThatView={this.changeView}/>
 				break
 			case "chat":
 				mainContent = <Chat />
 				break
 			default:
-				mainContent = <button onClick={this.changeView}>Go to Login</button>
+				mainContent = <Register changeThatView={this.changeView}/>
 			break
 		}
 		return (
