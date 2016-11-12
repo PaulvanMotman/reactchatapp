@@ -6,25 +6,47 @@ import React from 'react'
 export default class Register extends React.Component {
 	constructor(props) {
 		super(props)
-		this.state = {
-			
-		} 
+		this.add = this.add.bind(this)
+	}
+	add() {
+		let newuser = {
+			name: this.refs.name.value,
+			email: this.refs.email.value,
+			password: this.refs.password.value
+		}
+		this.props.registerThatUser(newuser)
+		this.props.changeThatView()
 	}
 	render() {
 		return (	
 			<div className="row">
-				<div className="col s10 offset-s1">
+				<div className="col s6 offset-s3">
 					<div className="card">
 						<div className="card-content">
-							<img src="../img/hello.jpg" />
+							<img className="img" src="../img/hello.jpg" />
 						</div>
 						<div className="card-action">
 							<div className="row">
-								<div className="col s2">
-									Register here!
+								<div className="col s1">
+									<label>Name</label>
 								</div>
-								<div className="col s10">
-									<button onClick={this.props.changeThatView}>Press that button</button>
+								<div className="col s2">
+									<input ref="name"></input>
+								</div>
+								<div className="col s1">
+									<label>Email</label>
+								</div>
+								<div className="col s2">
+									<input ref="email"></input>
+								</div>
+								<div className="col s1">
+									<label>Password</label>
+								</div>
+								<div className="col s2">
+									<input ref="password"></input>
+								</div>
+								<div className="col s3">
+									<button onClick={this.add}>Register</button>
 								</div>
 							</div>
 						</div>

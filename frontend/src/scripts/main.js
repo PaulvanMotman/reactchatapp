@@ -14,20 +14,29 @@ class Container extends React.Component {
 	constructor(props) {
 		super(props)
 		this.changeView = this.changeView.bind(this)
+		this.registerUser = this.registerUser.bind(this)
 		this.state = {
-			action: "register"
+			action: "register",
+			database: []
 		} 
 	}
 	changeView () {
 		if ( this.state.action == "register" ) {
-			console.log("register is triggered")
+			console.log(this.state)
 			this.setState ( { action: "login" } )
 		} else if (this.state.action == "login") {
-			console.log("login is triggered")
+			console.log(this.state)
 			this.setState ( { action: "chat" } )
 		} else {
 			console.log("You're chatting!")
 		}
+	}
+	registerUser (user) {
+		let database = this.state.database
+		database.push(user)
+		this.setState({
+			database: database
+		})
 	}
 	render() {
 		var mainContent
@@ -39,7 +48,7 @@ class Container extends React.Component {
 				mainContent = <Chat />
 				break
 			default:
-				mainContent = <Register changeThatView={this.changeView}/>
+				mainContent = <Register changeThatView={this.changeView} registerThatUser={this.registerUser}/>
 			break
 		}
 		return (

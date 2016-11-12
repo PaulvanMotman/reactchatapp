@@ -9,7 +9,7 @@ export default class Header extends React.Component {
 		return (
 			<nav>
 				<div className="nav-wrapper">
-					<a href="#" className="brand-logo">Chat appje</a>
+					<a href="/" className="brand-logo">Chat appje</a>
 					<ul id="nav-mobile" className="right">
 						<li><a href="/">Settings</a></li>
 					</ul>

@@ -97,8 +97,10 @@
 			var _this = _possibleConstructorReturn(this, (Container.__proto__ || Object.getPrototypeOf(Container)).call(this, props));
 
 			_this.changeView = _this.changeView.bind(_this);
+			_this.registerUser = _this.registerUser.bind(_this);
 			_this.state = {
-				action: "register"
+				action: "register",
+				database: []
 			};
 			return _this;
 		}
@@ -107,14 +109,23 @@
 			key: 'changeView',
 			value: function changeView() {
 				if (this.state.action == "register") {
-					console.log("register is triggered");
+					console.log(this.state);
 					this.setState({ action: "login" });
 				} else if (this.state.action == "login") {
-					console.log("login is triggered");
+					console.log(this.state);
 					this.setState({ action: "chat" });
 				} else {
 					console.log("You're chatting!");
 				}
+			}
+		}, {
+			key: 'registerUser',
+			value: function registerUser(user) {
+				var database = this.state.database;
+				database.push(user);
+				this.setState({
+					database: database
+				});
 			}
 		}, {
 			key: 'render',
@@ -128,7 +139,7 @@
 						mainContent = _react2.default.createElement(_chat2.default, null);
 						break;
 					default:
-						mainContent = _react2.default.createElement(_register2.default, { changeThatView: this.changeView });
+						mainContent = _react2.default.createElement(_register2.default, { changeThatView: this.changeView, registerThatUser: this.registerUser });
 						break;
 				}
 				return _react2.default.createElement(
@@ -21599,7 +21610,7 @@
 						{ className: 'nav-wrapper' },
 						_react2.default.createElement(
 							'a',
-							{ href: '#', className: 'brand-logo' },
+							{ href: '/', className: 'brand-logo' },
 							'Chat appje'
 						),
 						_react2.default.createElement(
@@ -21882,7 +21893,7 @@
 
 
 	// module
-	exports.push([module.id, ".body {\n  display: flex;\n  min-height: 100vh;\n  flex-direction: column; }\n  .body nav {\n    background-color: #1976D2; }\n  .body main {\n    flex: 1 0 auto; }\n    .body main .chatwindow {\n      min-height: 200px; }\n  .body #footer {\n    background-color: #2196F3; }\n", ""]);
+	exports.push([module.id, ".body {\n  display: flex;\n  min-height: 100vh;\n  flex-direction: column; }\n  .body nav {\n    background-color: #1976D2; }\n  .body main {\n    flex: 1 0 auto; }\n    .body main .chatwindow {\n      min-height: 200px; }\n    .body main .img {\n      display: block;\n      margin: auto;\n      height: 35vh;\n      width: 35vh; }\n  .body #footer {\n    background-color: #2196F3; }\n", ""]);
 
 	// exports
 
@@ -22284,11 +22295,22 @@
 
 			var _this = _possibleConstructorReturn(this, (Register.__proto__ || Object.getPrototypeOf(Register)).call(this, props));
 
-			_this.state = {};
+			_this.add = _this.add.bind(_this);
 			return _this;
 		}
 
 		_createClass(Register, [{
+			key: 'add',
+			value: function add() {
+				var newuser = {
+					name: this.refs.name.value,
+					email: this.refs.email.value,
+					password: this.refs.password.value
+				};
+				this.props.registerThatUser(newuser);
+				this.props.changeThatView();
+			}
+		}, {
 			key: 'render',
 			value: function render() {
 				return _react2.default.createElement(
@@ -22296,14 +22318,14 @@
 					{ className: 'row' },
 					_react2.default.createElement(
 						'div',
-						{ className: 'col s10 offset-s1' },
+						{ className: 'col s6 offset-s3' },
 						_react2.default.createElement(
 							'div',
 							{ className: 'card' },
 							_react2.default.createElement(
 								'div',
 								{ className: 'card-content' },
-								_react2.default.createElement('img', { src: '../img/hello.jpg' })
+								_react2.default.createElement('img', { className: 'img', src: '../img/hello.jpg' })
 							),
 							_react2.default.createElement(
 								'div',
@@ -22313,16 +22335,53 @@
 									{ className: 'row' },
 									_react2.default.createElement(
 										'div',
-										{ className: 'col s2' },
-										'Register here!'
+										{ className: 'col s1' },
+										_react2.default.createElement(
+											'label',
+											null,
+											'Name'
+										)
 									),
 									_react2.default.createElement(
 										'div',
-										{ className: 'col s10' },
+										{ className: 'col s2' },
+										_react2.default.createElement('input', { ref: 'name' })
+									),
+									_react2.default.createElement(
+										'div',
+										{ className: 'col s1' },
+										_react2.default.createElement(
+											'label',
+											null,
+											'Email'
+										)
+									),
+									_react2.default.createElement(
+										'div',
+										{ className: 'col s2' },
+										_react2.default.createElement('input', { ref: 'email' })
+									),
+									_react2.default.createElement(
+										'div',
+										{ className: 'col s1' },
+										_react2.default.createElement(
+											'label',
+											null,
+											'Password'
+										)
+									),
+									_react2.default.createElement(
+										'div',
+										{ className: 'col s2' },
+										_react2.default.createElement('input', { ref: 'password' })
+									),
+									_react2.default.createElement(
+										'div',
+										{ className: 'col s3' },
 										_react2.default.createElement(
 											'button',
-											{ onClick: this.props.changeThatView },
-											'Press that button'
+											{ onClick: this.add },
+											'Register'
 										)
 									)
 								)
@@ -22385,14 +22444,14 @@
 					{ className: 'row' },
 					_react2.default.createElement(
 						'div',
-						{ className: 'col s10 offset-s1' },
+						{ className: 'col s6 offset-s3' },
 						_react2.default.createElement(
 							'div',
 							{ className: 'card' },
 							_react2.default.createElement(
 								'div',
 								{ className: 'card-content' },
-								_react2.default.createElement('img', { src: '../img/almost.jpg' })
+								_react2.default.createElement('img', { className: 'img', src: '../img/almost.jpg' })
 							),
 							_react2.default.createElement(
 								'div',
@@ -22402,16 +22461,39 @@
 									{ className: 'row' },
 									_react2.default.createElement(
 										'div',
-										{ className: 'col s2' },
-										'Register here!'
+										{ className: 'col s1' },
+										_react2.default.createElement(
+											'label',
+											null,
+											'Email'
+										)
 									),
 									_react2.default.createElement(
 										'div',
-										{ className: 'col s10' },
+										{ className: 'col s2' },
+										_react2.default.createElement('input', { ref: 'email' })
+									),
+									_react2.default.createElement(
+										'div',
+										{ className: 'col s1' },
+										_react2.default.createElement(
+											'label',
+											null,
+											'Password'
+										)
+									),
+									_react2.default.createElement(
+										'div',
+										{ className: 'col s2' },
+										_react2.default.createElement('input', { ref: 'password' })
+									),
+									_react2.default.createElement(
+										'div',
+										{ className: 'col s3 offset-s3' },
 										_react2.default.createElement(
 											'button',
 											{ onClick: this.props.changeThatView },
-											'Press that button'
+											'Login'
 										)
 									)
 								)
