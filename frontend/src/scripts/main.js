@@ -3,9 +3,9 @@ console.log('Main js loaded')
 
 // STILL TO DO
 
-// 1. FIX THE START PAGE THAT YOU HAVE A FAILED TO LOG IN MESSAGE
+// 1. FIX THE START PAGE THAT YOU HAVE A FAILED TO LOG IN MESSAGE -- DONE
 // 2. USE CURRENTUSER DATA WITHIN THE CHAT COMPONENT
-// 3. FIX A LOG OUT
+// 3. FIX A LOG OUT -- ALMOST DONE
 
 
 
@@ -18,6 +18,7 @@ import Footer from './modules/footer.js'
 import Chat from './modules/chat.js'
 import Register from './modules/register.js'
 import Login from './modules/login.js'
+import Fail from './modules/fail.js'
 import '../styles/styles.scss'
 
 // Creating the container class
@@ -36,29 +37,13 @@ class Container extends React.Component {
 
 		} 
 	}
-	// This function switches the view from register --> login --> chat components
-	changeView () {
-		if ( this.state.action == "register" ) {
-			console.log(this.state)
-			this.setState ( { action: "login" } )
-		} else if (this.state.action == "login") {
-			console.log(this.state)
-			this.setState ( { action: "chat" } , () => {
-				console.log(this.state)
-			})
-		} else if (this.state.action == "noUserFound") {
-			console.log(this.state) 
-		} else {
-			console.log("You're chatting!")
-		}
-	}
 	// This functions registers a user and stores it the database, which is currently located in the state
 	registerUser (user) {
 		let database = this.state.database
 		database.push(user)
 		this.setState({ database: database }, () => {
-			// It's important to use a callback here, so the view is changed AFTER the state is set
-			this.changeView()
+			// It's important to use a callback here, so the view is changed AFTER the database is made
+			this.changeView("login", {})
 		})
 	}
 	// This function handles the login
@@ -71,17 +56,19 @@ class Container extends React.Component {
 			if (database[i].email == user.email && database[i].password == user.password) {
 				currentUser = database[i]
 				// .. the state is updated and the view goes to the chat component
-				this.setState({ currentUser: currentUser }, () => {
-					this.changeView()
+				this.setState({ action: "login"}, () => {
+					this.changeView("chat", currentUser)
 				})
 			}
 			// If not the user goes back to the starting page (register)
 			else {
-				this.setState({ action: "noUserFound" }, () => {
-					this.changeView()
-				})
+				this.setState({ action: "noUserFound" })
 			}
 		}
+	}
+	// This function switches the view from register --> login --> chat components
+	changeView (a, c) {
+		this.setState({ action: a, currentUser: c }, () => { console.log(this.state) })
 	}
 	// Render function
 	render() {
@@ -93,13 +80,20 @@ class Container extends React.Component {
 			case "chat":
 				mainContent = <Chat />
 				break
+			case "noUserFound":
+				mainContent = ( <div className="row">
+									<Fail />
+									<Login fail={true} changeThatView={this.changeView} loginThatUser={this.loginUser}/>
+								</div>
+							)
+				break
 			default:
 				mainContent = <Register registerThatUser={this.registerUser}/>
 			break
 		}
 		return (
 			<div className="body">
-				<Header />
+				<Header registerThatUser={this.goToRegisterUser} logOutThatUser={this.logoutUser} action={this.state.action} />
 				<main>
 					{mainContent}
 				</main>

@@ -19,35 +19,51 @@ export default class Login extends React.Component {
 		this.props.loginThatUser(user)
 	}
 	render() {
-		return (	
-			<div className="row">
-				<div className="col s6 offset-s3">
-					<div className="card">
-						<div className="card-content">
-							<img className="img" src="../img/almost.jpg" />
-						</div>
-						<div className="card-action">
-							<div className="row">
-								<div className="col s1">
-									<label>Email</label>
-								</div>
-								<div className="col s2">
-									<input ref="email"></input>
-								</div>
-								<div className="col s1">
-									<label>Password</label>
-								</div>
-								<div className="col s2">
-									<input ref="password"></input>
-								</div>
-								<div className="col s3 offset-s3">
-									<button onClick={this.login}>Login</button>
-								</div>
+		console.log(this.props)
+		let loginRender
+		let mainContent = (
+				<div className="card">
+					<div className="card-content">
+						<img className="img" src="../img/almost.jpg" />
+					</div>
+					<div className="card-action">
+						<div className="row">
+							<div className="col s1">
+								<label>Email</label>
+							</div>
+							<div className="col s2">
+								<input ref="email"></input>
+							</div>
+							<div className="col s1">
+								<label>Password</label>
+							</div>
+							<div className="col s2">
+								<input ref="password"></input>
+							</div>
+							<div className="col s3 offset-s3">
+								<button onClick={this.login}>Login</button>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			)
+		if ( this.props.fail ==! null) {
+			loginRender = (
+				<div className="col s5" >
+						{mainContent}
+				</div>
+			)
+		} else {
+			loginRender = (
+				<div className="row">
+					<div className="col s6 offset-s3">
+						{mainContent}
+					</div>
+				</div>
+			)
+		}
+		return (
+			loginRender
 		)
 	}
 }

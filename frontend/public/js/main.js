@@ -76,6 +76,10 @@
 
 	var _login2 = _interopRequireDefault(_login);
 
+	var _fail = __webpack_require__(182);
+
+	var _fail2 = _interopRequireDefault(_fail);
+
 	__webpack_require__(175);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -90,9 +94,9 @@
 
 	// STILL TO DO
 
-	// 1. FIX THE START PAGE THAT YOU HAVE A FAILED TO LOG IN MESSAGE
+	// 1. FIX THE START PAGE THAT YOU HAVE A FAILED TO LOG IN MESSAGE -- DONE
 	// 2. USE CURRENTUSER DATA WITHIN THE CHAT COMPONENT
-	// 3. FIX A LOG OUT
+	// 3. FIX A LOG OUT -- ALMOST DONE
 
 
 	// Import required modules
@@ -119,40 +123,19 @@
 			};
 			return _this;
 		}
-		// This function switches the view from register --> login --> chat components
+		// This functions registers a user and stores it the database, which is currently located in the state
 
 
 		_createClass(Container, [{
-			key: 'changeView',
-			value: function changeView() {
-				var _this2 = this;
-
-				if (this.state.action == "register") {
-					console.log(this.state);
-					this.setState({ action: "login" });
-				} else if (this.state.action == "login") {
-					console.log(this.state);
-					this.setState({ action: "chat" }, function () {
-						console.log(_this2.state);
-					});
-				} else if (this.state.action == "noUserFound") {
-					console.log(this.state);
-				} else {
-					console.log("You're chatting!");
-				}
-			}
-			// This functions registers a user and stores it the database, which is currently located in the state
-
-		}, {
 			key: 'registerUser',
 			value: function registerUser(user) {
-				var _this3 = this;
+				var _this2 = this;
 
 				var database = this.state.database;
 				database.push(user);
 				this.setState({ database: database }, function () {
-					// It's important to use a callback here, so the view is changed AFTER the state is set
-					_this3.changeView();
+					// It's important to use a callback here, so the view is changed AFTER the database is made
+					_this2.changeView("login", {});
 				});
 			}
 			// This function handles the login
@@ -160,7 +143,7 @@
 		}, {
 			key: 'loginUser',
 			value: function loginUser(user) {
-				var _this4 = this;
+				var _this3 = this;
 
 				var database = this.state.database;
 				var currentUser = this.state.currentUser;
@@ -170,17 +153,26 @@
 					if (database[i].email == user.email && database[i].password == user.password) {
 						currentUser = database[i];
 						// .. the state is updated and the view goes to the chat component
-						this.setState({ currentUser: currentUser }, function () {
-							_this4.changeView();
+						this.setState({ action: "login" }, function () {
+							_this3.changeView("chat", currentUser);
 						});
 					}
 					// If not the user goes back to the starting page (register)
 					else {
-							this.setState({ action: "noUserFound" }, function () {
-								_this4.changeView();
-							});
+							this.setState({ action: "noUserFound" });
 						}
 				}
+			}
+			// This function switches the view from register --> login --> chat components
+
+		}, {
+			key: 'changeView',
+			value: function changeView(a, c) {
+				var _this4 = this;
+
+				this.setState({ action: a, currentUser: c }, function () {
+					console.log(_this4.state);
+				});
 			}
 			// Render function
 
@@ -195,6 +187,14 @@
 					case "chat":
 						mainContent = _react2.default.createElement(_chat2.default, null);
 						break;
+					case "noUserFound":
+						mainContent = _react2.default.createElement(
+							'div',
+							{ className: 'row' },
+							_react2.default.createElement(_fail2.default, null),
+							_react2.default.createElement(_login2.default, { fail: true, changeThatView: this.changeView, loginThatUser: this.loginUser })
+						);
+						break;
 					default:
 						mainContent = _react2.default.createElement(_register2.default, { registerThatUser: this.registerUser });
 						break;
@@ -202,7 +202,7 @@
 				return _react2.default.createElement(
 					'div',
 					{ className: 'body' },
-					_react2.default.createElement(_header2.default, null),
+					_react2.default.createElement(_header2.default, { registerThatUser: this.goToRegisterUser, logOutThatUser: this.logoutUser, action: this.state.action }),
 					_react2.default.createElement(
 						'main',
 						null,
@@ -21963,7 +21963,7 @@
 
 
 	// module
-	exports.push([module.id, ".body {\n  display: flex;\n  min-height: 100vh;\n  flex-direction: column; }\n  .body nav {\n    background-color: #1976D2; }\n  .body main {\n    flex: 1 0 auto; }\n    .body main .chatwindow {\n      min-height: 200px; }\n    .body main .img {\n      display: block;\n      margin: auto;\n      height: 35vh;\n      width: 35vh; }\n  .body #footer {\n    background-color: #2196F3; }\n", ""]);
+	exports.push([module.id, ".body {\n  display: flex;\n  min-height: 100vh;\n  flex-direction: column; }\n  .body nav {\n    background-color: #1976D2; }\n  .body main {\n    flex: 1 0 auto; }\n    .body main .chatwindow {\n      min-height: 200px; }\n    .body main .img {\n      display: block;\n      margin: auto;\n      height: 35vh;\n      width: 35vh; }\n    .body main .card-action {\n      min-height: 25vh; }\n  .body #footer {\n    background-color: #2196F3; }\n", ""]);
 
 	// exports
 
@@ -22531,62 +22531,154 @@
 		}, {
 			key: 'render',
 			value: function render() {
-				return _react2.default.createElement(
+				console.log(this.props);
+				var loginRender = void 0;
+				var mainContent = _react2.default.createElement(
 					'div',
-					{ className: 'row' },
+					{ className: 'card' },
 					_react2.default.createElement(
 						'div',
-						{ className: 'col s6 offset-s3' },
+						{ className: 'card-content' },
+						_react2.default.createElement('img', { className: 'img', src: '../img/almost.jpg' })
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'card-action' },
 						_react2.default.createElement(
 							'div',
-							{ className: 'card' },
+							{ className: 'row' },
 							_react2.default.createElement(
 								'div',
-								{ className: 'card-content' },
-								_react2.default.createElement('img', { className: 'img', src: '../img/almost.jpg' })
+								{ className: 'col s1' },
+								_react2.default.createElement(
+									'label',
+									null,
+									'Email'
+								)
 							),
 							_react2.default.createElement(
 								'div',
-								{ className: 'card-action' },
+								{ className: 'col s2' },
+								_react2.default.createElement('input', { ref: 'email' })
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: 'col s1' },
+								_react2.default.createElement(
+									'label',
+									null,
+									'Password'
+								)
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: 'col s2' },
+								_react2.default.createElement('input', { ref: 'password' })
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: 'col s3 offset-s3' },
+								_react2.default.createElement(
+									'button',
+									{ onClick: this.login },
+									'Login'
+								)
+							)
+						)
+					)
+				);
+				if (this.props.fail == !null) {
+					loginRender = _react2.default.createElement(
+						'div',
+						{ className: 'col s5' },
+						mainContent
+					);
+				} else {
+					loginRender = _react2.default.createElement(
+						'div',
+						{ className: 'row' },
+						_react2.default.createElement(
+							'div',
+							{ className: 'col s6 offset-s3' },
+							mainContent
+						)
+					);
+				}
+				return loginRender;
+			}
+		}]);
+
+		return Login;
+	}(_react2.default.Component);
+
+	exports.default = Login;
+
+/***/ },
+/* 182 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	console.log('Fail says wsup');
+
+	// Import required modules
+
+	// If you export only one class, use export DEFAULT
+	// Creating the Fail class
+	var Fail = function (_React$Component) {
+		_inherits(Fail, _React$Component);
+
+		function Fail(props) {
+			_classCallCheck(this, Fail);
+
+			return _possibleConstructorReturn(this, (Fail.__proto__ || Object.getPrototypeOf(Fail)).call(this, props));
+		}
+
+		_createClass(Fail, [{
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'div',
+					{ className: 'col s5 offset-s1' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'card' },
+						_react2.default.createElement(
+							'div',
+							{ className: 'card-content' },
+							_react2.default.createElement('img', { className: 'img', src: '../img/fail.jpg' })
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: 'card-action' },
+							_react2.default.createElement(
+								'div',
+								{ className: 'row' },
 								_react2.default.createElement(
 									'div',
-									{ className: 'row' },
+									{ className: 'col s8 offset-s2' },
 									_react2.default.createElement(
-										'div',
-										{ className: 'col s1' },
-										_react2.default.createElement(
-											'label',
-											null,
-											'Email'
-										)
-									),
-									_react2.default.createElement(
-										'div',
-										{ className: 'col s2' },
-										_react2.default.createElement('input', { ref: 'email' })
-									),
-									_react2.default.createElement(
-										'div',
-										{ className: 'col s1' },
-										_react2.default.createElement(
-											'label',
-											null,
-											'Password'
-										)
-									),
-									_react2.default.createElement(
-										'div',
-										{ className: 'col s2' },
-										_react2.default.createElement('input', { ref: 'password' })
-									),
-									_react2.default.createElement(
-										'div',
-										{ className: 'col s3 offset-s3' },
-										_react2.default.createElement(
-											'button',
-											{ onClick: this.login },
-											'Login'
-										)
+										'h5',
+										null,
+										'Please try to log in again or register a new account!'
 									)
 								)
 							)
@@ -22596,10 +22688,10 @@
 			}
 		}]);
 
-		return Login;
+		return Fail;
 	}(_react2.default.Component);
 
-	exports.default = Login;
+	exports.default = Fail;
 
 /***/ }
 /******/ ]);
