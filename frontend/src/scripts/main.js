@@ -75,28 +75,52 @@ class Container extends React.Component {
 		let mainContent
 		switch ( this.state.action ) {
 			case "login":
-				mainContent = <Login changeThatView={this.changeView} loginThatUser={this.loginUser}/>
+				mainContent = (
+					<div>
+						<Header action={this.state.action} />
+						<main>
+							<Login changeThatView={this.changeView} loginThatUser={this.loginUser}/>
+						</main>
+					</div>
+				)
 				break
 			case "chat":
-				mainContent = <Chat />
+				mainContent = (
+					<div>
+						<Header action={this.state.action} />
+						<main>
+							<Chat />
+						</main>
+					</div>
+				)
 				break
 			case "noUserFound":
-				mainContent = ( <div className="row">
-									<Fail />
-									<Login fail={true} changeThatView={this.changeView} loginThatUser={this.loginUser}/>
-								</div>
-							)
+				mainContent = ( 
+					<div>
+						<Header action={this.state.action} />
+						<main>
+							<div className="row">
+								<Fail />
+								<Login fail={true} changeThatView={this.changeView} loginThatUser={this.loginUser}/>
+							</div>
+						</main>
+					</div>
+				)
 				break
 			default:
-				mainContent = <Register registerThatUser={this.registerUser}/>
+				mainContent = (
+					<div>
+						<Header action={this.state.action} />
+						<main>
+							<Register registerThatUser={this.registerUser}/>
+						</main>
+					</div>
+				)
 			break
 		}
 		return (
 			<div className="body">
-				<Header registerThatUser={this.goToRegisterUser} logOutThatUser={this.logoutUser} action={this.state.action} />
-				<main>
-					{mainContent}
-				</main>
+				{mainContent}
 				<Footer />
 			</div>
 		)
