@@ -4,7 +4,7 @@ console.log('Main js loaded')
 // STILL TO DO
 
 // 1. FIX THE START PAGE THAT YOU HAVE A FAILED TO LOG IN MESSAGE -- DONE
-// 2. USE CURRENTUSER DATA WITHIN THE CHAT COMPONENT
+// 2. USE CURRENTUSER DATA WITHIN THE CHAT COMPONENT -- DONE
 // 3. FIX A LOG OUT -- DONE
 
 
@@ -75,9 +75,9 @@ class Container extends React.Component {
 	changeView (a, c) {
 		this.setState({ action: a, currentUser: c }, () => { console.log(this.state) })
 	}
-	updateMessages (newmessages) {
+	updateMessages (newmessage, username) {
 		let messages = this.state.messages
-		messages.push(newmessages)
+		messages.push({ message: newmessage, name: username })
 		this.setState({ messages: messages}, () => { console.log(this.state) })
 	}
 	// Render function
@@ -99,7 +99,7 @@ class Container extends React.Component {
 					<div>
 						<Header action={this.state.action} changeThatView={this.changeView}/>
 						<main>
-							<Chat updateThoseMessages={this.updateMessages} messages={this.state.messages}/>
+							<Chat updateThoseMessages={this.updateMessages} messages={this.state.messages} currentUser={this.state.currentUser}/>
 						</main>
 					</div>
 				)

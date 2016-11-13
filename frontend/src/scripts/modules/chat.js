@@ -14,20 +14,18 @@ export default class Chat extends React.Component {
 	}
 	// function that adds new messages to the chat
 	add() {
-		// let messages = this.state.messages
-		// this.state.messages.push(this.refs.newText.value)
-		this.props.updateThoseMessages(this.refs.newText.value)
-		// this.setState({messages: messages})
+		this.props.updateThoseMessages(this.refs.newText.value, this.props.currentUser.name)
 	}
 	// function that creates html tag for each message
 	eachText(text, i) {
 		return (
-			<Text key={i} index={i} >
+			<Text key={i} index={i}>
 				{text}
 			</Text>
 		)
 	}
 	render() {
+		console.log(this.props.messages)
 		return (	
 			<div className="row">
 				<div className="col s10 offset-s1">

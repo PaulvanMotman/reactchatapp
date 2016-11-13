@@ -95,7 +95,7 @@
 	// STILL TO DO
 
 	// 1. FIX THE START PAGE THAT YOU HAVE A FAILED TO LOG IN MESSAGE -- DONE
-	// 2. USE CURRENTUSER DATA WITHIN THE CHAT COMPONENT
+	// 2. USE CURRENTUSER DATA WITHIN THE CHAT COMPONENT -- DONE
 	// 3. FIX A LOG OUT -- DONE
 
 
@@ -183,11 +183,11 @@
 			}
 		}, {
 			key: 'updateMessages',
-			value: function updateMessages(newmessages) {
+			value: function updateMessages(newmessage, username) {
 				var _this5 = this;
 
 				var messages = this.state.messages;
-				messages.push(newmessages);
+				messages.push({ message: newmessage, name: username });
 				this.setState({ messages: messages }, function () {
 					console.log(_this5.state);
 				});
@@ -219,7 +219,7 @@
 							_react2.default.createElement(
 								'main',
 								null,
-								_react2.default.createElement(_chat2.default, { updateThoseMessages: this.updateMessages, messages: this.state.messages })
+								_react2.default.createElement(_chat2.default, { updateThoseMessages: this.updateMessages, messages: this.state.messages, currentUser: this.state.currentUser })
 							)
 						);
 						break;
@@ -21966,10 +21966,7 @@
 		_createClass(Chat, [{
 			key: 'add',
 			value: function add() {
-				// let messages = this.state.messages
-				// this.state.messages.push(this.refs.newText.value)
-				this.props.updateThoseMessages(this.refs.newText.value);
-				// this.setState({messages: messages})
+				this.props.updateThoseMessages(this.refs.newText.value, this.props.currentUser.name);
 			}
 			// function that creates html tag for each message
 
@@ -21985,6 +21982,7 @@
 		}, {
 			key: 'render',
 			value: function render() {
+				console.log(this.props.messages);
 				return _react2.default.createElement(
 					'div',
 					{ className: 'row' },
@@ -22080,7 +22078,9 @@
 					_react2.default.createElement(
 						'p',
 						{ className: 'text' },
-						this.props.children
+						this.props.children.name,
+						' says: ',
+						this.props.children.message
 					)
 				);
 			}
