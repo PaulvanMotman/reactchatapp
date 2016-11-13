@@ -114,11 +114,13 @@
 			_this.changeView = _this.changeView.bind(_this);
 			_this.registerUser = _this.registerUser.bind(_this);
 			_this.loginUser = _this.loginUser.bind(_this);
+			_this.updateMessages = _this.updateMessages.bind(_this);
 			// This state is the main state of the app, and data can be sent to child components by storing it in props
 			_this.state = {
 				action: "register",
 				database: [],
-				currentUser: {}
+				currentUser: {},
+				messages: []
 
 			};
 			return _this;
@@ -147,20 +149,25 @@
 
 				var database = this.state.database;
 				var currentUser = this.state.currentUser;
-				// A loop through the database
-				for (var i = database.length - 1; i >= 0; i--) {
-					// If there is a match with a user in the database..
-					if (database[i].email == user.email && database[i].password == user.password) {
-						currentUser = database[i];
-						// .. the state is updated and the view goes to the chat component
-						this.setState({ action: "login" }, function () {
-							_this3.changeView("chat", currentUser);
-						});
-					}
-					// If not the user goes back to the starting page (register)
-					else {
-							this.setState({ action: "noUserFound" });
+				// First check if there are users in the database
+				if (database.length == 0) {
+					this.setState({ action: "noUserFound" });
+				} else {
+					// A loop through the database
+					for (var i = database.length - 1; i >= 0; i--) {
+						// If there is a match with a user in the database..
+						if (database[i].email == user.email && database[i].password == user.password) {
+							currentUser = database[i];
+							// .. the state is updated and the view goes from login to chat component
+							this.setState({ action: "login" }, function () {
+								_this3.changeView("chat", currentUser);
+							});
 						}
+						// If not the user goes back to the starting page (register)
+						else {
+								this.setState({ action: "noUserFound" });
+							}
+					}
 				}
 			}
 			// This function switches the view from register --> login --> chat components
@@ -172,6 +179,17 @@
 
 				this.setState({ action: a, currentUser: c }, function () {
 					console.log(_this4.state);
+				});
+			}
+		}, {
+			key: 'updateMessages',
+			value: function updateMessages(newmessages) {
+				var _this5 = this;
+
+				var messages = this.state.messages;
+				messages.push(newmessages);
+				this.setState({ messages: messages }, function () {
+					console.log(_this5.state);
 				});
 			}
 			// Render function
@@ -201,7 +219,7 @@
 							_react2.default.createElement(
 								'main',
 								null,
-								_react2.default.createElement(_chat2.default, null)
+								_react2.default.createElement(_chat2.default, { updateThoseMessages: this.updateMessages, messages: this.state.messages })
 							)
 						);
 						break;
@@ -21692,19 +21710,20 @@
 			_this.goTo = _this.goTo.bind(_this);
 			return _this;
 		}
+		// This function basically runs the changeView function of the container component
+
 
 		_createClass(Header, [{
 			key: 'goTo',
 			value: function goTo(x, y) {
 				this.props.changeThatView(x, y);
 			}
-			// Panel visibility toggle
-
 		}, {
 			key: 'render',
 			value: function render() {
 				var _this2 = this;
 
+				// To use parameters with the goTo function, it was important to wrap it in a function
 				var menuRender = void 0;
 				if (this.props.action !== "chat") {
 					menuRender = _react2.default.createElement(
@@ -21939,9 +21958,6 @@
 
 			_this.eachText = _this.eachText.bind(_this);
 			_this.add = _this.add.bind(_this);
-			_this.state = {
-				messages: []
-			};
 			return _this;
 		}
 		// function that adds new messages to the chat
@@ -21950,9 +21966,10 @@
 		_createClass(Chat, [{
 			key: 'add',
 			value: function add() {
-				var messages = this.state.messages;
-				this.state.messages.push(this.refs.newText.value);
-				this.setState({ messages: messages });
+				// let messages = this.state.messages
+				// this.state.messages.push(this.refs.newText.value)
+				this.props.updateThoseMessages(this.refs.newText.value);
+				// this.setState({messages: messages})
 			}
 			// function that creates html tag for each message
 
@@ -21980,7 +21997,7 @@
 							_react2.default.createElement(
 								'div',
 								{ className: 'card-content chatwindow' },
-								this.state.messages.map(this.eachText)
+								this.props.messages.map(this.eachText)
 							),
 							_react2.default.createElement(
 								'div',
@@ -22191,7 +22208,7 @@
 									_react2.default.createElement(
 										'div',
 										{ className: 'col s2' },
-										_react2.default.createElement('input', { ref: 'password' })
+										_react2.default.createElement('input', { type: 'password', ref: 'password' })
 									),
 									_react2.default.createElement(
 										'div',
@@ -22313,7 +22330,7 @@
 							_react2.default.createElement(
 								'div',
 								{ className: 'col s2' },
-								_react2.default.createElement('input', { ref: 'password' })
+								_react2.default.createElement('input', { type: 'password', ref: 'password' })
 							),
 							_react2.default.createElement(
 								'div',

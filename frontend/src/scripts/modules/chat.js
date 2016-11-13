@@ -11,15 +11,13 @@ export default class Chat extends React.Component {
 		super(props)
 		this.eachText = this.eachText.bind(this)
 		this.add = this.add.bind(this)
-		this.state = {
-			messages: []
-		} 
 	}
 	// function that adds new messages to the chat
 	add() {
-		let messages = this.state.messages
-		this.state.messages.push(this.refs.newText.value)
-		this.setState({messages: messages})
+		// let messages = this.state.messages
+		// this.state.messages.push(this.refs.newText.value)
+		this.props.updateThoseMessages(this.refs.newText.value)
+		// this.setState({messages: messages})
 	}
 	// function that creates html tag for each message
 	eachText(text, i) {
@@ -35,7 +33,7 @@ export default class Chat extends React.Component {
 				<div className="col s10 offset-s1">
 					<div className="card">
 						<div className="card-content chatwindow">
-							{this.state.messages.map(this.eachText)}
+							{this.props.messages.map(this.eachText)}
 						</div>
 						<div className="card-action">
 							<div className="row">

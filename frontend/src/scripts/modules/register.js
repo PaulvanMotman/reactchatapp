@@ -45,7 +45,7 @@ export default class Register extends React.Component {
 									<label>Password</label>
 								</div>
 								<div className="col s2">
-									<input ref="password"></input>
+									<input type="password" ref="password"></input>
 								</div>
 								<div className="col s3">
 									<button onClick={this.add}>Register</button>

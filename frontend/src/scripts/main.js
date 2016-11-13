@@ -8,8 +8,6 @@ console.log('Main js loaded')
 // 3. FIX A LOG OUT -- DONE
 
 
-
-
 // Import required modules
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -29,11 +27,13 @@ class Container extends React.Component {
 		this.changeView = this.changeView.bind(this)
 		this.registerUser = this.registerUser.bind(this)
 		this.loginUser = this.loginUser.bind(this)
+		this.updateMessages = this.updateMessages.bind(this)
 		// This state is the main state of the app, and data can be sent to child components by storing it in props
 		this.state = {
 			action: "register",
 			database: [],
-			currentUser: {}
+			currentUser: {},
+			messages: []
 
 		} 
 	}
@@ -50,25 +50,35 @@ class Container extends React.Component {
 	loginUser (user) {
 		let database = this.state.database
 		let currentUser = this.state.currentUser
-		// A loop through the database
-		for (let i = database.length - 1; i >= 0; i--) {
-			// If there is a match with a user in the database..
-			if (database[i].email == user.email && database[i].password == user.password) {
-				currentUser = database[i]
-				// .. the state is updated and the view goes to the chat component
-				this.setState({ action: "login"}, () => {
-					this.changeView("chat", currentUser)
-				})
-			}
-			// If not the user goes back to the starting page (register)
-			else {
-				this.setState({ action: "noUserFound" })
+		// First check if there are users in the database
+		if (database.length == 0) {
+			this.setState({ action: "noUserFound" })
+		} else {
+			// A loop through the database
+			for (let i = database.length - 1; i >= 0; i--) {
+				// If there is a match with a user in the database..
+				if (database[i].email == user.email && database[i].password == user.password) {
+					currentUser = database[i]
+					// .. the state is updated and the view goes from login to chat component
+					this.setState({ action: "login"}, () => {
+						this.changeView("chat", currentUser)
+					})
+				}
+				// If not the user goes back to the starting page (register)
+				else {
+					this.setState({ action: "noUserFound" })
+				}
 			}
 		}
 	}
 	// This function switches the view from register --> login --> chat components
 	changeView (a, c) {
 		this.setState({ action: a, currentUser: c }, () => { console.log(this.state) })
+	}
+	updateMessages (newmessages) {
+		let messages = this.state.messages
+		messages.push(newmessages)
+		this.setState({ messages: messages}, () => { console.log(this.state) })
 	}
 	// Render function
 	render() {
@@ -89,7 +99,7 @@ class Container extends React.Component {
 					<div>
 						<Header action={this.state.action} changeThatView={this.changeView}/>
 						<main>
-							<Chat />
+							<Chat updateThoseMessages={this.updateMessages} messages={this.state.messages}/>
 						</main>
 					</div>
 				)

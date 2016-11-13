@@ -10,11 +10,12 @@ export default class Header extends React.Component {
 		super (props)
 		this.goTo = this.goTo.bind(this)
 	}
+	// This function basically runs the changeView function of the container component
 	goTo (x, y) {
 		this.props.changeThatView(x,y)
 	}
-	// Panel visibility toggle
 	render() {
+		// To use parameters with the goTo function, it was important to wrap it in a function
 		let menuRender
 		if ( this.props.action !== "chat") {
 			menuRender = (
