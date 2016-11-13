@@ -8,23 +8,26 @@ import React from 'react'
 export default class Header extends React.Component {
 	constructor (props) {
 		super (props)
+		this.goTo = this.goTo.bind(this)
 	}
-
+	goTo (x, y) {
+		this.props.changeThatView(x,y)
+	}
 	// Panel visibility toggle
 	render() {
 		let menuRender
 		if ( this.props.action !== "chat") {
 			menuRender = (
 				<ul id="nav-mobile" className="right">
-						<li>Login</li>
-						<li>Register</li>
+						<li><a onClick={() => {this.goTo("login", {})}}>Login</a></li>
+						<li><a onClick={() => {this.goTo("register", {})}}>Register</a></li>
 				</ul>
 			)
 		} else {
 			menuRender = (	
 				<ul id="nav-mobile" className="right">
-						<li>Logout</li>
-						<li>Register</li>
+						<li onClick={() => {this.goTo("login", {})}}><a>Logout</a></li>
+						<li onClick={() => {this.goTo("register", {})}}><a>Register</a></li>
 				</ul>
 			)
 		}

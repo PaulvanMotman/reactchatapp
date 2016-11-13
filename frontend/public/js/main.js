@@ -96,7 +96,7 @@
 
 	// 1. FIX THE START PAGE THAT YOU HAVE A FAILED TO LOG IN MESSAGE -- DONE
 	// 2. USE CURRENTUSER DATA WITHIN THE CHAT COMPONENT
-	// 3. FIX A LOG OUT -- ALMOST DONE
+	// 3. FIX A LOG OUT -- DONE
 
 
 	// Import required modules
@@ -185,7 +185,7 @@
 						mainContent = _react2.default.createElement(
 							'div',
 							null,
-							_react2.default.createElement(_header2.default, { action: this.state.action }),
+							_react2.default.createElement(_header2.default, { action: this.state.action, changeThatView: this.changeView }),
 							_react2.default.createElement(
 								'main',
 								null,
@@ -197,7 +197,7 @@
 						mainContent = _react2.default.createElement(
 							'div',
 							null,
-							_react2.default.createElement(_header2.default, { action: this.state.action }),
+							_react2.default.createElement(_header2.default, { action: this.state.action, changeThatView: this.changeView }),
 							_react2.default.createElement(
 								'main',
 								null,
@@ -209,7 +209,7 @@
 						mainContent = _react2.default.createElement(
 							'div',
 							null,
-							_react2.default.createElement(_header2.default, { action: this.state.action }),
+							_react2.default.createElement(_header2.default, { action: this.state.action, changeThatView: this.changeView }),
 							_react2.default.createElement(
 								'main',
 								null,
@@ -226,7 +226,7 @@
 						mainContent = _react2.default.createElement(
 							'div',
 							null,
-							_react2.default.createElement(_header2.default, { action: this.state.action }),
+							_react2.default.createElement(_header2.default, { action: this.state.action, changeThatView: this.changeView }),
 							_react2.default.createElement(
 								'main',
 								null,
@@ -21687,15 +21687,24 @@
 		function Header(props) {
 			_classCallCheck(this, Header);
 
-			return _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).call(this, props));
+			var _this = _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).call(this, props));
+
+			_this.goTo = _this.goTo.bind(_this);
+			return _this;
 		}
 
-		// Panel visibility toggle
-
-
 		_createClass(Header, [{
+			key: 'goTo',
+			value: function goTo(x, y) {
+				this.props.changeThatView(x, y);
+			}
+			// Panel visibility toggle
+
+		}, {
 			key: 'render',
 			value: function render() {
+				var _this2 = this;
+
 				var menuRender = void 0;
 				if (this.props.action !== "chat") {
 					menuRender = _react2.default.createElement(
@@ -21704,12 +21713,24 @@
 						_react2.default.createElement(
 							'li',
 							null,
-							'Login'
+							_react2.default.createElement(
+								'a',
+								{ onClick: function onClick() {
+										_this2.goTo("login", {});
+									} },
+								'Login'
+							)
 						),
 						_react2.default.createElement(
 							'li',
 							null,
-							'Register'
+							_react2.default.createElement(
+								'a',
+								{ onClick: function onClick() {
+										_this2.goTo("register", {});
+									} },
+								'Register'
+							)
 						)
 					);
 				} else {
@@ -21718,13 +21739,25 @@
 						{ id: 'nav-mobile', className: 'right' },
 						_react2.default.createElement(
 							'li',
-							null,
-							'Logout'
+							{ onClick: function onClick() {
+									_this2.goTo("login", {});
+								} },
+							_react2.default.createElement(
+								'a',
+								null,
+								'Logout'
+							)
 						),
 						_react2.default.createElement(
 							'li',
-							null,
-							'Register'
+							{ onClick: function onClick() {
+									_this2.goTo("register", {});
+								} },
+							_react2.default.createElement(
+								'a',
+								null,
+								'Register'
+							)
 						)
 					);
 				}

@@ -5,7 +5,7 @@ console.log('Main js loaded')
 
 // 1. FIX THE START PAGE THAT YOU HAVE A FAILED TO LOG IN MESSAGE -- DONE
 // 2. USE CURRENTUSER DATA WITHIN THE CHAT COMPONENT
-// 3. FIX A LOG OUT -- ALMOST DONE
+// 3. FIX A LOG OUT -- DONE
 
 
 
@@ -77,9 +77,9 @@ class Container extends React.Component {
 			case "login":
 				mainContent = (
 					<div>
-						<Header action={this.state.action} />
+						<Header action={this.state.action} changeThatView={this.changeView}/>
 						<main>
-							<Login changeThatView={this.changeView} loginThatUser={this.loginUser}/>
+							<Login changeThatView={this.changeView} loginThatUser={this.loginUser} />
 						</main>
 					</div>
 				)
@@ -87,7 +87,7 @@ class Container extends React.Component {
 			case "chat":
 				mainContent = (
 					<div>
-						<Header action={this.state.action} />
+						<Header action={this.state.action} changeThatView={this.changeView}/>
 						<main>
 							<Chat />
 						</main>
@@ -97,7 +97,7 @@ class Container extends React.Component {
 			case "noUserFound":
 				mainContent = ( 
 					<div>
-						<Header action={this.state.action} />
+						<Header action={this.state.action} changeThatView={this.changeView}/>
 						<main>
 							<div className="row">
 								<Fail />
@@ -110,7 +110,7 @@ class Container extends React.Component {
 			default:
 				mainContent = (
 					<div>
-						<Header action={this.state.action} />
+						<Header action={this.state.action} changeThatView={this.changeView}/>
 						<main>
 							<Register registerThatUser={this.registerUser}/>
 						</main>
