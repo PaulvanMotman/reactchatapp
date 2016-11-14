@@ -21998,7 +21998,7 @@
 									{ className: 'row' },
 									_react2.default.createElement(
 										'form',
-										{ className: 'commentForm', onSubmit: function onSubmit(e) {
+										{ className: 'form', onSubmit: function onSubmit(e) {
 												return _this2.add(e);
 											} },
 										_react2.default.createElement(
@@ -22132,7 +22132,8 @@
 
 		_createClass(Register, [{
 			key: 'add',
-			value: function add() {
+			value: function add(e) {
+				e.preventDefault();
 				var newuser = {
 					name: this.refs.name.value,
 					email: this.refs.email.value,
@@ -22143,6 +22144,8 @@
 		}, {
 			key: 'render',
 			value: function render() {
+				var _this2 = this;
+
 				return _react2.default.createElement(
 					'div',
 					{ className: 'row' },
@@ -22161,57 +22164,59 @@
 								'div',
 								{ className: 'card-action' },
 								_react2.default.createElement(
-									'div',
-									{ className: 'row' },
+									'form',
+									{ className: 'form', onSubmit: function onSubmit(e) {
+											return _this2.add(e);
+										} },
 									_react2.default.createElement(
 										'div',
-										{ className: 'col s1' },
+										{ className: 'row' },
 										_react2.default.createElement(
-											'label',
-											null,
-											'Name'
-										)
-									),
-									_react2.default.createElement(
-										'div',
-										{ className: 'col s2' },
-										_react2.default.createElement('input', { ref: 'name' })
-									),
-									_react2.default.createElement(
-										'div',
-										{ className: 'col s1' },
+											'div',
+											{ className: 'col s1' },
+											_react2.default.createElement(
+												'label',
+												null,
+												'Name'
+											)
+										),
 										_react2.default.createElement(
-											'label',
-											null,
-											'Email'
-										)
-									),
-									_react2.default.createElement(
-										'div',
-										{ className: 'col s2' },
-										_react2.default.createElement('input', { ref: 'email' })
-									),
-									_react2.default.createElement(
-										'div',
-										{ className: 'col s1' },
+											'div',
+											{ className: 'col s2' },
+											_react2.default.createElement('input', { ref: 'name' })
+										),
 										_react2.default.createElement(
-											'label',
-											null,
-											'Password'
-										)
-									),
-									_react2.default.createElement(
-										'div',
-										{ className: 'col s2' },
-										_react2.default.createElement('input', { type: 'password', ref: 'password' })
-									),
-									_react2.default.createElement(
-										'div',
-										{ className: 'col s3' },
+											'div',
+											{ className: 'col s1' },
+											_react2.default.createElement(
+												'label',
+												null,
+												'Email'
+											)
+										),
 										_react2.default.createElement(
-											'button',
-											{ onClick: this.add },
-											'Register'
+											'div',
+											{ className: 'col s2' },
+											_react2.default.createElement('input', { ref: 'email' })
+										),
+										_react2.default.createElement(
+											'div',
+											{ className: 'col s1' },
+											_react2.default.createElement(
+												'label',
+												null,
+												'Password'
+											)
+										),
+										_react2.default.createElement(
+											'div',
+											{ className: 'col s2' },
+											_react2.default.createElement('input', { type: 'password', ref: 'password' })
+										),
+										_react2.default.createElement(
+											'div',
+											{ className: 'col s3' },
+											_react2.default.createElement('input', { type: 'submit', value: 'register' })
 										)
 									)
 								)
@@ -22273,7 +22278,8 @@
 
 		_createClass(Login, [{
 			key: 'login',
-			value: function login() {
+			value: function login(e) {
+				e.preventDefault();
 				var user = {
 					email: this.refs.email.value,
 					password: this.refs.password.value
@@ -22283,6 +22289,8 @@
 		}, {
 			key: 'render',
 			value: function render() {
+				var _this2 = this;
+
 				console.log(this.props);
 				var loginRender = void 0;
 				var mainContent = _react2.default.createElement(
@@ -22297,43 +22305,45 @@
 						'div',
 						{ className: 'card-action' },
 						_react2.default.createElement(
-							'div',
-							{ className: 'row' },
+							'form',
+							{ className: 'form', onSubmit: function onSubmit(e) {
+									return _this2.login(e);
+								} },
 							_react2.default.createElement(
 								'div',
-								{ className: 'col s1' },
+								{ className: 'row' },
 								_react2.default.createElement(
-									'label',
-									null,
-									'Email'
-								)
-							),
-							_react2.default.createElement(
-								'div',
-								{ className: 'col s2' },
-								_react2.default.createElement('input', { ref: 'email' })
-							),
-							_react2.default.createElement(
-								'div',
-								{ className: 'col s1' },
+									'div',
+									{ className: 'col s1' },
+									_react2.default.createElement(
+										'label',
+										null,
+										'Email'
+									)
+								),
 								_react2.default.createElement(
-									'label',
-									null,
-									'Password'
-								)
-							),
-							_react2.default.createElement(
-								'div',
-								{ className: 'col s2' },
-								_react2.default.createElement('input', { type: 'password', ref: 'password' })
-							),
-							_react2.default.createElement(
-								'div',
-								{ className: 'col s3 offset-s3' },
+									'div',
+									{ className: 'col s2' },
+									_react2.default.createElement('input', { ref: 'email' })
+								),
 								_react2.default.createElement(
-									'button',
-									{ onClick: this.login },
-									'Login'
+									'div',
+									{ className: 'col s1' },
+									_react2.default.createElement(
+										'label',
+										null,
+										'Password'
+									)
+								),
+								_react2.default.createElement(
+									'div',
+									{ className: 'col s2' },
+									_react2.default.createElement('input', { type: 'password', ref: 'password' })
+								),
+								_react2.default.createElement(
+									'div',
+									{ className: 'col s3 offset-s3' },
+									_react2.default.createElement('input', { type: 'submit', value: 'login' })
 								)
 							)
 						)

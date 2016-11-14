@@ -11,7 +11,8 @@ export default class Login extends React.Component {
 		this.login = this.login.bind(this)
 	}
 	// function that takes the values of the input field and passes it to the loginThatUser function
-	login() {
+	login(e) {
+		e.preventDefault()
 		let user = {
 			email: this.refs.email.value,
 			password: this.refs.password.value
@@ -27,23 +28,25 @@ export default class Login extends React.Component {
 						<img className="img" src="../img/almost.jpg" />
 					</div>
 					<div className="card-action">
-						<div className="row">
-							<div className="col s1">
-								<label>Email</label>
+						<form className="form" onSubmit={(e) => this.login(e)}>
+							<div className="row">
+								<div className="col s1">
+									<label>Email</label>
+								</div>
+								<div className="col s2">
+									<input ref="email"></input>
+								</div>
+								<div className="col s1">
+									<label>Password</label>
+								</div>
+								<div className="col s2">
+									<input type="password" ref="password"></input>
+								</div>
+								<div className="col s3 offset-s3">
+									<input type="submit" value="login"></input>
+								</div>
 							</div>
-							<div className="col s2">
-								<input ref="email"></input>
-							</div>
-							<div className="col s1">
-								<label>Password</label>
-							</div>
-							<div className="col s2">
-								<input type="password" ref="password"></input>
-							</div>
-							<div className="col s3 offset-s3">
-								<button onClick={this.login}>Login</button>
-							</div>
-						</div>
+						</form>
 					</div>
 				</div>
 			)

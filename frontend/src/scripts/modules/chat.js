@@ -37,7 +37,7 @@ export default class Chat extends React.Component {
 						</div>
 						<div className="card-action">
 							<div className="row">
-								<form className="commentForm" onSubmit={(e) => this.add(e)}>
+								<form className="form" onSubmit={(e) => this.add(e)}>
 									<div className="col s2">
 										<input type="submit" value="Send"/>
 									</div>

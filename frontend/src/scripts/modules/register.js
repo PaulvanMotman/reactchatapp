@@ -11,7 +11,8 @@ export default class Register extends React.Component {
 		this.add = this.add.bind(this)
 	}
 	// function that takes the values of the input field and passes it to the registerThatUser function
-	add() {
+	add(e) {
+		e.preventDefault()
 		let newuser = {
 			name: this.refs.name.value,
 			email: this.refs.email.value,
@@ -28,29 +29,31 @@ export default class Register extends React.Component {
 							<img className="img" src="../img/hello.jpg" />
 						</div>
 						<div className="card-action">
-							<div className="row">
-								<div className="col s1">
-									<label>Name</label>
+							<form className="form" onSubmit={(e) => this.add(e)}>
+								<div className="row">
+									<div className="col s1">
+										<label>Name</label>
+									</div>
+									<div className="col s2">
+										<input ref="name"></input>
+									</div>
+									<div className="col s1">
+										<label>Email</label>
+									</div>
+									<div className="col s2">
+										<input ref="email"></input>
+									</div>
+									<div className="col s1">
+										<label>Password</label>
+									</div>
+									<div className="col s2">
+										<input type="password" ref="password"></input>
+									</div>
+									<div className="col s3">
+										<input type="submit" value="register"></input>
+									</div>
 								</div>
-								<div className="col s2">
-									<input ref="name"></input>
-								</div>
-								<div className="col s1">
-									<label>Email</label>
-								</div>
-								<div className="col s2">
-									<input ref="email"></input>
-								</div>
-								<div className="col s1">
-									<label>Password</label>
-								</div>
-								<div className="col s2">
-									<input type="password" ref="password"></input>
-								</div>
-								<div className="col s3">
-									<button onClick={this.add}>Register</button>
-								</div>
-							</div>
+							</form>
 						</div>
 					</div>
 				</div>
