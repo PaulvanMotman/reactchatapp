@@ -21766,17 +21766,6 @@
 								null,
 								'Logout'
 							)
-						),
-						_react2.default.createElement(
-							'li',
-							{ onClick: function onClick() {
-									_this2.goTo("register", {});
-								} },
-							_react2.default.createElement(
-								'a',
-								null,
-								'Register'
-							)
 						)
 					);
 				}
@@ -21965,8 +21954,10 @@
 
 		_createClass(Chat, [{
 			key: 'add',
-			value: function add() {
+			value: function add(e) {
+				e.preventDefault();
 				this.props.updateThoseMessages(this.refs.newText.value, this.props.currentUser.name);
+				this.refs.newText.value = '';
 			}
 			// function that creates html tag for each message
 
@@ -21982,6 +21973,8 @@
 		}, {
 			key: 'render',
 			value: function render() {
+				var _this2 = this;
+
 				console.log(this.props.messages);
 				return _react2.default.createElement(
 					'div',
@@ -22004,18 +21997,20 @@
 									'div',
 									{ className: 'row' },
 									_react2.default.createElement(
-										'div',
-										{ className: 'col s2' },
+										'form',
+										{ className: 'commentForm', onSubmit: function onSubmit(e) {
+												return _this2.add(e);
+											} },
 										_react2.default.createElement(
-											'button',
-											{ onClick: this.add },
-											'send'
+											'div',
+											{ className: 'col s2' },
+											_react2.default.createElement('input', { type: 'submit', value: 'Send' })
+										),
+										_react2.default.createElement(
+											'div',
+											{ className: 'col s10' },
+											_react2.default.createElement('input', { type: 'text', ref: 'newText' })
 										)
-									),
-									_react2.default.createElement(
-										'div',
-										{ className: 'col s10' },
-										_react2.default.createElement('textarea', { ref: 'newText' })
 									)
 								)
 							)

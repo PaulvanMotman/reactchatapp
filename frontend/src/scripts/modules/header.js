@@ -28,7 +28,6 @@ export default class Header extends React.Component {
 			menuRender = (	
 				<ul id="nav-mobile" className="right">
 						<li onClick={() => {this.goTo("login", {})}}><a>Logout</a></li>
-						<li onClick={() => {this.goTo("register", {})}}><a>Register</a></li>
 				</ul>
 			)
 		}

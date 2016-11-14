@@ -13,8 +13,10 @@ export default class Chat extends React.Component {
 		this.add = this.add.bind(this)
 	}
 	// function that adds new messages to the chat
-	add() {
+	add(e) {
+		e.preventDefault()
 		this.props.updateThoseMessages(this.refs.newText.value, this.props.currentUser.name)
+		this.refs.newText.value = ''
 	}
 	// function that creates html tag for each message
 	eachText(text, i) {
@@ -35,12 +37,14 @@ export default class Chat extends React.Component {
 						</div>
 						<div className="card-action">
 							<div className="row">
-								<div className="col s2">
-									<button onClick={this.add}>send</button>
-								</div>
-								<div className="col s10">
-									<textarea ref="newText"></textarea>
-								</div>
+								<form className="commentForm" onSubmit={(e) => this.add(e)}>
+									<div className="col s2">
+										<input type="submit" value="Send"/>
+									</div>
+									<div className="col s10">
+										<input type="text" ref="newText"/>
+									</div>
+								</form>
 							</div>
 						</div>
 					</div>
