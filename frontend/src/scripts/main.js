@@ -33,7 +33,7 @@ class Container extends React.Component {
 			action: "register",
 			database: [],
 			currentUser: {},
-			messages: []
+			messages: [{message: "Hi there, how you going? React is pretty neat.", name: "Paul van Motman"}]
 
 		} 
 	}
