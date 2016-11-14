@@ -12,7 +12,7 @@ export default class Text extends React.Component {
 	render() {	
 		return (
 			<div className="textcloud">
-				<p className="text">{this.props.children.name} says: {this.props.children.message}</p>
+				<p className="text">At {this.props.children.time} {this.props.children.name} says: {this.props.children.message}</p>
 			</div>
 		)
 	}

@@ -34,7 +34,6 @@ export default class Chat extends React.Component {
 		)
 	}
 	render() {
-		console.log(this.props.messages)
 		return (	
 			<div className="row">
 				<div className="col s10 offset-s1">

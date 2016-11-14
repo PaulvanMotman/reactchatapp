@@ -28,12 +28,14 @@ class Container extends React.Component {
 		this.registerUser = this.registerUser.bind(this)
 		this.loginUser = this.loginUser.bind(this)
 		this.updateMessages = this.updateMessages.bind(this)
+		this.getTime = this.getTime.bind(this)
 		// This state is the main state of the app, and data can be sent to child components by storing it in props
+		var time = this.getTime()
 		this.state = {
 			action: "register",
 			database: [],
 			currentUser: {},
-			messages: [{message: "Hi there, how you going? React is pretty neat.", name: "Paul van Motman"}]
+			messages: [{message: "Hi there, how you going? React is pretty neat.", name: "Paul van Motman", time: time}]
 
 		} 
 	}
@@ -75,9 +77,21 @@ class Container extends React.Component {
 	changeView (a, c) {
 		this.setState({ action: a, currentUser: c }, () => { console.log(this.state) })
 	}
+	getTime() {
+		var time = Date.now()
+		var date = new Date(time);
+		console.log(date)
+		var hours = date.getHours()
+		var minutes = "0" + date.getMinutes()
+		var seconds = "0" + date.getSeconds()
+		// Will display time in 10:30:23 format
+		var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2)
+		return formattedTime
+	}
 	updateMessages (newmessage, username) {
+		var time = this.getTime()
 		let messages = this.state.messages
-		messages.push({ message: newmessage, name: username })
+		messages.push({ message: newmessage, name: username, time: time })
 		this.setState({ messages: messages}, () => { console.log(this.state) })
 	}
 	// Render function

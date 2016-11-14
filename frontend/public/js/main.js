@@ -115,12 +115,14 @@
 			_this.registerUser = _this.registerUser.bind(_this);
 			_this.loginUser = _this.loginUser.bind(_this);
 			_this.updateMessages = _this.updateMessages.bind(_this);
+			_this.getTime = _this.getTime.bind(_this);
 			// This state is the main state of the app, and data can be sent to child components by storing it in props
+			var time = _this.getTime();
 			_this.state = {
 				action: "register",
 				database: [],
 				currentUser: {},
-				messages: [{ message: "Hi there, how you going? React is pretty neat.", name: "Paul van Motman" }]
+				messages: [{ message: "Hi there, how you going? React is pretty neat.", name: "Paul van Motman", time: time }]
 
 			};
 			return _this;
@@ -182,12 +184,26 @@
 				});
 			}
 		}, {
+			key: 'getTime',
+			value: function getTime() {
+				var time = Date.now();
+				var date = new Date(time);
+				console.log(date);
+				var hours = date.getHours();
+				var minutes = "0" + date.getMinutes();
+				var seconds = "0" + date.getSeconds();
+				// Will display time in 10:30:23 format
+				var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+				return formattedTime;
+			}
+		}, {
 			key: 'updateMessages',
 			value: function updateMessages(newmessage, username) {
 				var _this5 = this;
 
+				var time = this.getTime();
 				var messages = this.state.messages;
-				messages.push({ message: newmessage, name: username });
+				messages.push({ message: newmessage, name: username, time: time });
 				this.setState({ messages: messages }, function () {
 					console.log(_this5.state);
 				});
@@ -21985,7 +22001,6 @@
 			value: function render() {
 				var _this2 = this;
 
-				console.log(this.props.messages);
 				return _react2.default.createElement(
 					'div',
 					{ className: 'row' },
@@ -22083,6 +22098,9 @@
 					_react2.default.createElement(
 						'p',
 						{ className: 'text' },
+						'At ',
+						this.props.children.time,
+						' ',
 						this.props.children.name,
 						' says: ',
 						this.props.children.message
