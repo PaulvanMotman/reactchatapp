@@ -21947,6 +21947,7 @@
 
 			_this.eachText = _this.eachText.bind(_this);
 			_this.add = _this.add.bind(_this);
+			_this.updateScroll = _this.updateScroll.bind(_this);
 			return _this;
 		}
 		// function that adds new messages to the chat
@@ -21958,6 +21959,15 @@
 				e.preventDefault();
 				this.props.updateThoseMessages(this.refs.newText.value, this.props.currentUser.name);
 				this.refs.newText.value = '';
+				this.updateScroll();
+			}
+			// this function automaticly makes sure that with every new message the window scrolls down
+
+		}, {
+			key: 'updateScroll',
+			value: function updateScroll() {
+				var element = document.getElementById("chatwindow");
+				element.scrollTop = element.scrollHeight;
 			}
 			// function that creates html tag for each message
 
@@ -21987,7 +21997,7 @@
 							{ className: 'card' },
 							_react2.default.createElement(
 								'div',
-								{ className: 'card-content chatwindow' },
+								{ className: 'card-content', id: 'chatwindow' },
 								this.props.messages.map(this.eachText)
 							),
 							_react2.default.createElement(
@@ -22490,7 +22500,7 @@
 
 
 	// module
-	exports.push([module.id, ".body {\n  display: flex;\n  min-height: 100vh;\n  flex-direction: column; }\n  .body nav {\n    background-color: #1976D2; }\n  .body main {\n    flex: 1 0 auto; }\n    .body main .chatwindow {\n      min-height: 200px; }\n    .body main .img {\n      display: block;\n      margin: auto;\n      height: 35vh;\n      width: 35vh; }\n    .body main .card-action {\n      min-height: 25vh; }\n  .body #footer {\n    background-color: #2196F3; }\n", ""]);
+	exports.push([module.id, ".body {\n  display: flex;\n  min-height: 100vh;\n  flex-direction: column; }\n  .body nav {\n    background-color: #1976D2; }\n  .body main {\n    flex: 1 0 auto; }\n    .body main #chatwindow {\n      height: 250px;\n      overflow-y: auto; }\n    .body main .img {\n      display: block;\n      margin: auto;\n      height: 35vh;\n      width: 35vh; }\n    .body main .card-action {\n      min-height: 25vh; }\n  .body #footer {\n    background-color: #2196F3; }\n", ""]);
 
 	// exports
 

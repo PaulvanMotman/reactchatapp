@@ -11,8 +11,9 @@
 	main {
 		flex: 1 0 auto;
 
-		.chatwindow {
-			min-height: 200px;
+		#chatwindow {
+			height: 250px;
+			overflow-y:auto;
 		}
 
 		.img {
