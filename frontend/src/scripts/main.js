@@ -29,13 +29,15 @@ class Container extends React.Component {
 		this.loginUser = this.loginUser.bind(this)
 		this.updateMessages = this.updateMessages.bind(this)
 		this.getTime = this.getTime.bind(this)
+		this.otherUsers = this.otherUsers.bind(this)
 		// This state is the main state of the app, and data can be sent to child components by storing it in props
 		var time = this.getTime()
 		this.state = {
 			action: "register",
-			database: [],
+			database: [{name: 'Paul', email: 'pcvanmotman@gmail.com', password: 'supersecret'}],
 			currentUser: {},
-			messages: [{message: "Hi there, how you going? React is pretty neat.", name: "Paul van Motman", time: time}]
+			messages: [{message: "Hi there, how you going? React is pretty neat.", name: "Paul van Motman", time: time}],
+			otherUsers: []
 
 		} 
 	}
@@ -75,7 +77,10 @@ class Container extends React.Component {
 	}
 	// This function switches the view from register --> login --> chat components
 	changeView (a, c) {
-		this.setState({ action: a, currentUser: c }, () => { console.log(this.state) })
+		this.setState({ action: a, currentUser: c }, () => { 
+			console.log(this.state)
+			this.otherUsers() 
+		})
 	}
 	getTime() {
 		var time = Date.now()
@@ -93,6 +98,37 @@ class Container extends React.Component {
 		let messages = this.state.messages
 		messages.push({ message: newmessage, name: username, time: time })
 		this.setState({ messages: messages}, () => { console.log(this.state) })
+	}
+	otherUsers() {
+
+		let u = this.state.currentUser
+		let d = []
+		for (var i = this.state.database.length - 1; i >= 0; i--) {
+			d.push({
+				name: this.state.database[i].name,
+				email: this.state.database[i].email,
+				password: this.state.database[i].password
+			})
+		}
+
+		console.log("CHECK THE CURRENTUSER")
+		console.log(u)
+		console.log('CHECK THE CURRENT DATABASE')
+		console.log(d)
+
+		for (var i = 0; i < d.length; i++) {
+			if (d[i].name == u.name && d[i].email == u.email && d[i].password == u.password) {
+				console.log("THIS CURRENT USER MATCHES A USER IN THE DATABASE")
+				console.log(d[i])
+				d.splice(i,1)
+				this.setState({ otherUsers: d}, () => { 
+					console.log('CHECK THE CURRENT DATABASE NOW')
+					console.log(this.state.database)
+					console.log('CHECK THE OTHER USERS')
+					console.log(this.state.otherUsers)
+				})
+			}
+		}
 	}
 	// Render function
 	render() {
@@ -113,7 +149,7 @@ class Container extends React.Component {
 					<div>
 						<Header action={this.state.action} changeThatView={this.changeView}/>
 						<main>
-							<Chat updateThoseMessages={this.updateMessages} messages={this.state.messages} currentUser={this.state.currentUser}/>
+							<Chat updateThoseMessages={this.updateMessages} messages={this.state.messages} currentUser={this.state.currentUser} otherUsers={this.state.otherUsers}/>
 						</main>
 					</div>
 				)

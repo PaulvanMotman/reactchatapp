@@ -3,6 +3,7 @@ console.log( 'Chat says wsup' )
 // Import required modules
 import React from 'react'
 import Text from './text.js'
+import User from './user.js'
 
 // If you export only one class, use export DEFAULT
 // Creating the Chat class
@@ -12,6 +13,7 @@ export default class Chat extends React.Component {
 		this.eachText = this.eachText.bind(this)
 		this.add = this.add.bind(this)
 		this.updateScroll = this.updateScroll.bind(this)
+		this.eachUser = this.eachUser.bind(this)
 	}
 	// function that adds new messages to the chat
 	add(e) {
@@ -33,10 +35,20 @@ export default class Chat extends React.Component {
 			</Text>
 		)
 	}
+	eachUser(user, i) {
+		return (
+			<User key={i} index={i}>
+				{user}
+			</User>
+		)
+	}
 	render() {
 		return (	
 			<div className="row">
-				<div className="col s10 offset-s1">
+				<div className="col s2">
+					{this.props.otherUsers.map(this.eachUser)}
+				</div>
+				<div className="col s10 offset">
 					<div className="card">
 						<div className="card-content" id="chatwindow">
 							{this.props.messages.map(this.eachText)}

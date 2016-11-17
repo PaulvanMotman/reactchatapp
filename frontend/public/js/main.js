@@ -68,19 +68,19 @@
 
 	var _chat2 = _interopRequireDefault(_chat);
 
-	var _register = __webpack_require__(176);
+	var _register = __webpack_require__(177);
 
 	var _register2 = _interopRequireDefault(_register);
 
-	var _login = __webpack_require__(177);
+	var _login = __webpack_require__(178);
 
 	var _login2 = _interopRequireDefault(_login);
 
-	var _fail = __webpack_require__(178);
+	var _fail = __webpack_require__(179);
 
 	var _fail2 = _interopRequireDefault(_fail);
 
-	__webpack_require__(179);
+	__webpack_require__(180);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -116,13 +116,15 @@
 			_this.loginUser = _this.loginUser.bind(_this);
 			_this.updateMessages = _this.updateMessages.bind(_this);
 			_this.getTime = _this.getTime.bind(_this);
+			_this.otherUsers = _this.otherUsers.bind(_this);
 			// This state is the main state of the app, and data can be sent to child components by storing it in props
 			var time = _this.getTime();
 			_this.state = {
 				action: "register",
-				database: [],
+				database: [{ name: 'Paul', email: 'pcvanmotman@gmail.com', password: 'supersecret' }],
 				currentUser: {},
-				messages: [{ message: "Hi there, how you going? React is pretty neat.", name: "Paul van Motman", time: time }]
+				messages: [{ message: "Hi there, how you going? React is pretty neat.", name: "Paul van Motman", time: time }],
+				otherUsers: []
 
 			};
 			return _this;
@@ -181,6 +183,7 @@
 
 				this.setState({ action: a, currentUser: c }, function () {
 					console.log(_this4.state);
+					_this4.otherUsers();
 				});
 			}
 		}, {
@@ -207,6 +210,40 @@
 				this.setState({ messages: messages }, function () {
 					console.log(_this5.state);
 				});
+			}
+		}, {
+			key: 'otherUsers',
+			value: function otherUsers() {
+				var _this6 = this;
+
+				var u = this.state.currentUser;
+				var d = [];
+				for (var i = this.state.database.length - 1; i >= 0; i--) {
+					d.push({
+						name: this.state.database[i].name,
+						email: this.state.database[i].email,
+						password: this.state.database[i].password
+					});
+				}
+
+				console.log("CHECK THE CURRENTUSER");
+				console.log(u);
+				console.log('CHECK THE CURRENT DATABASE');
+				console.log(d);
+
+				for (var i = 0; i < d.length; i++) {
+					if (d[i].name == u.name && d[i].email == u.email && d[i].password == u.password) {
+						console.log("THIS CURRENT USER MATCHES A USER IN THE DATABASE");
+						console.log(d[i]);
+						d.splice(i, 1);
+						this.setState({ otherUsers: d }, function () {
+							console.log('CHECK THE CURRENT DATABASE NOW');
+							console.log(_this6.state.database);
+							console.log('CHECK THE OTHER USERS');
+							console.log(_this6.state.otherUsers);
+						});
+					}
+				}
 			}
 			// Render function
 
@@ -235,7 +272,7 @@
 							_react2.default.createElement(
 								'main',
 								null,
-								_react2.default.createElement(_chat2.default, { updateThoseMessages: this.updateMessages, messages: this.state.messages, currentUser: this.state.currentUser })
+								_react2.default.createElement(_chat2.default, { updateThoseMessages: this.updateMessages, messages: this.state.messages, currentUser: this.state.currentUser, otherUsers: this.state.otherUsers })
 							)
 						);
 						break;
@@ -21939,6 +21976,10 @@
 
 	var _text2 = _interopRequireDefault(_text);
 
+	var _user = __webpack_require__(176);
+
+	var _user2 = _interopRequireDefault(_user);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21964,6 +22005,7 @@
 			_this.eachText = _this.eachText.bind(_this);
 			_this.add = _this.add.bind(_this);
 			_this.updateScroll = _this.updateScroll.bind(_this);
+			_this.eachUser = _this.eachUser.bind(_this);
 			return _this;
 		}
 		// function that adds new messages to the chat
@@ -21997,6 +22039,15 @@
 				);
 			}
 		}, {
+			key: 'eachUser',
+			value: function eachUser(user, i) {
+				return _react2.default.createElement(
+					_user2.default,
+					{ key: i, index: i },
+					user
+				);
+			}
+		}, {
 			key: 'render',
 			value: function render() {
 				var _this2 = this;
@@ -22006,7 +22057,12 @@
 					{ className: 'row' },
 					_react2.default.createElement(
 						'div',
-						{ className: 'col s10 offset-s1' },
+						{ className: 'col s2' },
+						this.props.otherUsers.map(this.eachUser)
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'col s10 offset' },
 						_react2.default.createElement(
 							'div',
 							{ className: 'card' },
@@ -22112,10 +22168,83 @@
 		return Text;
 	}(_react2.default.Component);
 
+	// <blockquote class="example-twitter" cite="https://twitter.com/necolas/status/9880187933">
+	// 	<p>{this.props.children.message}</p>
+	// </blockquote>
+	// <p><a>@{this.props.children.name}</a> at <a>{this.props.children.time}</a></p>
+
+
 	exports.default = Text;
 
 /***/ },
 /* 176 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	console.log('User says wsup');
+
+	// Import required modules
+
+	// If you export only one class, use export DEFAULT
+	// Creating the Text class
+	var Text = function (_React$Component) {
+		_inherits(Text, _React$Component);
+
+		function Text(props) {
+			_classCallCheck(this, Text);
+
+			return _possibleConstructorReturn(this, (Text.__proto__ || Object.getPrototypeOf(Text)).call(this, props));
+		}
+
+		_createClass(Text, [{
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'div',
+					{ className: 'card' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'card-content' },
+						_react2.default.createElement(
+							'div',
+							{ className: 'User' },
+							_react2.default.createElement(
+								'p',
+								null,
+								this.props.children.name
+							)
+						)
+					)
+				);
+			}
+		}]);
+
+		return Text;
+	}(_react2.default.Component);
+
+	exports.default = Text;
+
+/***/ },
+/* 177 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22261,7 +22390,7 @@
 	exports.default = Register;
 
 /***/ },
-/* 177 */
+/* 178 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22404,7 +22533,7 @@
 	exports.default = Login;
 
 /***/ },
-/* 178 */
+/* 179 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22484,16 +22613,16 @@
 	exports.default = Fail;
 
 /***/ },
-/* 179 */
+/* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(180);
+	var content = __webpack_require__(181);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(182)(content, {});
+	var update = __webpack_require__(183)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -22510,10 +22639,10 @@
 	}
 
 /***/ },
-/* 180 */
+/* 181 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(181)();
+	exports = module.exports = __webpack_require__(182)();
 	// imports
 
 
@@ -22524,7 +22653,7 @@
 
 
 /***/ },
-/* 181 */
+/* 182 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -22579,7 +22708,7 @@
 	};
 
 /***/ },
-/* 182 */
+/* 183 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
