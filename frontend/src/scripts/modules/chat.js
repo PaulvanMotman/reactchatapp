@@ -18,7 +18,7 @@ export default class Chat extends React.Component {
 	// function that adds new messages to the chat
 	add(e) {
 		e.preventDefault()
-		this.props.updateThoseMessages(this.refs.newText.value, this.props.currentUser.name)
+		this.props.updateThoseConversations(this.refs.newText.value, this.props.currentUser, this.props.otherUser)
 		this.refs.newText.value = ''
 		this.updateScroll()
 	}
@@ -37,7 +37,7 @@ export default class Chat extends React.Component {
 	}
 	eachUser(user, i) {
 		return (
-			<User key={i} index={i}>
+			<User key={i} index={i} setOtherUser={this.props.setOtherUser} user={user}> 
 				{user}
 			</User>
 		)

@@ -1,11 +1,8 @@
 console.log('Main js loaded')
 
 
-// STILL TO DO
-
-// 1. FIX THE START PAGE THAT YOU HAVE A FAILED TO LOG IN MESSAGE -- DONE
-// 2. USE CURRENTUSER DATA WITHIN THE CHAT COMPONENT -- DONE
-// 3. FIX A LOG OUT -- DONE
+// GLOBAL VARIABLES
+var counter = 0 
 
 
 // Import required modules
@@ -19,6 +16,7 @@ import Login from './modules/login.js'
 import Fail from './modules/fail.js'
 import '../styles/styles.scss'
 
+
 // Creating the container class
 class Container extends React.Component {
 	constructor(props) {
@@ -27,23 +25,31 @@ class Container extends React.Component {
 		this.changeView = this.changeView.bind(this)
 		this.registerUser = this.registerUser.bind(this)
 		this.loginUser = this.loginUser.bind(this)
-		this.updateMessages = this.updateMessages.bind(this)
+		this.updateConversations = this.updateConversations.bind(this)
+		this.createConversations = this.createConversations.bind(this)
 		this.getTime = this.getTime.bind(this)
 		this.otherUsers = this.otherUsers.bind(this)
+		this.otherUser = this.otherUser.bind(this)
 		// This state is the main state of the app, and data can be sent to child components by storing it in props
 		var time = this.getTime()
 		this.state = {
 			action: "register",
-			database: [{name: 'Paul', email: 'pcvanmotman@gmail.com', password: 'supersecret'}],
+			database: [{name: 'Paul', email: 'pcvanmotman@gmail.com', password: 'supersecret', convoId: []},],
 			currentUser: {},
 			messages: [{message: "Hi there, how you going? React is pretty neat.", name: "Paul van Motman", time: time}],
-			otherUsers: []
-
+			otherUsers: [],
+			otherUser: {},
+			conversations: [],
 		} 
 	}
 	// This functions registers a user and stores it the database, which is currently located in the state
-	registerUser (user) {
-		let database = this.state.database
+	registerUser (newuser) {
+
+		//	THIS IS WHERE WE CREATE CONVERSATIONS
+		var array = this.createConversations(newuser, this.state.database)
+		var database = array[0]
+		var user = array[1]
+
 		database.push(user)
 		this.setState({ database: database }, () => {
 			// It's important to use a callback here, so the view is changed AFTER the database is made
@@ -93,42 +99,127 @@ class Container extends React.Component {
 		var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2)
 		return formattedTime
 	}
-	updateMessages (newmessage, username) {
+	updateConversations (newmessage, user, otheruser) {
+
+		// the problem is that uC updates messages
+		// The question is, what shows the messages at the moment?
+		// all messages are passed now to chat.js, we can do that still, but then with conversations
+		// but within chat.js we need to select the right conversation based on CURRENTUSERNAME AND OTHERUSERNAME
+
+
+		// UPDATING CONVERSATIONS: USER AND OTHERUSER contain convoid's
+		// THE OVERLAPING CONVO ID OF USER AND OTHERUSER NEEDS TO BE UPDATED IN THIS.STATE.CONVERSATIONS
+
+
 		var time = this.getTime()
 		let messages = this.state.messages
-		messages.push({ message: newmessage, name: username, time: time })
+		messages.push({ message: newmessage, name: user.name, time: time })
 		this.setState({ messages: messages}, () => { console.log(this.state) })
 	}
-	otherUsers() {
+	/////// HERE 
+	createConversations (newuser, database) {
 
+		// CONVERSATIONS IS AN ARRAY OF OBJECTS. EACH OBJECTS CONTAINS ID AND MESSAGES. MESSAGES AGAIN CONTAINS AN ARAY OF OBJECTS.
+
+		// Messages should be stored in conversations
+		// Conversations depend on users
+
+
+		for (var i = 0; i < database.length; i++) {
+			var conversations = this.state.conversations
+			conversations.push({ id: counter, messages: [] })
+			this.setState({ conversations: conversations }, () => {
+				console.log(this.state.conversations)
+			})
+			database[i].convoId.push(counter)
+			newuser.convoId.push(counter)
+			counter++
+		}
+		
+
+		return [database, newuser]
+
+		/// WHEN A NEW USER IS CREATED
+
+		/// UPDATE CONVERSATIONS WITH CONVO'S BETWEEN NEW USER AND DATABASE USERS
+
+		/// CONVERSATIONS CONTAIN MESSAGES, ID.
+
+		/// ID IS ATTACHED TO NEW USER USER AND DATABASE USERS
+
+		/// WHEN LOADING CONVERSATION OF CURRENT USER WE SEARCH FOR OVERLAPPING ID'S OF CONVOS WITH ID OF CURRENT USER
+
+		/// MESSAGES SHOULD BE STORED IN CONVERSATIONS OF CURRENT USER AND OTHER USER
+		/// WITH TWO USERS I CAN ALREADY USE OTHERUSERS FOR THIS
+
+
+	
+
+
+		// var conversations = [
+		// 	{
+		// 		id: 0,	
+		// 		messages: [
+		// 			{
+		// 				message: "Hi there, how you going? React is pretty neat.", 
+		// 				name: "Paul van Motman", 
+		// 				time: time
+		// 			},
+		// 			{
+		// 				message: "Hi there, how you going? React is pretty neat.", 
+		// 				name: "Paul van Motman", 
+		// 				time: time
+		// 			}
+
+		// 		]
+		// 	},
+		// 	{
+		// 		id: 1,
+		// 		messages: [
+		// 			{
+		// 				message: "Hi there, how you going? React is pretty neat.", 
+		// 				name: "Paul van Motman", 
+		// 				time: time
+		// 			},
+		// 			{
+		// 				message: "Hi there, how you going? React is pretty neat.", 
+		// 				name: "Paul van Motman", 
+		// 				time: time
+		// 			}
+		// 		]
+		// 	}
+		// ]
+
+
+
+		
+	}
+	otherUsers() {
 		let u = this.state.currentUser
 		let d = []
 		for (var i = this.state.database.length - 1; i >= 0; i--) {
 			d.push({
 				name: this.state.database[i].name,
 				email: this.state.database[i].email,
-				password: this.state.database[i].password
+				password: this.state.database[i].password,
+				convoId: this.state.database[i].convoId
 			})
 		}
-
-		console.log("CHECK THE CURRENTUSER")
-		console.log(u)
-		console.log('CHECK THE CURRENT DATABASE')
-		console.log(d)
-
 		for (var i = 0; i < d.length; i++) {
 			if (d[i].name == u.name && d[i].email == u.email && d[i].password == u.password) {
 				console.log("THIS CURRENT USER MATCHES A USER IN THE DATABASE")
 				console.log(d[i])
 				d.splice(i,1)
 				this.setState({ otherUsers: d}, () => { 
-					console.log('CHECK THE CURRENT DATABASE NOW')
-					console.log(this.state.database)
-					console.log('CHECK THE OTHER USERS')
 					console.log(this.state.otherUsers)
 				})
 			}
 		}
+	}
+	otherUser(user) {
+		this.setState({otherUser: user}, () => { 
+			console.log(this.state)
+		})
 	}
 	// Render function
 	render() {
@@ -149,7 +240,7 @@ class Container extends React.Component {
 					<div>
 						<Header action={this.state.action} changeThatView={this.changeView}/>
 						<main>
-							<Chat updateThoseMessages={this.updateMessages} messages={this.state.messages} currentUser={this.state.currentUser} otherUsers={this.state.otherUsers}/>
+							<Chat updateThoseConversations={this.updateConversations} messages={this.state.messages} currentUser={this.state.currentUser} otherUsers={this.state.otherUsers} setOtherUser={this.otherUser} otherUser={this.state.otherUser}/>
 						</main>
 					</div>
 				)

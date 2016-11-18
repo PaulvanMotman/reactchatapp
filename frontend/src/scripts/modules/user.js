@@ -11,10 +11,10 @@ export default class Text extends React.Component {
 	}
 	render() {	
 		return (
-			<div className="card">
+			<div className="card" onClick={() => this.props.setOtherUser(this.props.user)}>
 				<div className="card-content">
 					<div className="User">
-						<p>{this.props.children.name}</p>
+						<p id="userName">{this.props.children.name}</p>
 					</div>
 				</div>
 			</div>

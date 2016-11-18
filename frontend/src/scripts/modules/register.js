@@ -16,7 +16,8 @@ export default class Register extends React.Component {
 		let newuser = {
 			name: this.refs.name.value,
 			email: this.refs.email.value,
-			password: this.refs.password.value
+			password: this.refs.password.value,
+			convoId: []
 		}
 		this.props.registerThatUser(newuser)
 	}
