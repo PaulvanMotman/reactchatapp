@@ -43,15 +43,16 @@ export default class Chat extends React.Component {
 		)
 	}
 	render() {
-		return (	
-			<div className="row">
-				<div className="col s2">
-					{this.props.otherUsers.map(this.eachUser)}
-				</div>
+		let mainContent
+		if (this.props.otherUser.convoId) {
+
+			var id = this.props.getThatReleventConversation(this.props.currentUser.convoId, this.props.otherUser.convoId)
+
+			mainContent = (
 				<div className="col s10 offset">
 					<div className="card">
 						<div className="card-content" id="chatwindow">
-							{this.props.messages.map(this.eachText)}
+							{this.props.conversations[id].messages.map(this.eachText)}
 						</div>
 						<div className="card-action">
 							<div className="row">
@@ -67,6 +68,17 @@ export default class Chat extends React.Component {
 						</div>
 					</div>
 				</div>
+			)
+		} else {
+			mainContent = <p>joehoe</p>
+		}
+
+		return (	
+			<div className="row">
+				<div className="col s2">
+					{this.props.otherUsers.map(this.eachUser)}
+				</div>
+				{mainContent}
 			</div>
 		)
 	}

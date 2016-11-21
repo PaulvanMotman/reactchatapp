@@ -30,16 +30,16 @@ class Container extends React.Component {
 		this.getTime = this.getTime.bind(this)
 		this.otherUsers = this.otherUsers.bind(this)
 		this.otherUser = this.otherUser.bind(this)
+		this.getRelevantConversation = this.getRelevantConversation.bind(this)
 		// This state is the main state of the app, and data can be sent to child components by storing it in props
 		var time = this.getTime()
 		this.state = {
 			action: "register",
 			database: [{name: 'Paul', email: 'pcvanmotman@gmail.com', password: 'supersecret', convoId: []},],
 			currentUser: {},
-			messages: [{message: "Hi there, how you going? React is pretty neat.", name: "Paul van Motman", time: time}],
 			otherUsers: [],
 			otherUser: {},
-			conversations: [],
+			conversations: [{id: 0, messages: [{message: "Hi there, how you going? React is pretty neat.", name: "Paul van Motman", time: time}]}],
 		} 
 	}
 	// This functions registers a user and stores it the database, which is currently located in the state
@@ -70,7 +70,7 @@ class Container extends React.Component {
 				if (database[i].email == user.email && database[i].password == user.password) {
 					currentUser = database[i]
 					// .. the state is updated and the view goes from login to chat component
-					this.setState({ action: "login"}, () => {
+					this.setState({ action: "login", otherUser: {}}, () => {
 						this.changeView("chat", currentUser)
 					})
 				}
@@ -99,31 +99,26 @@ class Container extends React.Component {
 		var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2)
 		return formattedTime
 	}
+	getRelevantConversation(a, b) {
+			let match 
+			for ( let i = 0; i < a.length; i++ ) {
+				for ( let e = 0; e < b.length; e++ ) {
+				    if ( a[i] === b[e] ) match = a[i] 
+				}
+			}
+			return match
+	}
 	updateConversations (newmessage, user, otheruser) {
 
-		// the problem is that uC updates messages
-		// The question is, what shows the messages at the moment?
-		// all messages are passed now to chat.js, we can do that still, but then with conversations
-		// but within chat.js we need to select the right conversation based on CURRENTUSERNAME AND OTHERUSERNAME
+		let id = this.getRelevantConversation(user.convoId, otheruser.convoId)
 
-
-		// UPDATING CONVERSATIONS: USER AND OTHERUSER contain convoid's
-		// THE OVERLAPING CONVO ID OF USER AND OTHERUSER NEEDS TO BE UPDATED IN THIS.STATE.CONVERSATIONS
-
-
-		var time = this.getTime()
-		let messages = this.state.messages
-		messages.push({ message: newmessage, name: user.name, time: time })
-		this.setState({ messages: messages}, () => { console.log(this.state) })
+		let time = this.getTime()
+		let conversations = this.state.conversations
+		conversations[id].messages.push({ message: newmessage, name: user.name, time: time })
+		this.setState({ conversations: conversations}, () => { console.log(this.state) })
 	}
 	/////// HERE 
 	createConversations (newuser, database) {
-
-		// CONVERSATIONS IS AN ARRAY OF OBJECTS. EACH OBJECTS CONTAINS ID AND MESSAGES. MESSAGES AGAIN CONTAINS AN ARAY OF OBJECTS.
-
-		// Messages should be stored in conversations
-		// Conversations depend on users
-
 
 		for (var i = 0; i < database.length; i++) {
 			var conversations = this.state.conversations
@@ -138,60 +133,6 @@ class Container extends React.Component {
 		
 
 		return [database, newuser]
-
-		/// WHEN A NEW USER IS CREATED
-
-		/// UPDATE CONVERSATIONS WITH CONVO'S BETWEEN NEW USER AND DATABASE USERS
-
-		/// CONVERSATIONS CONTAIN MESSAGES, ID.
-
-		/// ID IS ATTACHED TO NEW USER USER AND DATABASE USERS
-
-		/// WHEN LOADING CONVERSATION OF CURRENT USER WE SEARCH FOR OVERLAPPING ID'S OF CONVOS WITH ID OF CURRENT USER
-
-		/// MESSAGES SHOULD BE STORED IN CONVERSATIONS OF CURRENT USER AND OTHER USER
-		/// WITH TWO USERS I CAN ALREADY USE OTHERUSERS FOR THIS
-
-
-	
-
-
-		// var conversations = [
-		// 	{
-		// 		id: 0,	
-		// 		messages: [
-		// 			{
-		// 				message: "Hi there, how you going? React is pretty neat.", 
-		// 				name: "Paul van Motman", 
-		// 				time: time
-		// 			},
-		// 			{
-		// 				message: "Hi there, how you going? React is pretty neat.", 
-		// 				name: "Paul van Motman", 
-		// 				time: time
-		// 			}
-
-		// 		]
-		// 	},
-		// 	{
-		// 		id: 1,
-		// 		messages: [
-		// 			{
-		// 				message: "Hi there, how you going? React is pretty neat.", 
-		// 				name: "Paul van Motman", 
-		// 				time: time
-		// 			},
-		// 			{
-		// 				message: "Hi there, how you going? React is pretty neat.", 
-		// 				name: "Paul van Motman", 
-		// 				time: time
-		// 			}
-		// 		]
-		// 	}
-		// ]
-
-
-
 		
 	}
 	otherUsers() {
@@ -240,7 +181,7 @@ class Container extends React.Component {
 					<div>
 						<Header action={this.state.action} changeThatView={this.changeView}/>
 						<main>
-							<Chat updateThoseConversations={this.updateConversations} messages={this.state.messages} currentUser={this.state.currentUser} otherUsers={this.state.otherUsers} setOtherUser={this.otherUser} otherUser={this.state.otherUser}/>
+							<Chat updateThoseConversations={this.updateConversations} conversations={this.state.conversations} currentUser={this.state.currentUser} otherUsers={this.state.otherUsers} setOtherUser={this.otherUser} otherUser={this.state.otherUser} getThatReleventConversation={this.getRelevantConversation}/>
 						</main>
 					</div>
 				)
