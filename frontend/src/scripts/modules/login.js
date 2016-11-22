@@ -20,7 +20,6 @@ export default class Login extends React.Component {
 		this.props.loginThatUser(user)
 	}
 	render() {
-		console.log(this.props)
 		let loginRender
 		let mainContent = (
 				<div className="card">

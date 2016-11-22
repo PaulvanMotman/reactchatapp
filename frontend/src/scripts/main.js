@@ -1,8 +1,17 @@
 console.log('Main js loaded')
 
 
+
+//// To do List
+
+//// 1. Data-valadation 
+//// 2. Welcome screen new logged in user
+
+
+
+
 // GLOBAL VARIABLES
-var counter = 0 
+var conversationcounter = 0 
 
 
 // Import required modules
@@ -14,6 +23,7 @@ import Chat from './modules/chat.js'
 import Register from './modules/register.js'
 import Login from './modules/login.js'
 import Fail from './modules/fail.js'
+import Epicfail from './modules/epicfail.js'
 import '../styles/styles.scss'
 
 
@@ -45,16 +55,20 @@ class Container extends React.Component {
 	// This functions registers a user and stores it the database, which is currently located in the state
 	registerUser (newuser) {
 
-		//	THIS IS WHERE WE CREATE CONVERSATIONS
+		// There is no simular user in the database and now we create a new conversation for this user
 		var array = this.createConversations(newuser, this.state.database)
 		var database = array[0]
 		var user = array[1]
+
 
 		database.push(user)
 		this.setState({ database: database }, () => {
 			// It's important to use a callback here, so the view is changed AFTER the database is made
 			this.changeView("login", {})
 		})
+
+
+
 	}
 	// This function handles the login
 	loginUser (user) {
@@ -111,7 +125,6 @@ class Container extends React.Component {
 	updateConversations (newmessage, user, otheruser) {
 
 		let id = this.getRelevantConversation(user.convoId, otheruser.convoId)
-
 		let time = this.getTime()
 		let conversations = this.state.conversations
 		conversations[id].messages.push({ message: newmessage, name: user.name, time: time })
@@ -122,13 +135,13 @@ class Container extends React.Component {
 
 		for (var i = 0; i < database.length; i++) {
 			var conversations = this.state.conversations
-			conversations.push({ id: counter, messages: [] })
+			conversations.push({ id: conversationcounter, messages: [] })
 			this.setState({ conversations: conversations }, () => {
 				console.log(this.state.conversations)
 			})
-			database[i].convoId.push(counter)
-			newuser.convoId.push(counter)
-			counter++
+			database[i].convoId.push(conversationcounter)
+			newuser.convoId.push(conversationcounter)
+			conversationcounter++
 		}
 		
 
@@ -199,12 +212,25 @@ class Container extends React.Component {
 					</div>
 				)
 				break
+			case "failedRegistration":
+				mainContent = ( 
+					<div>
+						<Header action={this.state.action} changeThatView={this.changeView}/>
+						<main>
+							<div className="row">
+								<Epicfail />
+								<Register fail={true} registerThatUser={this.registerUser} database={this.state.database} changeThatView={this.changeView}/>
+							</div>
+						</main>
+					</div>
+				)
+				break
 			default:
 				mainContent = (
 					<div>
 						<Header action={this.state.action} changeThatView={this.changeView}/>
 						<main>
-							<Register registerThatUser={this.registerUser}/>
+							<Register registerThatUser={this.registerUser} database={this.state.database} changeThatView={this.changeView}/>
 						</main>
 					</div>
 				)
