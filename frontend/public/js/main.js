@@ -22558,7 +22558,7 @@
 								_react2.default.createElement(
 									'div',
 									{ className: 'col s6' },
-									_react2.default.createElement('input', { ref: 'name', placeholder: 'Enter your username' })
+									_react2.default.createElement('input', { ref: 'name', pattern: '.{3,10}', required: true, title: '3 to 10 characters', placeholder: 'Enter your username' })
 								),
 								_react2.default.createElement(
 									'div',
@@ -22572,7 +22572,7 @@
 								_react2.default.createElement(
 									'div',
 									{ className: 'col s6' },
-									_react2.default.createElement('input', { ref: 'email', placeholder: 'Enter a valid email address' })
+									_react2.default.createElement('input', { ref: 'email', type: 'email', required: true, placeholder: 'Enter a valid email address' })
 								),
 								_react2.default.createElement(
 									'div',
@@ -22586,7 +22586,7 @@
 								_react2.default.createElement(
 									'div',
 									{ className: 'col s6' },
-									_react2.default.createElement('input', { type: 'password', ref: 'password', placeholder: 'Enter your password' })
+									_react2.default.createElement('input', { type: 'password', ref: 'password', pattern: '.{8,}', required: true, title: '8 characters minimum', placeholder: 'Enter your password' })
 								),
 								_react2.default.createElement(
 									'div',
