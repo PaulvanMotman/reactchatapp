@@ -21994,7 +21994,7 @@
 										null,
 										_react2.default.createElement(
 											'a',
-											{ href: 'https://www.paulvanmotman.com' },
+											{ href: 'https://www.paulvanmotman.com', target: '_blank' },
 											'Portfolio'
 										)
 									)
@@ -22127,7 +22127,7 @@
 
 					mainContent = _react2.default.createElement(
 						'div',
-						{ className: 'col s10 offset' },
+						{ className: 'col s12 m10 offset' },
 						_react2.default.createElement(
 							'div',
 							{ className: 'card' },
@@ -22160,12 +22160,12 @@
 											} },
 										_react2.default.createElement(
 											'div',
-											{ className: 'col s2' },
+											{ className: 'col s12 m4' },
 											_react2.default.createElement('input', { className: 'button z-depth-2', type: 'submit', value: 'Send' })
 										),
 										_react2.default.createElement(
 											'div',
-											{ className: 'col s10' },
+											{ className: 'col s12 m8' },
 											_react2.default.createElement('input', { type: 'text', ref: 'newText' })
 										)
 									)
@@ -22176,7 +22176,7 @@
 				} else {
 					mainContent = _react2.default.createElement(
 						'div',
-						{ className: 'col s10 offset' },
+						{ className: 'col s12 m10' },
 						_react2.default.createElement(
 							'div',
 							{ className: 'card' },
@@ -22228,12 +22228,12 @@
 											} },
 										_react2.default.createElement(
 											'div',
-											{ className: 'col s2' },
+											{ className: 'col s12 m4' },
 											_react2.default.createElement('input', { id: 'disabledbutton', className: 'button z-depth-2', disabled: true, type: 'submit', value: 'Send' })
 										),
 										_react2.default.createElement(
 											'div',
-											{ className: 'col s10' },
+											{ className: 'col s12 m8' },
 											_react2.default.createElement('input', { type: 'text', ref: 'newText', disabled: true })
 										)
 									)
@@ -22248,8 +22248,29 @@
 					{ className: 'row' },
 					_react2.default.createElement(
 						'div',
-						{ className: 'col s2' },
-						this.props.otherUsers.map(this.eachUser)
+						{ className: 'col s12 m2 userrow' },
+						_react2.default.createElement(
+							'div',
+							{ className: 'row' },
+							_react2.default.createElement(
+								'div',
+								{ className: 'col s4 m12' },
+								_react2.default.createElement(
+									'div',
+									{ id: 'buddies' },
+									_react2.default.createElement(
+										'div',
+										null,
+										_react2.default.createElement(
+											'p',
+											{ id: 'userName' },
+											'Buddies:'
+										)
+									)
+								)
+							),
+							this.props.otherUsers.map(this.eachUser)
+						)
 					),
 					mainContent
 				);
@@ -22377,15 +22398,15 @@
 
 				return _react2.default.createElement(
 					'div',
-					{ className: 'card userbox', onClick: function onClick() {
-							return _this2.props.setOtherUser(_this2.props.user);
-						} },
+					{ className: 'col s4 m12' },
 					_react2.default.createElement(
 						'div',
-						{ className: 'card-content' },
+						{ className: 'userbox z-depth-2', onClick: function onClick() {
+								return _this2.props.setOtherUser(_this2.props.user);
+							} },
 						_react2.default.createElement(
 							'div',
-							{ className: 'User' },
+							null,
 							_react2.default.createElement(
 								'p',
 								{ id: 'userName' },
@@ -22513,7 +22534,7 @@
 								_react2.default.createElement(
 									'div',
 									{ className: 'col s6' },
-									_react2.default.createElement('input', { ref: 'name', pattern: '.{3,10}', required: true, title: '3 to 10 characters', placeholder: 'Enter your username' })
+									_react2.default.createElement('input', { ref: 'name', placeholder: 'Enter your username' })
 								),
 								_react2.default.createElement(
 									'div',
@@ -22527,7 +22548,7 @@
 								_react2.default.createElement(
 									'div',
 									{ className: 'col s6' },
-									_react2.default.createElement('input', { ref: 'email', type: 'email', required: true, placeholder: 'Enter a valid email address' })
+									_react2.default.createElement('input', { ref: 'email', placeholder: 'Enter a valid email address' })
 								),
 								_react2.default.createElement(
 									'div',
@@ -22541,12 +22562,12 @@
 								_react2.default.createElement(
 									'div',
 									{ className: 'col s6' },
-									_react2.default.createElement('input', { type: 'password', ref: 'password', pattern: '.{8,}', required: true, title: '8 characters minimum', placeholder: 'Enter your password' })
+									_react2.default.createElement('input', { type: 'password', ref: 'password', placeholder: 'Enter your password' })
 								),
 								_react2.default.createElement(
 									'div',
 									{ className: 'col s12 center-align' },
-									_react2.default.createElement('input', { className: 'button z-depth-2', type: 'submit', value: 'register' })
+									_react2.default.createElement('input', { className: 'button z-depth-2', type: 'submit', value: 'Register' })
 								)
 							)
 						)
@@ -22688,7 +22709,7 @@
 								_react2.default.createElement(
 									'div',
 									{ className: 'col s12 center-align' },
-									_react2.default.createElement('input', { className: 'button z-depth-2', type: 'submit', value: 'login' })
+									_react2.default.createElement('input', { className: 'button z-depth-2', type: 'submit', value: 'Login' })
 								)
 							)
 						)
@@ -22915,7 +22936,7 @@
 
 
 	// module
-	exports.push([module.id, ".body {\n  display: flex;\n  min-height: 100vh;\n  flex-direction: column; }\n  .body nav {\n    background-color: #E8E8EE;\n    margin-bottom: 30px; }\n    .body nav a, .body nav p {\n      color: black; }\n    .body nav a {\n      margin-left: 10px; }\n    .body nav p::first-letter, .body nav a::first-letter {\n      color: #3F51B5; }\n    .body nav #logo {\n      display: inline-block;\n      font-size: 2.1rem; }\n  .body main {\n    flex: 1 0 auto; }\n    .body main #chatwindow {\n      height: 250px;\n      overflow-y: auto;\n      background-color: #FFFAFA; }\n    .body main #chatheader {\n      background-color: #3F51B5; }\n      .body main #chatheader h5 {\n        color: white; }\n    .body main hr {\n      margin: 0; }\n    .body main .img {\n      display: block;\n      margin: auto;\n      height: 35vh;\n      width: 35vh; }\n    .body main .card-action {\n      min-height: 25vh; }\n    .body main .fail .card, .body main .epicfail .card {\n      background-color: #FFFAFA; }\n    .body main .register .s12, .body main .login .s12 {\n      margin-bottom: 20px; }\n    .body main .userbox {\n      background-color: #f6fbfc; }\n    .body main .button {\n      background-color: #F44336;\n      border: none;\n      color: white;\n      padding: 15px 32px;\n      text-align: center;\n      text-decoration: none;\n      display: inline-block;\n      font-size: 16px;\n      border-radius: 3px; }\n    .body main #disabledbutton {\n      background-color: #E8E8EE; }\n    .body main .button:hover {\n      background-color: #D32F2F; }\n    .body main .register .center-align, .body main .login .center-align {\n      margin-top: 30px; }\n  .body #footer {\n    background-color: #E8E8EE; }\n    .body #footer a, .body #footer p {\n      color: black; }\n    .body #footer p::first-letter, .body #footer a::first-letter, .body #footer li::first-letter {\n      color: #3F51B5; }\n", ""]);
+	exports.push([module.id, ".body {\n  display: flex;\n  min-height: 100vh;\n  flex-direction: column; }\n  .body nav {\n    background-color: #E8E8EE;\n    margin-bottom: 30px; }\n    .body nav a, .body nav p {\n      color: black; }\n    .body nav a {\n      margin-left: 10px; }\n    .body nav p::first-letter, .body nav a::first-letter {\n      color: #3F51B5; }\n    .body nav #logo {\n      display: inline-block;\n      font-size: 2.1rem; }\n  .body main {\n    flex: 1 0 auto; }\n    .body main #chatwindow {\n      height: 250px;\n      overflow-y: auto;\n      background-color: #FFFAFA; }\n    .body main .userrow {\n      height: 80vh;\n      overflow-y: auto; }\n    @media only screen and (max-width: 601px) {\n      .body main .userrow {\n        height: 16vh;\n        overflow-y: auto; } }\n    .body main #chatheader {\n      background-color: #3F51B5; }\n      .body main #chatheader h5 {\n        color: white; }\n    .body main hr {\n      margin: 0; }\n    .body main .img {\n      display: block;\n      margin: auto;\n      height: 35vh;\n      width: 35vh; }\n    .body main .card-action {\n      min-height: 25vh; }\n    .body main .fail .card, .body main .epicfail .card {\n      background-color: #FFFAFA; }\n    .body main .register .s12, .body main .login .s12 {\n      margin-bottom: 40px; }\n    .body main .userbox {\n      background-color: #C5CAE9;\n      color: white;\n      text-align: center;\n      border-radius: 3px;\n      font-size: 1.5em;\n      padding: 0.2vw 0.8vw;\n      margin-top: 1vh;\n      margin-bottom: 3vh; }\n    .body main .userbox:hover {\n      cursor: pointer;\n      cursor: hand;\n      background-color: #B2BAEB; }\n    .body main .button {\n      background-color: #F44336;\n      border: none;\n      color: white;\n      padding: 15px 32px;\n      text-align: center;\n      text-decoration: none;\n      display: inline-block;\n      font-size: 1.5em;\n      border-radius: 3px; }\n    .body main #buddies {\n      color: black;\n      text-align: center;\n      border-radius: 3px;\n      font-size: 1.5em;\n      padding: 0.2vw 0.8vw;\n      margin-top: 1vh;\n      margin-bottom: 3vh; }\n      .body main #buddies p::first-letter {\n        color: #3F51B5; }\n    .body main #disabledbutton {\n      background-color: #E8E8EE; }\n    .body main .button:hover {\n      background-color: #D32F2F; }\n    .body main .register .center-align, .body main .login .center-align {\n      margin-top: 30px; }\n  .body #footer {\n    background-color: #E8E8EE; }\n    .body #footer a, .body #footer p {\n      color: black; }\n    .body #footer p::first-letter, .body #footer a::first-letter, .body #footer li::first-letter {\n      color: #3F51B5; }\n", ""]);
 
 	// exports
 

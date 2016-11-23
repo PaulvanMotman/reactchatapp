@@ -54,22 +54,22 @@ export default class Register extends React.Component {
 								<label>Username</label>
 							</div>
 							<div className="col s6">
-								<input ref="name" pattern=".{3,10}" required title="3 to 10 characters" placeholder="Enter your username"></input>
+								<input ref="name"  placeholder="Enter your username"></input>
 							</div>
 							<div className="col s6">
 								<label>Email</label>
 							</div>
 							<div className="col s6">
-								<input ref="email" type="email" required placeholder="Enter a valid email address"></input>
+								<input ref="email" placeholder="Enter a valid email address"></input>
 							</div>
 							<div className="col s6">
 								<label>Password</label>
 							</div>
 							<div className="col s6">
-								<input type="password" ref="password" pattern=".{8,}" required title="8 characters minimum" placeholder="Enter your password"></input>
+								<input type="password" ref="password" placeholder="Enter your password"></input>
 							</div>
 							<div className="col s12 center-align">
-								<input className="button z-depth-2" type="submit" value="register"></input>
+								<input className="button z-depth-2" type="submit" value="Register"></input>
 							</div>
 						</div>
 					</form>

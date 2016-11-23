@@ -44,7 +44,7 @@ export default class Login extends React.Component {
 								<input type="password" ref="password" placeholder="Enter your password"></input>
 							</div>
 							<div className="col s12 center-align">
-								<input className="button z-depth-2" type="submit" value="login"></input>
+								<input className="button z-depth-2" type="submit" value="Login"></input>
 							</div>
 						</div>
 					</form>

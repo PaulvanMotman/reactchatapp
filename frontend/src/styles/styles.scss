@@ -36,6 +36,19 @@
 			background-color: #FFFAFA;
 		}
 
+
+		.userrow {
+			height: 80vh;
+			overflow-y:auto;
+		}
+
+		@media only screen and (max-width: 601px) {
+			.userrow {
+				height: 16vh;
+				overflow-y:auto;
+			}
+		}
+
 		#chatheader {
 			background-color: #3F51B5; 
 
@@ -64,11 +77,24 @@
 		}
 
 		.register .s12, .login .s12 {
-			margin-bottom: 20px;
+			margin-bottom: 40px;
 		}
 
 		.userbox {
-			background-color: #f6fbfc;
+			background-color: #C5CAE9;
+		    color: white;
+		    text-align: center;
+		    border-radius: 3px;
+		    font-size: 1.5em;
+		    padding: 0.2vw 0.8vw;
+		    margin-top: 1vh;
+		    margin-bottom: 3vh;
+		}
+
+		.userbox:hover {
+			cursor: pointer; 
+			cursor: hand;
+			background-color: #B2BAEB;
 		}
 
 		.button {
@@ -79,8 +105,22 @@
 		    text-align: center;
 		    text-decoration: none;
 		    display: inline-block;
-		    font-size: 16px;
+		    font-size: 1.5em;
 		    border-radius: 3px;
+		}
+
+		#buddies {
+		    color: black;
+		    text-align: center;
+		    border-radius: 3px;
+		    font-size: 1.5em;
+		    padding: 0.2vw 0.8vw;
+		    margin-top: 1vh;
+		    margin-bottom: 3vh;
+
+		    p::first-letter {
+		    	color: #3F51B5;
+		    }
 		}
 
 		#disabledbutton {

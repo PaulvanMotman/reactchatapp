@@ -18,7 +18,7 @@ export default class Footer extends React.Component {
 						<div className="col l4 offset-l2 s12">
 							<h5>Cool links</h5>
 							<ul>
-								<li><a  href="https://www.paulvanmotman.com">Portfolio</a></li>
+								<li><a href="https://www.paulvanmotman.com" target="_blank">Portfolio</a></li>
 							</ul>
 						</div>
 					</div>

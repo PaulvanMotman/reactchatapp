@@ -49,7 +49,7 @@ export default class Chat extends React.Component {
 			var id = this.props.getThatReleventConversation(this.props.currentUser.convoId, this.props.otherUser.convoId)
 
 			mainContent = (
-				<div className="col s10 offset">
+				<div className="col s12 m10 offset">
 					<div className="card">
 						<div className="card-content" id="chatheader">
 							<h5>Your chatting with {this.props.otherUser.name}</h5>
@@ -61,10 +61,10 @@ export default class Chat extends React.Component {
 						<div className="card-action">
 							<div className="row">
 								<form className="form" onSubmit={(e) => this.add(e)}>
-									<div className="col s2">
+									<div className="col s12 m4">
 										<input className="button z-depth-2" type="submit" value="Send"/>
 									</div>
-									<div className="col s10">
+									<div className="col s12 m8">
 										<input type="text" ref="newText"/>
 									</div>
 								</form>
@@ -75,7 +75,7 @@ export default class Chat extends React.Component {
 			)
 		} else {
 			mainContent = (
-				<div className="col s10 offset">
+				<div className="col s12 m10">
 					<div className="card">
 						<div className="card-content" id="chatheader">
 							<h5>Welcome {this.props.currentUser.name}!</h5>
@@ -91,10 +91,10 @@ export default class Chat extends React.Component {
 						<div className="card-action">
 							<div className="row">
 								<form className="form" onSubmit={(e) => e.preventDefault()}>
-									<div className="col s2">
+									<div className="col s12 m4">
 										<input id="disabledbutton" className="button z-depth-2" disabled type="submit" value="Send"/>
 									</div>
-									<div className="col s10">
+									<div className="col s12 m8">
 										<input type="text" ref="newText" disabled/>
 									</div>
 								</form>
@@ -107,8 +107,17 @@ export default class Chat extends React.Component {
 
 		return (	
 			<div className="row">
-				<div className="col s2">
-					{this.props.otherUsers.map(this.eachUser)}
+				<div className="col s12 m2 userrow">
+					<div className="row">
+						<div className="col s4 m12">
+							<div id="buddies">
+								<div>
+									<p id="userName">Buddies:</p>
+								</div>
+							</div>
+						</div>
+						{this.props.otherUsers.map(this.eachUser)}
+					</div>
 				</div>
 				{mainContent}
 			</div>
