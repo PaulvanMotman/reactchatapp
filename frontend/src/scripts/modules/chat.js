@@ -25,15 +25,31 @@ export default class Chat extends React.Component {
 	// this function automaticly makes sure that with every new message the window scrolls down
 	updateScroll () {
 	    var element = document.getElementById("chatwindow")
+	    console.log(element.scrollHeight)
+	    console.log(element.scrollTop)
+	    console.log('--------')
 	    element.scrollTop = element.scrollHeight
+	    console.log(element.scrollHeight)
+	    console.log(element.scrollTop)
+
 	}
 	// function that creates html tag for each message
 	eachText(text, i) {
-		return (
-			<Text key={i} index={i}>
-				{text}
-			</Text>
-		)
+
+		if (text.name == this.props.currentUser.name) {
+			return (
+				<Text key={i} index={i} setclass="bubble me">
+					{text}
+				</Text>
+			)
+		} else {
+			return (
+				<Text key={i} index={i} setclass="bubble you">
+					{text}
+				</Text>
+			)
+		}
+
 	}
 	eachUser(user, i) {
 		return (
@@ -50,7 +66,7 @@ export default class Chat extends React.Component {
 
 			mainContent = (
 				<div className="col s12 m10 offset">
-					<div className="card">
+					<div className="card chatenv">
 						<div className="card-content" id="chatheader">
 							<h5>Your chatting with {this.props.otherUser.name}</h5>
 						</div>
@@ -76,15 +92,19 @@ export default class Chat extends React.Component {
 		} else {
 			mainContent = (
 				<div className="col s12 m10">
-					<div className="card">
+					<div className="card chatenv">
 						<div className="card-content" id="chatheader">
 							<h5>Welcome {this.props.currentUser.name}!</h5>
 						</div>
 						<hr/>
 						<div className="card-content" id="chatwindow">
-							<div className="textcloud">
+							<div className="bubble you">
 								<p className="text">Chatappje says: Hi there :).</p>
+							</div>
+							<div className="bubble you">
 								<p className="text">Chatappje says: Thank you so much for using this chat app.</p>
+							</div>
+							<div className="bubble you">
 								<p className="text">Chatappje says: If you're in the mood for a chat, click on one of the users at the left to chat!</p>
 							</div>
 						</div>

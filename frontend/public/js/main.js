@@ -208,9 +208,8 @@
 				console.log(date);
 				var hours = date.getHours();
 				var minutes = "0" + date.getMinutes();
-				var seconds = "0" + date.getSeconds();
 				// Will display time in 10:30:23 format
-				var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+				var formattedTime = hours + ':' + minutes.substr(-2);
 				return formattedTime;
 			}
 		}, {
@@ -22093,18 +22092,32 @@
 			key: 'updateScroll',
 			value: function updateScroll() {
 				var element = document.getElementById("chatwindow");
+				console.log(element.scrollHeight);
+				console.log(element.scrollTop);
+				console.log('--------');
 				element.scrollTop = element.scrollHeight;
+				console.log(element.scrollHeight);
+				console.log(element.scrollTop);
 			}
 			// function that creates html tag for each message
 
 		}, {
 			key: 'eachText',
 			value: function eachText(text, i) {
-				return _react2.default.createElement(
-					_text2.default,
-					{ key: i, index: i },
-					text
-				);
+
+				if (text.name == this.props.currentUser.name) {
+					return _react2.default.createElement(
+						_text2.default,
+						{ key: i, index: i, setclass: 'bubble me' },
+						text
+					);
+				} else {
+					return _react2.default.createElement(
+						_text2.default,
+						{ key: i, index: i, setclass: 'bubble you' },
+						text
+					);
+				}
 			}
 		}, {
 			key: 'eachUser',
@@ -22130,7 +22143,7 @@
 						{ className: 'col s12 m10 offset' },
 						_react2.default.createElement(
 							'div',
-							{ className: 'card' },
+							{ className: 'card chatenv' },
 							_react2.default.createElement(
 								'div',
 								{ className: 'card-content', id: 'chatheader' },
@@ -22179,7 +22192,7 @@
 						{ className: 'col s12 m10' },
 						_react2.default.createElement(
 							'div',
-							{ className: 'card' },
+							{ className: 'card chatenv' },
 							_react2.default.createElement(
 								'div',
 								{ className: 'card-content', id: 'chatheader' },
@@ -22197,17 +22210,25 @@
 								{ className: 'card-content', id: 'chatwindow' },
 								_react2.default.createElement(
 									'div',
-									{ className: 'textcloud' },
+									{ className: 'bubble you' },
 									_react2.default.createElement(
 										'p',
 										{ className: 'text' },
 										'Chatappje says: Hi there :).'
-									),
+									)
+								),
+								_react2.default.createElement(
+									'div',
+									{ className: 'bubble you' },
 									_react2.default.createElement(
 										'p',
 										{ className: 'text' },
 										'Chatappje says: Thank you so much for using this chat app.'
-									),
+									)
+								),
+								_react2.default.createElement(
+									'div',
+									{ className: 'bubble you' },
 									_react2.default.createElement(
 										'p',
 										{ className: 'text' },
@@ -22326,15 +22347,18 @@
 			value: function render() {
 				return _react2.default.createElement(
 					'div',
-					{ className: 'textcloud' },
+					{ className: this.props.setclass },
 					_react2.default.createElement(
 						'p',
 						{ className: 'text' },
-						'At ',
-						this.props.children.time,
+						_react2.default.createElement(
+							'span',
+							{ id: 'timecolor' },
+							this.props.children.time
+						),
 						' ',
 						this.props.children.name,
-						' says: ',
+						': ',
 						this.props.children.message
 					)
 				);
@@ -22936,7 +22960,7 @@
 
 
 	// module
-	exports.push([module.id, ".body {\n  display: flex;\n  min-height: 100vh;\n  flex-direction: column; }\n  .body nav {\n    background-color: #E8E8EE;\n    margin-bottom: 30px; }\n    .body nav a, .body nav p {\n      color: black; }\n    .body nav a {\n      margin-left: 10px; }\n    .body nav p::first-letter, .body nav a::first-letter {\n      color: #3F51B5; }\n    .body nav #logo {\n      display: inline-block;\n      font-size: 2.1rem; }\n  .body main {\n    flex: 1 0 auto; }\n    .body main #chatwindow {\n      height: 250px;\n      overflow-y: auto;\n      background-color: #FFFAFA; }\n    .body main .userrow {\n      height: 80vh;\n      overflow-y: auto; }\n    @media only screen and (max-width: 601px) {\n      .body main .userrow {\n        height: 16vh;\n        overflow-y: auto; } }\n    .body main #chatheader {\n      background-color: #3F51B5; }\n      .body main #chatheader h5 {\n        color: white; }\n    .body main hr {\n      margin: 0; }\n    .body main .img {\n      display: block;\n      margin: auto;\n      height: 35vh;\n      width: 35vh; }\n    .body main .card-action {\n      min-height: 25vh; }\n    .body main .fail .card, .body main .epicfail .card {\n      background-color: #FFFAFA; }\n    .body main .register .s12, .body main .login .s12 {\n      margin-bottom: 40px; }\n    .body main .userbox {\n      background-color: #C5CAE9;\n      color: white;\n      text-align: center;\n      border-radius: 3px;\n      font-size: 1.5em;\n      padding: 0.2vw 0.8vw;\n      margin-top: 1vh;\n      margin-bottom: 3vh; }\n    .body main .userbox:hover {\n      cursor: pointer;\n      cursor: hand;\n      background-color: #B2BAEB; }\n    .body main .button {\n      background-color: #F44336;\n      border: none;\n      color: white;\n      padding: 15px 32px;\n      text-align: center;\n      text-decoration: none;\n      display: inline-block;\n      font-size: 1.5em;\n      border-radius: 3px; }\n    .body main #buddies {\n      color: black;\n      text-align: center;\n      border-radius: 3px;\n      font-size: 1.5em;\n      padding: 0.2vw 0.8vw;\n      margin-top: 1vh;\n      margin-bottom: 3vh; }\n      .body main #buddies p::first-letter {\n        color: #3F51B5; }\n    .body main #disabledbutton {\n      background-color: #E8E8EE; }\n    .body main .button:hover {\n      background-color: #D32F2F; }\n    .body main .register .center-align, .body main .login .center-align {\n      margin-top: 30px; }\n  .body #footer {\n    background-color: #E8E8EE; }\n    .body #footer a, .body #footer p {\n      color: black; }\n    .body #footer p::first-letter, .body #footer a::first-letter, .body #footer li::first-letter {\n      color: #3F51B5; }\n", ""]);
+	exports.push([module.id, ".body {\n  display: flex;\n  min-height: 100vh;\n  flex-direction: column; }\n  .body nav {\n    background-color: #E8E8EE;\n    margin-bottom: 30px; }\n    .body nav a, .body nav p {\n      color: black; }\n    .body nav a {\n      margin-left: 10px; }\n    .body nav p::first-letter, .body nav a::first-letter {\n      color: #3F51B5; }\n    .body nav #logo {\n      display: inline-block;\n      font-size: 2.1rem; }\n  .body main {\n    flex: 1 0 auto; }\n    .body main #chatwindow {\n      height: 250px;\n      overflow-y: auto;\n      background-color: #FFFAFA;\n      padding-top: 10px;\n      padding-bottom: 65px; }\n    .body main .userrow {\n      height: 80vh;\n      overflow-y: auto; }\n    @media only screen and (max-width: 601px) {\n      .body main .userrow {\n        height: 16vh;\n        overflow-y: auto; } }\n    .body main #chatheader {\n      background-color: #3F51B5; }\n      .body main #chatheader h5 {\n        color: white; }\n    .body main hr {\n      margin: 0; }\n    .body main .img {\n      display: block;\n      margin: auto;\n      height: 35vh;\n      width: 35vh; }\n    .body main .card-action {\n      min-height: 25vh; }\n    .body main .fail .card, .body main .epicfail .card {\n      background-color: #FFFAFA; }\n    .body main .register .s12, .body main .login .s12 {\n      margin-bottom: 40px; }\n    .body main .userbox {\n      background-color: #C5CAE9;\n      color: white;\n      text-align: center;\n      border-radius: 3px;\n      font-size: 1.5em;\n      padding: 0.2vw 0.8vw;\n      margin-top: 1vh;\n      margin-bottom: 3vh; }\n    .body main .userbox:hover {\n      cursor: pointer;\n      cursor: hand;\n      background-color: #B2BAEB; }\n    .body main .button {\n      background-color: #F44336;\n      border: none;\n      color: white;\n      padding: 15px 32px;\n      text-align: center;\n      text-decoration: none;\n      display: inline-block;\n      font-size: 1.5em;\n      border-radius: 3px; }\n    .body main #buddies {\n      color: black;\n      text-align: center;\n      border-radius: 3px;\n      font-size: 1.5em;\n      padding: 0.2vw 0.8vw;\n      margin-top: 1vh;\n      margin-bottom: 3vh; }\n      .body main #buddies p::first-letter {\n        color: #3F51B5; }\n    .body main #disabledbutton {\n      background-color: #E8E8EE; }\n    .body main .button:hover {\n      background-color: #D32F2F; }\n    .body main .register .center-align, .body main .login .center-align {\n      margin-top: 30px; }\n    .body main .bubble {\n      background-color: #F2F2F2;\n      border-radius: 5px;\n      box-shadow: 0 0 6px #B2B2B2;\n      display: inline-block;\n      padding: 10px 18px;\n      position: relative;\n      vertical-align: top;\n      clear: both; }\n    .body main .bubble::before {\n      background-color: #F2F2F2;\n      content: \"\\A0\";\n      display: block;\n      height: 16px;\n      position: absolute;\n      top: 11px;\n      transform: rotate(29deg) skew(-35deg);\n      -moz-transform: rotate(29deg) skew(-35deg);\n      -ms-transform: rotate(29deg) skew(-35deg);\n      -o-transform: rotate(29deg) skew(-35deg);\n      -webkit-transform: rotate(29deg) skew(-35deg);\n      width: 20px; }\n    .body main .you {\n      float: left;\n      margin: 5px 45px 5px 20px; }\n    .body main .you::before {\n      box-shadow: -2px 2px 2px 0 rgba(178, 178, 178, 0.4);\n      left: -9px; }\n    .body main .me {\n      float: right;\n      margin: 5px 20px 5px 45px; }\n    .body main .me::before {\n      box-shadow: 2px -2px 2px 0 rgba(178, 178, 178, 0.4);\n      right: -9px; }\n    .body main input:focus {\n      border-bottom: 1px solid #3F51B5 !important;\n      box-shadow: 0 1px 0 0 #3F51B5 !important; }\n    .body main #timecolor {\n      color: #3F51B5;\n      border-bottom: 1px solid #3F51B5; }\n  .body #footer {\n    background-color: #E8E8EE; }\n    .body #footer a, .body #footer p {\n      color: black; }\n    .body #footer p::first-letter, .body #footer a::first-letter, .body #footer li::first-letter {\n      color: #3F51B5; }\n", ""]);
 
 	// exports
 

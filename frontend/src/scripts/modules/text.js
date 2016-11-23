@@ -11,8 +11,8 @@ export default class Text extends React.Component {
 	}
 	render() {	
 		return (
-			<div className="textcloud">
-				<p className="text">At {this.props.children.time} {this.props.children.name} says: {this.props.children.message}</p>
+			<div className={this.props.setclass}>
+				<p className="text"><span id="timecolor">{this.props.children.time}</span> {this.props.children.name}: {this.props.children.message}</p>
 			</div>
 		)
 	}
