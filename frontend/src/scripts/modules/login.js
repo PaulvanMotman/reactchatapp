@@ -22,43 +22,46 @@ export default class Login extends React.Component {
 	render() {
 		let loginRender
 		let mainContent = (
-				<div className="card">
-					<div className="card-content">
-						<img className="img" src="../img/almost.jpg" />
-					</div>
-					<div className="card-action">
-						<form className="form" onSubmit={(e) => this.login(e)}>
-							<div className="row">
-								<div className="col s1">
-									<label>Email</label>
-								</div>
-								<div className="col s2">
-									<input ref="email"></input>
-								</div>
-								<div className="col s1">
-									<label>Password</label>
-								</div>
-								<div className="col s2">
-									<input type="password" ref="password"></input>
-								</div>
-								<div className="col s3 offset-s3">
-									<input type="submit" value="login"></input>
-								</div>
-							</div>
-						</form>
-					</div>
+
+
+			<div className="row login">
+				<div className="col s12 m6">
+					<img className="img" src="../img/almost.jpg" />
 				</div>
+				<div className="col s12 m6">
+					<form className="form" onSubmit={(e) => this.login(e)}>
+						<div className="row">
+							<div className="col s6">
+								<label>Email</label>
+							</div>
+							<div className="col s6">
+								<input ref="email" placeholder="Enter your email"></input>
+							</div>
+							<div className="col s6">
+								<label>Password</label>
+							</div>
+							<div className="col s6">
+								<input type="password" ref="password" placeholder="Enter your password"></input>
+							</div>
+							<div className="col s12 center-align">
+								<input className="button z-depth-2" type="submit" value="login"></input>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
 			)
 		if ( this.props.fail ==! null) {
 			loginRender = (
-				<div className="col s5" >
+				<div className="col s10 offset-s1" >
 						{mainContent}
 				</div>
 			)
 		} else {
 			loginRender = (
 				<div className="row">
-					<div className="col s6 offset-s3">
+					<div className="col s10 offset-s1">
 						{mainContent}
 					</div>
 				</div>

@@ -51,6 +51,10 @@ export default class Chat extends React.Component {
 			mainContent = (
 				<div className="col s10 offset">
 					<div className="card">
+						<div className="card-content" id="chatheader">
+							<h5>Your chatting with {this.props.otherUser.name}</h5>
+						</div>
+						<hr/>
 						<div className="card-content" id="chatwindow">
 							{this.props.conversations[id].messages.map(this.eachText)}
 						</div>
@@ -58,7 +62,7 @@ export default class Chat extends React.Component {
 							<div className="row">
 								<form className="form" onSubmit={(e) => this.add(e)}>
 									<div className="col s2">
-										<input type="submit" value="Send"/>
+										<input className="button z-depth-2" type="submit" value="Send"/>
 									</div>
 									<div className="col s10">
 										<input type="text" ref="newText"/>
@@ -70,7 +74,35 @@ export default class Chat extends React.Component {
 				</div>
 			)
 		} else {
-			mainContent = <p>joehoe</p>
+			mainContent = (
+				<div className="col s10 offset">
+					<div className="card">
+						<div className="card-content" id="chatheader">
+							<h5>Welcome {this.props.currentUser.name}!</h5>
+						</div>
+						<hr/>
+						<div className="card-content" id="chatwindow">
+							<div className="textcloud">
+								<p className="text">Chatappje says: Hi there :).</p>
+								<p className="text">Chatappje says: Thank you so much for using this chat app.</p>
+								<p className="text">Chatappje says: If you're in the mood for a chat, click on one of the users at the left to chat!</p>
+							</div>
+						</div>
+						<div className="card-action">
+							<div className="row">
+								<form className="form" onSubmit={(e) => e.preventDefault()}>
+									<div className="col s2">
+										<input id="disabledbutton" className="button z-depth-2" disabled type="submit" value="Send"/>
+									</div>
+									<div className="col s10">
+										<input type="text" ref="newText" disabled/>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			)
 		}
 
 		return (	

@@ -1,12 +1,31 @@
  .body {
 
- 	nav {
- 		background-color: #1976D2;
- 	}
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
 
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
+ 	nav {
+ 		background-color: #E8E8EE;
+ 		margin-bottom: 30px;
+
+ 		a, p {
+ 			color: black;
+ 		}
+
+ 		a {
+ 			margin-left: 10px;
+ 		}
+
+ 		p::first-letter, a::first-letter {  
+ 			color: #3F51B5;
+ 		}
+
+ 		#logo {
+ 			display: inline-block;
+ 			font-size: 2.1rem;
+ 		}
+
+ 	}
 
 	main {
 		flex: 1 0 auto;
@@ -14,6 +33,19 @@
 		#chatwindow {
 			height: 250px;
 			overflow-y:auto;
+			background-color: #FFFAFA;
+		}
+
+		#chatheader {
+			background-color: #3F51B5; 
+
+			h5 {
+				color: white;
+			}
+		}
+
+		hr {
+			margin: 0;
 		}
 
 		.img {
@@ -27,10 +59,55 @@
 			min-height: 25vh;
 		}
 
+		.fail .card, .epicfail .card{
+			background-color: #FFFAFA;
+		}
+
+		.register .s12, .login .s12 {
+			margin-bottom: 20px;
+		}
+
+		.userbox {
+			background-color: #f6fbfc;
+		}
+
+		.button {
+			background-color: #F44336; 
+		    border: none;
+		    color: white;
+		    padding: 15px 32px;
+		    text-align: center;
+		    text-decoration: none;
+		    display: inline-block;
+		    font-size: 16px;
+		    border-radius: 3px;
+		}
+
+		#disabledbutton {
+			background-color: #E8E8EE;
+		}
+
+		.button:hover {
+			background-color: #D32F2F;
+		}
+
+		.register .center-align, .login .center-align{
+			margin-top: 30px;
+		}
+
 	}
 
 	#footer {
-		background-color: #2196F3;
+		background-color: #E8E8EE;
+
+		a, p {
+ 			color: black;
+ 		}
+
+ 		p::first-letter, a::first-letter, li::first-letter {  
+ 			color: #3F51B5;
+ 		}
+
 	}
 
 }

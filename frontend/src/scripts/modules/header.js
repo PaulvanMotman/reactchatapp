@@ -32,9 +32,9 @@ export default class Header extends React.Component {
 			)
 		}
 		return (
-			<nav>
+			<nav className="z-depth-0">
 				<div className="nav-wrapper">
-					<a href="/" className="brand-logo">Chat appje</a>
+					<a href="/" id="logo">Chat appje</a>
 					{menuRender}
 				</div>
   			</nav>

@@ -4,8 +4,9 @@ console.log('Main js loaded')
 
 //// To do List
 
-//// 1. Data-valadation 
-//// 2. Welcome screen new logged in user
+//// 1. Data-valadation    DONE
+//// 2. Adjust login/register forms
+//// 3. Welcome screen new logged in user    
 
 
 
@@ -205,8 +206,8 @@ class Container extends React.Component {
 						<Header action={this.state.action} changeThatView={this.changeView}/>
 						<main>
 							<div className="row">
-								<Fail />
 								<Login fail={true} changeThatView={this.changeView} loginThatUser={this.loginUser}/>
+								<Fail />
 							</div>
 						</main>
 					</div>
@@ -218,8 +219,8 @@ class Container extends React.Component {
 						<Header action={this.state.action} changeThatView={this.changeView}/>
 						<main>
 							<div className="row">
-								<Epicfail />
 								<Register fail={true} registerThatUser={this.registerUser} database={this.state.database} changeThatView={this.changeView}/>
+								<Epicfail />
 							</div>
 						</main>
 					</div>

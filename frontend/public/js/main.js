@@ -80,11 +80,11 @@
 
 	var _fail2 = _interopRequireDefault(_fail);
 
-	var _epicfail = __webpack_require__(184);
+	var _epicfail = __webpack_require__(180);
 
 	var _epicfail2 = _interopRequireDefault(_epicfail);
 
-	__webpack_require__(180);
+	__webpack_require__(181);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -98,8 +98,9 @@
 
 	//// To do List
 
-	//// 1. Data-valadation 
-	//// 2. Welcome screen new logged in user
+	//// 1. Data-valadation    DONE
+	//// 2. Adjust login/register forms
+	//// 3. Welcome screen new logged in user    
 
 
 	// GLOBAL VARIABLES
@@ -333,8 +334,8 @@
 								_react2.default.createElement(
 									'div',
 									{ className: 'row' },
-									_react2.default.createElement(_fail2.default, null),
-									_react2.default.createElement(_login2.default, { fail: true, changeThatView: this.changeView, loginThatUser: this.loginUser })
+									_react2.default.createElement(_login2.default, { fail: true, changeThatView: this.changeView, loginThatUser: this.loginUser }),
+									_react2.default.createElement(_fail2.default, null)
 								)
 							)
 						);
@@ -350,8 +351,8 @@
 								_react2.default.createElement(
 									'div',
 									{ className: 'row' },
-									_react2.default.createElement(_epicfail2.default, null),
-									_react2.default.createElement(_register2.default, { fail: true, registerThatUser: this.registerUser, database: this.state.database, changeThatView: this.changeView })
+									_react2.default.createElement(_register2.default, { fail: true, registerThatUser: this.registerUser, database: this.state.database, changeThatView: this.changeView }),
+									_react2.default.createElement(_epicfail2.default, null)
 								)
 							)
 						);
@@ -21887,13 +21888,13 @@
 				}
 				return _react2.default.createElement(
 					'nav',
-					null,
+					{ className: 'z-depth-0' },
 					_react2.default.createElement(
 						'div',
 						{ className: 'nav-wrapper' },
 						_react2.default.createElement(
 							'a',
-							{ href: '/', className: 'brand-logo' },
+							{ href: '/', id: 'logo' },
 							'Chat appje'
 						),
 						menuRender
@@ -21963,12 +21964,12 @@
 								{ className: 'col l6 s12' },
 								_react2.default.createElement(
 									'h5',
-									{ className: 'white-text' },
+									null,
 									'Disclaimer'
 								),
 								_react2.default.createElement(
 									'p',
-									{ className: 'grey-text text-lighten-4' },
+									null,
 									'For optimum performance and safety, please read these instructions carefully: ',
 									_react2.default.createElement(
 										'em',
@@ -21982,7 +21983,7 @@
 								{ className: 'col l4 offset-l2 s12' },
 								_react2.default.createElement(
 									'h5',
-									{ className: 'white-text' },
+									null,
 									'Cool links'
 								),
 								_react2.default.createElement(
@@ -21993,7 +21994,7 @@
 										null,
 										_react2.default.createElement(
 											'a',
-											{ className: 'grey-text text-lighten-3', href: 'https://www.paulvanmotman.com' },
+											{ href: 'https://www.paulvanmotman.com' },
 											'Portfolio'
 										)
 									)
@@ -22007,7 +22008,11 @@
 						_react2.default.createElement(
 							'div',
 							{ className: 'container' },
-							'\xA9 2016 Paul van Motman'
+							_react2.default.createElement(
+								'p',
+								{ className: 'center' },
+								'\xA9 2016 Paul van Motman'
+							)
 						)
 					)
 				);
@@ -22128,6 +22133,17 @@
 							{ className: 'card' },
 							_react2.default.createElement(
 								'div',
+								{ className: 'card-content', id: 'chatheader' },
+								_react2.default.createElement(
+									'h5',
+									null,
+									'Your chatting with ',
+									this.props.otherUser.name
+								)
+							),
+							_react2.default.createElement('hr', null),
+							_react2.default.createElement(
+								'div',
 								{ className: 'card-content', id: 'chatwindow' },
 								this.props.conversations[id].messages.map(this.eachText)
 							),
@@ -22145,7 +22161,7 @@
 										_react2.default.createElement(
 											'div',
 											{ className: 'col s2' },
-											_react2.default.createElement('input', { type: 'submit', value: 'Send' })
+											_react2.default.createElement('input', { className: 'button z-depth-2', type: 'submit', value: 'Send' })
 										),
 										_react2.default.createElement(
 											'div',
@@ -22159,9 +22175,71 @@
 					);
 				} else {
 					mainContent = _react2.default.createElement(
-						'p',
-						null,
-						'joehoe'
+						'div',
+						{ className: 'col s10 offset' },
+						_react2.default.createElement(
+							'div',
+							{ className: 'card' },
+							_react2.default.createElement(
+								'div',
+								{ className: 'card-content', id: 'chatheader' },
+								_react2.default.createElement(
+									'h5',
+									null,
+									'Welcome ',
+									this.props.currentUser.name,
+									'!'
+								)
+							),
+							_react2.default.createElement('hr', null),
+							_react2.default.createElement(
+								'div',
+								{ className: 'card-content', id: 'chatwindow' },
+								_react2.default.createElement(
+									'div',
+									{ className: 'textcloud' },
+									_react2.default.createElement(
+										'p',
+										{ className: 'text' },
+										'Chatappje says: Hi there :).'
+									),
+									_react2.default.createElement(
+										'p',
+										{ className: 'text' },
+										'Chatappje says: Thank you so much for using this chat app.'
+									),
+									_react2.default.createElement(
+										'p',
+										{ className: 'text' },
+										'Chatappje says: If you\'re in the mood for a chat, click on one of the users at the left to chat!'
+									)
+								)
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: 'card-action' },
+								_react2.default.createElement(
+									'div',
+									{ className: 'row' },
+									_react2.default.createElement(
+										'form',
+										{ className: 'form', onSubmit: function onSubmit(e) {
+												return e.preventDefault();
+											} },
+										_react2.default.createElement(
+											'div',
+											{ className: 'col s2' },
+											_react2.default.createElement('input', { id: 'disabledbutton', className: 'button z-depth-2', disabled: true, type: 'submit', value: 'Send' })
+										),
+										_react2.default.createElement(
+											'div',
+											{ className: 'col s10' },
+											_react2.default.createElement('input', { type: 'text', ref: 'newText', disabled: true })
+										)
+									)
+								)
+							)
+						)
 					);
 				}
 
@@ -22299,7 +22377,7 @@
 
 				return _react2.default.createElement(
 					'div',
-					{ className: 'card', onClick: function onClick() {
+					{ className: 'card userbox', onClick: function onClick() {
 							return _this2.props.setOtherUser(_this2.props.user);
 						} },
 					_react2.default.createElement(
@@ -22406,15 +22484,15 @@
 				var registerRender = void 0;
 				var mainContent = _react2.default.createElement(
 					'div',
-					{ className: 'card' },
+					{ className: 'row register' },
 					_react2.default.createElement(
 						'div',
-						{ className: 'card-content' },
+						{ className: 'col s12 m6' },
 						_react2.default.createElement('img', { className: 'img', src: '../img/hello.jpg' })
 					),
 					_react2.default.createElement(
 						'div',
-						{ className: 'card-action' },
+						{ className: 'col s12 m6' },
 						_react2.default.createElement(
 							'form',
 							{ className: 'form', onSubmit: function onSubmit(e) {
@@ -22425,7 +22503,7 @@
 								{ className: 'row' },
 								_react2.default.createElement(
 									'div',
-									{ className: 'col s1' },
+									{ className: 'col s6' },
 									_react2.default.createElement(
 										'label',
 										null,
@@ -22434,12 +22512,12 @@
 								),
 								_react2.default.createElement(
 									'div',
-									{ className: 'col s2' },
-									_react2.default.createElement('input', { ref: 'name', pattern: '.{5,10}', required: true, title: '5 to 10 characters', placeholder: 'Enter your username' })
+									{ className: 'col s6' },
+									_react2.default.createElement('input', { ref: 'name', pattern: '.{3,10}', required: true, title: '3 to 10 characters', placeholder: 'Enter your username' })
 								),
 								_react2.default.createElement(
 									'div',
-									{ className: 'col s1' },
+									{ className: 'col s6' },
 									_react2.default.createElement(
 										'label',
 										null,
@@ -22448,12 +22526,12 @@
 								),
 								_react2.default.createElement(
 									'div',
-									{ className: 'col s2' },
+									{ className: 'col s6' },
 									_react2.default.createElement('input', { ref: 'email', type: 'email', required: true, placeholder: 'Enter a valid email address' })
 								),
 								_react2.default.createElement(
 									'div',
-									{ className: 'col s1' },
+									{ className: 'col s6' },
 									_react2.default.createElement(
 										'label',
 										null,
@@ -22462,13 +22540,13 @@
 								),
 								_react2.default.createElement(
 									'div',
-									{ className: 'col s2' },
-									_react2.default.createElement('input', { type: 'password', ref: 'password', input: true, pattern: '.{8,}', required: true, title: '8 characters minimum', placeholder: 'Enter your password' })
+									{ className: 'col s6' },
+									_react2.default.createElement('input', { type: 'password', ref: 'password', pattern: '.{8,}', required: true, title: '8 characters minimum', placeholder: 'Enter your password' })
 								),
 								_react2.default.createElement(
 									'div',
-									{ className: 'col s3' },
-									_react2.default.createElement('input', { type: 'submit', value: 'register' })
+									{ className: 'col s12 center-align' },
+									_react2.default.createElement('input', { className: 'button z-depth-2', type: 'submit', value: 'register' })
 								)
 							)
 						)
@@ -22477,7 +22555,7 @@
 				if (this.props.fail == !null) {
 					registerRender = _react2.default.createElement(
 						'div',
-						{ className: 'col s5' },
+						{ className: 'col s10 offset-s1' },
 						mainContent
 					);
 				} else {
@@ -22486,7 +22564,7 @@
 						{ className: 'row' },
 						_react2.default.createElement(
 							'div',
-							{ className: 'col s6 offset-s3' },
+							{ className: 'col s10 offset-s1' },
 							mainContent
 						)
 					);
@@ -22562,15 +22640,15 @@
 				var loginRender = void 0;
 				var mainContent = _react2.default.createElement(
 					'div',
-					{ className: 'card' },
+					{ className: 'row login' },
 					_react2.default.createElement(
 						'div',
-						{ className: 'card-content' },
+						{ className: 'col s12 m6' },
 						_react2.default.createElement('img', { className: 'img', src: '../img/almost.jpg' })
 					),
 					_react2.default.createElement(
 						'div',
-						{ className: 'card-action' },
+						{ className: 'col s12 m6' },
 						_react2.default.createElement(
 							'form',
 							{ className: 'form', onSubmit: function onSubmit(e) {
@@ -22581,7 +22659,7 @@
 								{ className: 'row' },
 								_react2.default.createElement(
 									'div',
-									{ className: 'col s1' },
+									{ className: 'col s6' },
 									_react2.default.createElement(
 										'label',
 										null,
@@ -22590,12 +22668,12 @@
 								),
 								_react2.default.createElement(
 									'div',
-									{ className: 'col s2' },
-									_react2.default.createElement('input', { ref: 'email' })
+									{ className: 'col s6' },
+									_react2.default.createElement('input', { ref: 'email', placeholder: 'Enter your email' })
 								),
 								_react2.default.createElement(
 									'div',
-									{ className: 'col s1' },
+									{ className: 'col s6' },
 									_react2.default.createElement(
 										'label',
 										null,
@@ -22604,13 +22682,13 @@
 								),
 								_react2.default.createElement(
 									'div',
-									{ className: 'col s2' },
-									_react2.default.createElement('input', { type: 'password', ref: 'password' })
+									{ className: 'col s6' },
+									_react2.default.createElement('input', { type: 'password', ref: 'password', placeholder: 'Enter your password' })
 								),
 								_react2.default.createElement(
 									'div',
-									{ className: 'col s3 offset-s3' },
-									_react2.default.createElement('input', { type: 'submit', value: 'login' })
+									{ className: 'col s12 center-align' },
+									_react2.default.createElement('input', { className: 'button z-depth-2', type: 'submit', value: 'login' })
 								)
 							)
 						)
@@ -22619,7 +22697,7 @@
 				if (this.props.fail == !null) {
 					loginRender = _react2.default.createElement(
 						'div',
-						{ className: 'col s5' },
+						{ className: 'col s10 offset-s1' },
 						mainContent
 					);
 				} else {
@@ -22628,7 +22706,7 @@
 						{ className: 'row' },
 						_react2.default.createElement(
 							'div',
-							{ className: 'col s6 offset-s3' },
+							{ className: 'col s10 offset-s1' },
 							mainContent
 						)
 					);
@@ -22686,7 +22764,7 @@
 			value: function render() {
 				return _react2.default.createElement(
 					'div',
-					{ className: 'col s5 offset-s1' },
+					{ className: 'col s10 offset-s1 fail' },
 					_react2.default.createElement(
 						'div',
 						{ className: 'card' },
@@ -22726,13 +22804,93 @@
 /* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	console.log('Epicfail says wsup');
+
+	// Import required modules
+
+	// If you export only one class, use export DEFAULT
+	// Creating the Fail class
+	var Epicfail = function (_React$Component) {
+		_inherits(Epicfail, _React$Component);
+
+		function Epicfail(props) {
+			_classCallCheck(this, Epicfail);
+
+			return _possibleConstructorReturn(this, (Epicfail.__proto__ || Object.getPrototypeOf(Epicfail)).call(this, props));
+		}
+
+		_createClass(Epicfail, [{
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'div',
+					{ className: 'col s10 offset-s1 epicfail' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'card' },
+						_react2.default.createElement(
+							'div',
+							{ className: 'card-content' },
+							_react2.default.createElement('img', { className: 'img', src: '../img/epicfail.jpg' })
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: 'card-action' },
+							_react2.default.createElement(
+								'div',
+								{ className: 'row' },
+								_react2.default.createElement(
+									'div',
+									{ className: 'col s8 offset-s2' },
+									_react2.default.createElement(
+										'h5',
+										null,
+										'Username/email already exists.. Give it another try!'
+									)
+								)
+							)
+						)
+					)
+				);
+			}
+		}]);
+
+		return Epicfail;
+	}(_react2.default.Component);
+
+	exports.default = Epicfail;
+
+/***/ },
+/* 181 */
+/***/ function(module, exports, __webpack_require__) {
+
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(181);
+	var content = __webpack_require__(182);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(183)(content, {});
+	var update = __webpack_require__(184)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -22749,21 +22907,21 @@
 	}
 
 /***/ },
-/* 181 */
+/* 182 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(182)();
+	exports = module.exports = __webpack_require__(183)();
 	// imports
 
 
 	// module
-	exports.push([module.id, ".body {\n  display: flex;\n  min-height: 100vh;\n  flex-direction: column; }\n  .body nav {\n    background-color: #1976D2; }\n  .body main {\n    flex: 1 0 auto; }\n    .body main #chatwindow {\n      height: 250px;\n      overflow-y: auto; }\n    .body main .img {\n      display: block;\n      margin: auto;\n      height: 35vh;\n      width: 35vh; }\n    .body main .card-action {\n      min-height: 25vh; }\n  .body #footer {\n    background-color: #2196F3; }\n", ""]);
+	exports.push([module.id, ".body {\n  display: flex;\n  min-height: 100vh;\n  flex-direction: column; }\n  .body nav {\n    background-color: #E8E8EE;\n    margin-bottom: 30px; }\n    .body nav a, .body nav p {\n      color: black; }\n    .body nav a {\n      margin-left: 10px; }\n    .body nav p::first-letter, .body nav a::first-letter {\n      color: #3F51B5; }\n    .body nav #logo {\n      display: inline-block;\n      font-size: 2.1rem; }\n  .body main {\n    flex: 1 0 auto; }\n    .body main #chatwindow {\n      height: 250px;\n      overflow-y: auto;\n      background-color: #FFFAFA; }\n    .body main #chatheader {\n      background-color: #3F51B5; }\n      .body main #chatheader h5 {\n        color: white; }\n    .body main hr {\n      margin: 0; }\n    .body main .img {\n      display: block;\n      margin: auto;\n      height: 35vh;\n      width: 35vh; }\n    .body main .card-action {\n      min-height: 25vh; }\n    .body main .fail .card, .body main .epicfail .card {\n      background-color: #FFFAFA; }\n    .body main .register .s12, .body main .login .s12 {\n      margin-bottom: 20px; }\n    .body main .userbox {\n      background-color: #f6fbfc; }\n    .body main .button {\n      background-color: #F44336;\n      border: none;\n      color: white;\n      padding: 15px 32px;\n      text-align: center;\n      text-decoration: none;\n      display: inline-block;\n      font-size: 16px;\n      border-radius: 3px; }\n    .body main #disabledbutton {\n      background-color: #E8E8EE; }\n    .body main .button:hover {\n      background-color: #D32F2F; }\n    .body main .register .center-align, .body main .login .center-align {\n      margin-top: 30px; }\n  .body #footer {\n    background-color: #E8E8EE; }\n    .body #footer a, .body #footer p {\n      color: black; }\n    .body #footer p::first-letter, .body #footer a::first-letter, .body #footer li::first-letter {\n      color: #3F51B5; }\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 182 */
+/* 183 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -22818,7 +22976,7 @@
 	};
 
 /***/ },
-/* 183 */
+/* 184 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -23068,86 +23226,6 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
-
-/***/ },
-/* 184 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	console.log('Epicfail says wsup');
-
-	// Import required modules
-
-	// If you export only one class, use export DEFAULT
-	// Creating the Fail class
-	var Epicfail = function (_React$Component) {
-		_inherits(Epicfail, _React$Component);
-
-		function Epicfail(props) {
-			_classCallCheck(this, Epicfail);
-
-			return _possibleConstructorReturn(this, (Epicfail.__proto__ || Object.getPrototypeOf(Epicfail)).call(this, props));
-		}
-
-		_createClass(Epicfail, [{
-			key: 'render',
-			value: function render() {
-				return _react2.default.createElement(
-					'div',
-					{ className: 'col s5 offset-s1' },
-					_react2.default.createElement(
-						'div',
-						{ className: 'card' },
-						_react2.default.createElement(
-							'div',
-							{ className: 'card-content' },
-							_react2.default.createElement('img', { className: 'img', src: '../img/epicfail.jpg' })
-						),
-						_react2.default.createElement(
-							'div',
-							{ className: 'card-action' },
-							_react2.default.createElement(
-								'div',
-								{ className: 'row' },
-								_react2.default.createElement(
-									'div',
-									{ className: 'col s8 offset-s2' },
-									_react2.default.createElement(
-										'h5',
-										null,
-										'Username/email already exists.. Give it another try!'
-									)
-								)
-							)
-						)
-					)
-				);
-			}
-		}]);
-
-		return Epicfail;
-	}(_react2.default.Component);
-
-	exports.default = Epicfail;
 
 /***/ }
 /******/ ]);

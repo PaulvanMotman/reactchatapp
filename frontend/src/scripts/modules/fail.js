@@ -11,7 +11,7 @@ export default class Fail extends React.Component {
 	}
 	render() {
 		return (	
-			<div className="col s5 offset-s1">
+			<div className="col s10 offset-s1 fail">
 				<div className="card">
 					<div className="card-content">
 						<img className="img" src="../img/fail.jpg" />
