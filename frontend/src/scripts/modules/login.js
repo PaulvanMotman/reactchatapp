@@ -1,5 +1,3 @@
-console.log( 'Login says wsup' )
-
 // Import required modules
 import React from 'react'
 
@@ -24,7 +22,7 @@ export default class Login extends React.Component {
 		let mainContent = (
 
 
-			<div className="row login">
+			<div className="row login mainrow">
 				<div className="col s12 m6">
 					<img className="img" src="../img/almost.jpg" />
 				</div>
@@ -60,7 +58,7 @@ export default class Login extends React.Component {
 			)
 		} else {
 			loginRender = (
-				<div className="row">
+				<div className="row mainrow">
 					<div className="col s10 offset-s1">
 						{mainContent}
 					</div>

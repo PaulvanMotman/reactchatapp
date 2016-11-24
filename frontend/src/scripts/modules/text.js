@@ -1,5 +1,3 @@
-console.log( 'Text says wsup' )
-
 // Import required modules
 import React from 'react'
 
@@ -17,9 +15,3 @@ export default class Text extends React.Component {
 		)
 	}
 }
-
-
-// <blockquote class="example-twitter" cite="https://twitter.com/necolas/status/9880187933">
-// 	<p>{this.props.children.message}</p>
-// </blockquote>
-// <p><a>@{this.props.children.name}</a> at <a>{this.props.children.time}</a></p>

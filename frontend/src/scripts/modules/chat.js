@@ -1,5 +1,3 @@
-console.log( 'Chat says wsup' )
-
 // Import required modules
 import React from 'react'
 import Text from './text.js'
@@ -25,13 +23,7 @@ export default class Chat extends React.Component {
 	// this function automaticly makes sure that with every new message the window scrolls down
 	updateScroll () {
 	    var element = document.getElementById("chatwindow")
-	    console.log(element.scrollHeight)
-	    console.log(element.scrollTop)
-	    console.log('--------')
 	    element.scrollTop = element.scrollHeight
-	    console.log(element.scrollHeight)
-	    console.log(element.scrollTop)
-
 	}
 	// function that creates html tag for each message
 	eachText(text, i) {
@@ -51,6 +43,7 @@ export default class Chat extends React.Component {
 		}
 
 	}
+	// function that creates html tag for each user in the userlist
 	eachUser(user, i) {
 		return (
 			<User key={i} index={i} setOtherUser={this.props.setOtherUser} user={user}> 
@@ -60,6 +53,7 @@ export default class Chat extends React.Component {
 	}
 	render() {
 		let mainContent
+		// If the user clicked on an other user to chat with him, show the chatenvironment 
 		if (this.props.otherUser.convoId) {
 
 			var id = this.props.getThatReleventConversation(this.props.currentUser.convoId, this.props.otherUser.convoId)
@@ -89,7 +83,8 @@ export default class Chat extends React.Component {
 					</div>
 				</div>
 			)
-		} else {
+		}  // Else, show the welcome environment 
+		else {
 			mainContent = (
 				<div className="col s12 m10">
 					<div className="card chatenv">
@@ -99,14 +94,9 @@ export default class Chat extends React.Component {
 						<hr/>
 						<div className="card-content" id="chatwindow">
 							<div className="bubble you">
-								<p className="text">Chatappje says: Hi there :).</p>
+								<p className="text">Chatappje: Hi there :). Thank you so much for using this chat app. If you're in the mood for a chat, click on one of the users at the left to chat!</p>
 							</div>
-							<div className="bubble you">
-								<p className="text">Chatappje says: Thank you so much for using this chat app.</p>
-							</div>
-							<div className="bubble you">
-								<p className="text">Chatappje says: If you're in the mood for a chat, click on one of the users at the left to chat!</p>
-							</div>
+					
 						</div>
 						<div className="card-action">
 							<div className="row">
@@ -126,7 +116,7 @@ export default class Chat extends React.Component {
 		}
 
 		return (	
-			<div className="row">
+			<div className="row mainrow chatrow">
 				<div className="col s12 m2 userrow">
 					<div className="row">
 						<div className="col s4 m12">

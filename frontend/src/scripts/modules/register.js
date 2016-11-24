@@ -1,5 +1,3 @@
-console.log( 'Register says wsup' )
-
 // Import required modules
 import React from 'react'
 
@@ -25,7 +23,8 @@ export default class Register extends React.Component {
 		var go = true
 
 		// Data Validation
-		// A loop through the database
+
+		// Loop through the database
 		for (let i = database.length - 1; i >= 0; i--) {
 			// If there is a match with a user in the database..
 			if (database[i].email == newuser.email || database[i].name == newuser.name) {
@@ -43,7 +42,7 @@ export default class Register extends React.Component {
 		let registerRender
 		let mainContent = (
 
-			<div className="row register">
+			<div className="row register mainrow">
 				<div className="col s12 m6">
 					<img className="img" src="../img/hello.jpg" />
 				</div>
@@ -54,7 +53,7 @@ export default class Register extends React.Component {
 								<label>Username</label>
 							</div>
 							<div className="col s6">
-								<input ref="name" pattern=".{3,10}" required title="3 to 10 characters" placeholder="Enter your username"></input>
+								<input ref="name" pattern=".{3,8}" required title="3 to 8 characters" placeholder="Enter your username"></input>
 							</div>
 							<div className="col s6">
 								<label>Email</label>
@@ -85,7 +84,7 @@ export default class Register extends React.Component {
 			)
 		} else {
 			registerRender = (
-				<div className="row">
+				<div className="row mainrow">
 					<div className="col s10 offset-s1">
 						{mainContent}
 					</div>

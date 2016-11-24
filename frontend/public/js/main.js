@@ -96,13 +96,6 @@
 
 	console.log('Main js loaded');
 
-	//// To do List
-
-	//// 1. Data-valadation    DONE
-	//// 2. Adjust login/register forms
-	//// 3. Welcome screen new logged in user    
-
-
 	// GLOBAL VARIABLES
 	var conversationcounter = 0;
 
@@ -135,7 +128,7 @@
 				currentUser: {},
 				otherUsers: [],
 				otherUser: {},
-				conversations: [{ id: 0, messages: [{ message: "Hi there, how you going? React is pretty neat.", name: "Paul van Motman", time: time }] }]
+				conversations: [{ id: 0, messages: [{ message: "Hi there, how you going? React is pretty neat.", name: "Paul", time: time }] }]
 			};
 			return _this;
 		}
@@ -200,18 +193,20 @@
 					_this4.otherUsers();
 				});
 			}
+			// This function will display the time in 10:30 format
+
 		}, {
 			key: 'getTime',
 			value: function getTime() {
 				var time = Date.now();
 				var date = new Date(time);
-				console.log(date);
 				var hours = date.getHours();
 				var minutes = "0" + date.getMinutes();
-				// Will display time in 10:30:23 format
 				var formattedTime = hours + ':' + minutes.substr(-2);
 				return formattedTime;
 			}
+			// This function will find the matching Conversation Id's between the current user and the other user
+
 		}, {
 			key: 'getRelevantConversation',
 			value: function getRelevantConversation(a, b) {
@@ -223,6 +218,9 @@
 				}
 				return match;
 			}
+			// Based on the other user and the current user, this function will update the relevant 
+			// conversation with the message, the time and the name of the user who sent the message
+
 		}, {
 			key: 'updateConversations',
 			value: function updateConversations(newmessage, user, otheruser) {
@@ -236,33 +234,46 @@
 					console.log(_this5.state);
 				});
 			}
-			/////// HERE 
+			// Based on the user who is about to be created and the users already in the database,
+			// new conversations are created.
 
 		}, {
 			key: 'createConversations',
 			value: function createConversations(newuser, database) {
 				var _this6 = this;
 
+				// loop through the database
 				for (var i = 0; i < database.length; i++) {
+					// get the current state of conversations
 					var conversations = this.state.conversations;
+					// push a new conversation to the conversations variable  (conversationcounter is a global variable)
 					conversations.push({ id: conversationcounter, messages: [] });
+					// set the conversations state equal to the variable
 					this.setState({ conversations: conversations }, function () {
 						console.log(_this6.state.conversations);
 					});
+					// push the convo ID to the relevant other user
 					database[i].convoId.push(conversationcounter);
+					// push the convo ID to the relevant new user
 					newuser.convoId.push(conversationcounter);
+					// Add 1 to the conversationcounter
 					conversationcounter++;
 				}
-
+				// return the adjusted objects newuser and database
 				return [database, newuser];
 			}
+			// This function will detect who the other users are who should be listed in the chat environment
+
 		}, {
 			key: 'otherUsers',
 			value: function otherUsers() {
 				var _this7 = this;
 
+				// store the current user
 				var u = this.state.currentUser;
+				// create a array variable to store the database in
 				var d = [];
+				// store the database in this array
 				for (var i = this.state.database.length - 1; i >= 0; i--) {
 					d.push({
 						name: this.state.database[i].name,
@@ -271,10 +282,9 @@
 						convoId: this.state.database[i].convoId
 					});
 				}
+				// take out the user who maches with the currentuser
 				for (var i = 0; i < d.length; i++) {
 					if (d[i].name == u.name && d[i].email == u.email && d[i].password == u.password) {
-						console.log("THIS CURRENT USER MATCHES A USER IN THE DATABASE");
-						console.log(d[i]);
 						d.splice(i, 1);
 						this.setState({ otherUsers: d }, function () {
 							console.log(_this7.state.otherUsers);
@@ -282,6 +292,8 @@
 					}
 				}
 			}
+			// This function will set the state for otheruser.
+
 		}, {
 			key: 'otherUser',
 			value: function otherUser(user) {
@@ -332,7 +344,7 @@
 								null,
 								_react2.default.createElement(
 									'div',
-									{ className: 'row' },
+									{ className: 'row mainrow' },
 									_react2.default.createElement(_login2.default, { fail: true, changeThatView: this.changeView, loginThatUser: this.loginUser }),
 									_react2.default.createElement(_fail2.default, null)
 								)
@@ -349,7 +361,7 @@
 								null,
 								_react2.default.createElement(
 									'div',
-									{ className: 'row' },
+									{ className: 'row mainrow' },
 									_react2.default.createElement(_register2.default, { fail: true, registerThatUser: this.registerUser, database: this.state.database, changeThatView: this.changeView }),
 									_react2.default.createElement(_epicfail2.default, null)
 								)
@@ -21789,7 +21801,7 @@
 /* 172 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
@@ -21807,11 +21819,8 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // Import required modules
 
-	console.log('Headers says wsup');
-
-	// Import required modules
 
 	// If you export only one class, use export DEFAULT
 	// Creating the Header class
@@ -21830,12 +21839,12 @@
 
 
 		_createClass(Header, [{
-			key: 'goTo',
+			key: "goTo",
 			value: function goTo(x, y) {
 				this.props.changeThatView(x, y);
 			}
 		}, {
-			key: 'render',
+			key: "render",
 			value: function render() {
 				var _this2 = this;
 
@@ -21843,58 +21852,58 @@
 				var menuRender = void 0;
 				if (this.props.action !== "chat") {
 					menuRender = _react2.default.createElement(
-						'ul',
-						{ id: 'nav-mobile', className: 'right' },
+						"ul",
+						{ id: "nav-mobile", className: "right" },
 						_react2.default.createElement(
-							'li',
+							"li",
 							null,
 							_react2.default.createElement(
-								'a',
+								"a",
 								{ onClick: function onClick() {
 										_this2.goTo("login", {});
 									} },
-								'Login'
+								"Login"
 							)
 						),
 						_react2.default.createElement(
-							'li',
+							"li",
 							null,
 							_react2.default.createElement(
-								'a',
+								"a",
 								{ onClick: function onClick() {
 										_this2.goTo("register", {});
 									} },
-								'Register'
+								"Register"
 							)
 						)
 					);
 				} else {
 					menuRender = _react2.default.createElement(
-						'ul',
-						{ id: 'nav-mobile', className: 'right' },
+						"ul",
+						{ id: "nav-mobile", className: "right" },
 						_react2.default.createElement(
-							'li',
+							"li",
 							{ onClick: function onClick() {
 									_this2.goTo("login", {});
 								} },
 							_react2.default.createElement(
-								'a',
+								"a",
 								null,
-								'Logout'
+								"Logout"
 							)
 						)
 					);
 				}
 				return _react2.default.createElement(
-					'nav',
-					{ className: 'z-depth-0' },
+					"nav",
+					{ className: "z-depth-2" },
 					_react2.default.createElement(
-						'div',
-						{ className: 'nav-wrapper' },
+						"div",
+						{ className: "nav-wrapper" },
 						_react2.default.createElement(
-							'a',
-							{ href: '/', id: 'logo' },
-							'Chat appje'
+							"a",
+							{ href: "/", id: "logo" },
+							"Chat appje"
 						),
 						menuRender
 					)
@@ -21911,7 +21920,7 @@
 /* 173 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
@@ -21929,11 +21938,8 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // Import required modules
 
-	console.log('Footer says wsup');
-
-	// Import required modules
 
 	// If you export only one class, use export DEFAULT
 	// Creating the Footer class
@@ -21947,54 +21953,54 @@
 		}
 
 		_createClass(Footer, [{
-			key: 'render',
+			key: "render",
 			value: function render() {
 				return _react2.default.createElement(
-					'footer',
-					{ id: 'footer', className: 'page-footer' },
+					"footer",
+					{ id: "footer", className: "page-footer" },
 					_react2.default.createElement(
-						'div',
-						{ className: 'container' },
+						"div",
+						{ className: "container" },
 						_react2.default.createElement(
-							'div',
-							{ className: 'row' },
+							"div",
+							{ className: "row" },
 							_react2.default.createElement(
-								'div',
-								{ className: 'col l6 s12' },
+								"div",
+								{ className: "col l6 s12" },
 								_react2.default.createElement(
-									'h5',
+									"h5",
 									null,
-									'Disclaimer'
+									"Disclaimer"
 								),
 								_react2.default.createElement(
-									'p',
+									"p",
 									null,
-									'For optimum performance and safety, please read these instructions carefully: ',
+									"For optimum performance and safety, please read these instructions carefully: ",
 									_react2.default.createElement(
-										'em',
+										"em",
 										null,
-										'Don\'t Panic!'
+										"Don't Panic!"
 									)
 								)
 							),
 							_react2.default.createElement(
-								'div',
-								{ className: 'col l4 offset-l2 s12' },
+								"div",
+								{ className: "col l4 offset-l2 s12" },
 								_react2.default.createElement(
-									'h5',
+									"h5",
 									null,
-									'Cool links'
+									"Cool links"
 								),
 								_react2.default.createElement(
-									'ul',
+									"ul",
 									null,
 									_react2.default.createElement(
-										'li',
+										"li",
 										null,
 										_react2.default.createElement(
-											'a',
-											{ href: 'https://www.paulvanmotman.com', target: '_blank' },
-											'Portfolio'
+											"a",
+											{ href: "https://www.paulvanmotman.com", target: "_blank" },
+											"Portfolio"
 										)
 									)
 								)
@@ -22002,15 +22008,15 @@
 						)
 					),
 					_react2.default.createElement(
-						'div',
-						{ className: 'footer-copyright' },
+						"div",
+						{ className: "footer-copyright" },
 						_react2.default.createElement(
-							'div',
-							{ className: 'container' },
+							"div",
+							{ className: "container" },
 							_react2.default.createElement(
-								'p',
-								{ className: 'center' },
-								'\xA9 2016 Paul van Motman'
+								"p",
+								{ className: "center" },
+								"\xA9 2016 Paul van Motman"
 							)
 						)
 					)
@@ -22053,11 +22059,8 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // Import required modules
 
-	console.log('Chat says wsup');
-
-	// Import required modules
 
 	// If you export only one class, use export DEFAULT
 	// Creating the Chat class
@@ -22092,12 +22095,7 @@
 			key: 'updateScroll',
 			value: function updateScroll() {
 				var element = document.getElementById("chatwindow");
-				console.log(element.scrollHeight);
-				console.log(element.scrollTop);
-				console.log('--------');
 				element.scrollTop = element.scrollHeight;
-				console.log(element.scrollHeight);
-				console.log(element.scrollTop);
 			}
 			// function that creates html tag for each message
 
@@ -22119,6 +22117,8 @@
 					);
 				}
 			}
+			// function that creates html tag for each user in the userlist
+
 		}, {
 			key: 'eachUser',
 			value: function eachUser(user, i) {
@@ -22134,6 +22134,7 @@
 				var _this2 = this;
 
 				var mainContent = void 0;
+				// If the user clicked on an other user to chat with him, show the chatenvironment 
 				if (this.props.otherUser.convoId) {
 
 					var id = this.props.getThatReleventConversation(this.props.currentUser.convoId, this.props.otherUser.convoId);
@@ -22186,87 +22187,70 @@
 							)
 						)
 					);
-				} else {
-					mainContent = _react2.default.createElement(
-						'div',
-						{ className: 'col s12 m10' },
-						_react2.default.createElement(
+				} // Else, show the welcome environment 
+				else {
+						mainContent = _react2.default.createElement(
 							'div',
-							{ className: 'card chatenv' },
+							{ className: 'col s12 m10' },
 							_react2.default.createElement(
 								'div',
-								{ className: 'card-content', id: 'chatheader' },
-								_react2.default.createElement(
-									'h5',
-									null,
-									'Welcome ',
-									this.props.currentUser.name,
-									'!'
-								)
-							),
-							_react2.default.createElement('hr', null),
-							_react2.default.createElement(
-								'div',
-								{ className: 'card-content', id: 'chatwindow' },
+								{ className: 'card chatenv' },
 								_react2.default.createElement(
 									'div',
-									{ className: 'bubble you' },
+									{ className: 'card-content', id: 'chatheader' },
 									_react2.default.createElement(
-										'p',
-										{ className: 'text' },
-										'Chatappje says: Hi there :).'
+										'h5',
+										null,
+										'Welcome ',
+										this.props.currentUser.name,
+										'!'
+									)
+								),
+								_react2.default.createElement('hr', null),
+								_react2.default.createElement(
+									'div',
+									{ className: 'card-content', id: 'chatwindow' },
+									_react2.default.createElement(
+										'div',
+										{ className: 'bubble you' },
+										_react2.default.createElement(
+											'p',
+											{ className: 'text' },
+											'Chatappje: Hi there :). Thank you so much for using this chat app. If you\'re in the mood for a chat, click on one of the users at the left to chat!'
+										)
 									)
 								),
 								_react2.default.createElement(
 									'div',
-									{ className: 'bubble you' },
+									{ className: 'card-action' },
 									_react2.default.createElement(
-										'p',
-										{ className: 'text' },
-										'Chatappje says: Thank you so much for using this chat app.'
-									)
-								),
-								_react2.default.createElement(
-									'div',
-									{ className: 'bubble you' },
-									_react2.default.createElement(
-										'p',
-										{ className: 'text' },
-										'Chatappje says: If you\'re in the mood for a chat, click on one of the users at the left to chat!'
-									)
-								)
-							),
-							_react2.default.createElement(
-								'div',
-								{ className: 'card-action' },
-								_react2.default.createElement(
-									'div',
-									{ className: 'row' },
-									_react2.default.createElement(
-										'form',
-										{ className: 'form', onSubmit: function onSubmit(e) {
-												return e.preventDefault();
-											} },
+										'div',
+										{ className: 'row' },
 										_react2.default.createElement(
-											'div',
-											{ className: 'col s12 m4' },
-											_react2.default.createElement('input', { id: 'disabledbutton', className: 'button z-depth-2', disabled: true, type: 'submit', value: 'Send' })
-										),
-										_react2.default.createElement(
-											'div',
-											{ className: 'col s12 m8' },
-											_react2.default.createElement('input', { type: 'text', ref: 'newText', disabled: true })
+											'form',
+											{ className: 'form', onSubmit: function onSubmit(e) {
+													return e.preventDefault();
+												} },
+											_react2.default.createElement(
+												'div',
+												{ className: 'col s12 m4' },
+												_react2.default.createElement('input', { id: 'disabledbutton', className: 'button z-depth-2', disabled: true, type: 'submit', value: 'Send' })
+											),
+											_react2.default.createElement(
+												'div',
+												{ className: 'col s12 m8' },
+												_react2.default.createElement('input', { type: 'text', ref: 'newText', disabled: true })
+											)
 										)
 									)
 								)
 							)
-						)
-					);
-				}
+						);
+					}
 
 				return _react2.default.createElement(
 					'div',
-					{ className: 'row' },
+					{ className: 'row mainrow chatrow' },
 					_react2.default.createElement(
 						'div',
 						{ className: 'col s12 m2 userrow' },
@@ -22307,7 +22291,7 @@
 /* 175 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
@@ -22325,11 +22309,8 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // Import required modules
 
-	console.log('Text says wsup');
-
-	// Import required modules
 
 	// If you export only one class, use export DEFAULT
 	// Creating the Text class
@@ -22343,22 +22324,22 @@
 		}
 
 		_createClass(Text, [{
-			key: 'render',
+			key: "render",
 			value: function render() {
 				return _react2.default.createElement(
-					'div',
+					"div",
 					{ className: this.props.setclass },
 					_react2.default.createElement(
-						'p',
-						{ className: 'text' },
+						"p",
+						{ className: "text" },
 						_react2.default.createElement(
-							'span',
-							{ id: 'timecolor' },
+							"span",
+							{ id: "timecolor" },
 							this.props.children.time
 						),
-						' ',
+						" ",
 						this.props.children.name,
-						': ',
+						": ",
 						this.props.children.message
 					)
 				);
@@ -22368,19 +22349,13 @@
 		return Text;
 	}(_react2.default.Component);
 
-	// <blockquote class="example-twitter" cite="https://twitter.com/necolas/status/9880187933">
-	// 	<p>{this.props.children.message}</p>
-	// </blockquote>
-	// <p><a>@{this.props.children.name}</a> at <a>{this.props.children.time}</a></p>
-
-
 	exports.default = Text;
 
 /***/ },
 /* 176 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
@@ -22398,11 +22373,8 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // Import required modules
 
-	console.log('User says wsup');
-
-	// Import required modules
 
 	// If you export only one class, use export DEFAULT
 	// Creating the Text class
@@ -22416,24 +22388,24 @@
 		}
 
 		_createClass(Text, [{
-			key: 'render',
+			key: "render",
 			value: function render() {
 				var _this2 = this;
 
 				return _react2.default.createElement(
-					'div',
-					{ className: 'col s4 m12' },
+					"div",
+					{ className: "col s4 m12" },
 					_react2.default.createElement(
-						'div',
-						{ className: 'userbox z-depth-2', onClick: function onClick() {
+						"div",
+						{ className: "userbox z-depth-2", onClick: function onClick() {
 								return _this2.props.setOtherUser(_this2.props.user);
 							} },
 						_react2.default.createElement(
-							'div',
+							"div",
 							null,
 							_react2.default.createElement(
-								'p',
-								{ id: 'userName' },
+								"p",
+								{ id: "userName" },
 								this.props.children.name
 							)
 						)
@@ -22469,11 +22441,8 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // Import required modules
 
-	console.log('Register says wsup');
-
-	// Import required modules
 
 	// If you export only one class, use export DEFAULT
 	// Creating the Register class
@@ -22507,7 +22476,8 @@
 				var go = true;
 
 				// Data Validation
-				// A loop through the database
+
+				// Loop through the database
 				for (var i = database.length - 1; i >= 0; i--) {
 					// If there is a match with a user in the database..
 					if (database[i].email == newuser.email || database[i].name == newuser.name) {
@@ -22529,7 +22499,7 @@
 				var registerRender = void 0;
 				var mainContent = _react2.default.createElement(
 					'div',
-					{ className: 'row register' },
+					{ className: 'row register mainrow' },
 					_react2.default.createElement(
 						'div',
 						{ className: 'col s12 m6' },
@@ -22558,7 +22528,7 @@
 								_react2.default.createElement(
 									'div',
 									{ className: 'col s6' },
-									_react2.default.createElement('input', { ref: 'name', pattern: '.{3,10}', required: true, title: '3 to 10 characters', placeholder: 'Enter your username' })
+									_react2.default.createElement('input', { ref: 'name', pattern: '.{3,8}', required: true, title: '3 to 8 characters', placeholder: 'Enter your username' })
 								),
 								_react2.default.createElement(
 									'div',
@@ -22606,7 +22576,7 @@
 				} else {
 					registerRender = _react2.default.createElement(
 						'div',
-						{ className: 'row' },
+						{ className: 'row mainrow' },
 						_react2.default.createElement(
 							'div',
 							{ className: 'col s10 offset-s1' },
@@ -22627,7 +22597,7 @@
 /* 178 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
@@ -22645,11 +22615,8 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // Import required modules
 
-	console.log('Login says wsup');
-
-	// Import required modules
 
 	// If you export only one class, use export DEFAULT
 	// Creating the Login class
@@ -22668,7 +22635,7 @@
 
 
 		_createClass(Login, [{
-			key: 'login',
+			key: "login",
 			value: function login(e) {
 				e.preventDefault();
 				var user = {
@@ -22678,62 +22645,62 @@
 				this.props.loginThatUser(user);
 			}
 		}, {
-			key: 'render',
+			key: "render",
 			value: function render() {
 				var _this2 = this;
 
 				var loginRender = void 0;
 				var mainContent = _react2.default.createElement(
-					'div',
-					{ className: 'row login' },
+					"div",
+					{ className: "row login mainrow" },
 					_react2.default.createElement(
-						'div',
-						{ className: 'col s12 m6' },
-						_react2.default.createElement('img', { className: 'img', src: '../img/almost.jpg' })
+						"div",
+						{ className: "col s12 m6" },
+						_react2.default.createElement("img", { className: "img", src: "../img/almost.jpg" })
 					),
 					_react2.default.createElement(
-						'div',
-						{ className: 'col s12 m6' },
+						"div",
+						{ className: "col s12 m6" },
 						_react2.default.createElement(
-							'form',
-							{ className: 'form', onSubmit: function onSubmit(e) {
+							"form",
+							{ className: "form", onSubmit: function onSubmit(e) {
 									return _this2.login(e);
 								} },
 							_react2.default.createElement(
-								'div',
-								{ className: 'row' },
+								"div",
+								{ className: "row" },
 								_react2.default.createElement(
-									'div',
-									{ className: 'col s6' },
+									"div",
+									{ className: "col s6" },
 									_react2.default.createElement(
-										'label',
+										"label",
 										null,
-										'Email'
+										"Email"
 									)
 								),
 								_react2.default.createElement(
-									'div',
-									{ className: 'col s6' },
-									_react2.default.createElement('input', { ref: 'email', placeholder: 'Enter your email' })
+									"div",
+									{ className: "col s6" },
+									_react2.default.createElement("input", { ref: "email", placeholder: "Enter your email" })
 								),
 								_react2.default.createElement(
-									'div',
-									{ className: 'col s6' },
+									"div",
+									{ className: "col s6" },
 									_react2.default.createElement(
-										'label',
+										"label",
 										null,
-										'Password'
+										"Password"
 									)
 								),
 								_react2.default.createElement(
-									'div',
-									{ className: 'col s6' },
-									_react2.default.createElement('input', { type: 'password', ref: 'password', placeholder: 'Enter your password' })
+									"div",
+									{ className: "col s6" },
+									_react2.default.createElement("input", { type: "password", ref: "password", placeholder: "Enter your password" })
 								),
 								_react2.default.createElement(
-									'div',
-									{ className: 'col s12 center-align' },
-									_react2.default.createElement('input', { className: 'button z-depth-2', type: 'submit', value: 'Login' })
+									"div",
+									{ className: "col s12 center-align" },
+									_react2.default.createElement("input", { className: "button z-depth-2", type: "submit", value: "Login" })
 								)
 							)
 						)
@@ -22741,17 +22708,17 @@
 				);
 				if (this.props.fail == !null) {
 					loginRender = _react2.default.createElement(
-						'div',
-						{ className: 'col s10 offset-s1' },
+						"div",
+						{ className: "col s10 offset-s1" },
 						mainContent
 					);
 				} else {
 					loginRender = _react2.default.createElement(
-						'div',
-						{ className: 'row' },
+						"div",
+						{ className: "row mainrow" },
 						_react2.default.createElement(
-							'div',
-							{ className: 'col s10 offset-s1' },
+							"div",
+							{ className: "col s10 offset-s1" },
 							mainContent
 						)
 					);
@@ -22769,7 +22736,7 @@
 /* 179 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
@@ -22787,11 +22754,8 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // Import required modules
 
-	console.log('Fail says wsup');
-
-	// Import required modules
 
 	// If you export only one class, use export DEFAULT
 	// Creating the Fail class
@@ -22805,32 +22769,32 @@
 		}
 
 		_createClass(Fail, [{
-			key: 'render',
+			key: "render",
 			value: function render() {
 				return _react2.default.createElement(
-					'div',
-					{ className: 'col s10 offset-s1 fail' },
+					"div",
+					{ className: "col s10 offset-s1 fail" },
 					_react2.default.createElement(
-						'div',
-						{ className: 'card' },
+						"div",
+						{ className: "card" },
 						_react2.default.createElement(
-							'div',
-							{ className: 'card-content' },
-							_react2.default.createElement('img', { className: 'img', src: '../img/fail.jpg' })
+							"div",
+							{ className: "card-content" },
+							_react2.default.createElement("img", { className: "img", src: "../img/fail.jpg" })
 						),
 						_react2.default.createElement(
-							'div',
-							{ className: 'card-action' },
+							"div",
+							{ className: "card-action" },
 							_react2.default.createElement(
-								'div',
-								{ className: 'row' },
+								"div",
+								{ className: "row" },
 								_react2.default.createElement(
-									'div',
-									{ className: 'col s8 offset-s2' },
+									"div",
+									{ className: "col s8 offset-s2" },
 									_react2.default.createElement(
-										'h5',
+										"h5",
 										null,
-										'Please try to log in again or register a new account!'
+										"Please try to log in again or register a new account!"
 									)
 								)
 							)
@@ -22849,7 +22813,7 @@
 /* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
@@ -22867,11 +22831,8 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // Import required modules
 
-	console.log('Epicfail says wsup');
-
-	// Import required modules
 
 	// If you export only one class, use export DEFAULT
 	// Creating the Fail class
@@ -22885,32 +22846,32 @@
 		}
 
 		_createClass(Epicfail, [{
-			key: 'render',
+			key: "render",
 			value: function render() {
 				return _react2.default.createElement(
-					'div',
-					{ className: 'col s10 offset-s1 epicfail' },
+					"div",
+					{ className: "col s10 offset-s1 epicfail" },
 					_react2.default.createElement(
-						'div',
-						{ className: 'card' },
+						"div",
+						{ className: "card" },
 						_react2.default.createElement(
-							'div',
-							{ className: 'card-content' },
-							_react2.default.createElement('img', { className: 'img', src: '../img/epicfail.jpg' })
+							"div",
+							{ className: "card-content" },
+							_react2.default.createElement("img", { className: "img", src: "../img/epicfail.jpg" })
 						),
 						_react2.default.createElement(
-							'div',
-							{ className: 'card-action' },
+							"div",
+							{ className: "card-action" },
 							_react2.default.createElement(
-								'div',
-								{ className: 'row' },
+								"div",
+								{ className: "row" },
 								_react2.default.createElement(
-									'div',
-									{ className: 'col s8 offset-s2' },
+									"div",
+									{ className: "col s8 offset-s2" },
 									_react2.default.createElement(
-										'h5',
+										"h5",
 										null,
-										'Username/email already exists.. Give it another try!'
+										"Username/email already exists.. Give it another try!"
 									)
 								)
 							)
@@ -22960,7 +22921,7 @@
 
 
 	// module
-	exports.push([module.id, ".body {\n  display: flex;\n  min-height: 100vh;\n  flex-direction: column; }\n  .body nav {\n    background-color: #E8E8EE;\n    margin-bottom: 30px; }\n    .body nav a, .body nav p {\n      color: black; }\n    .body nav a {\n      margin-left: 10px; }\n    .body nav p::first-letter, .body nav a::first-letter {\n      color: #3F51B5; }\n    .body nav #logo {\n      display: inline-block;\n      font-size: 2.1rem; }\n  .body main {\n    flex: 1 0 auto; }\n    .body main #chatwindow {\n      height: 250px;\n      overflow-y: auto;\n      background-color: #FFFAFA;\n      padding-top: 10px;\n      padding-bottom: 65px; }\n    .body main .userrow {\n      height: 80vh;\n      overflow-y: auto; }\n    @media only screen and (max-width: 601px) {\n      .body main .userrow {\n        height: 16vh;\n        overflow-y: auto; } }\n    .body main #chatheader {\n      background-color: #3F51B5; }\n      .body main #chatheader h5 {\n        color: white; }\n    .body main hr {\n      margin: 0; }\n    .body main .img {\n      display: block;\n      margin: auto;\n      height: 35vh;\n      width: 35vh; }\n    .body main .card-action {\n      min-height: 25vh; }\n    .body main .fail .card, .body main .epicfail .card {\n      background-color: #FFFAFA; }\n    .body main .register .s12, .body main .login .s12 {\n      margin-bottom: 40px; }\n    .body main .userbox {\n      background-color: #C5CAE9;\n      color: white;\n      text-align: center;\n      border-radius: 3px;\n      font-size: 1.5em;\n      padding: 0.2vw 0.8vw;\n      margin-top: 1vh;\n      margin-bottom: 3vh; }\n    .body main .userbox:hover {\n      cursor: pointer;\n      cursor: hand;\n      background-color: #B2BAEB; }\n    .body main .button {\n      background-color: #F44336;\n      border: none;\n      color: white;\n      padding: 15px 32px;\n      text-align: center;\n      text-decoration: none;\n      display: inline-block;\n      font-size: 1.5em;\n      border-radius: 3px; }\n    .body main #buddies {\n      color: black;\n      text-align: center;\n      border-radius: 3px;\n      font-size: 1.5em;\n      padding: 0.2vw 0.8vw;\n      margin-top: 1vh;\n      margin-bottom: 3vh; }\n      .body main #buddies p::first-letter {\n        color: #3F51B5; }\n    .body main #disabledbutton {\n      background-color: #E8E8EE; }\n    .body main .button:hover {\n      background-color: #D32F2F; }\n    .body main .register .center-align, .body main .login .center-align {\n      margin-top: 30px; }\n    .body main .bubble {\n      background-color: #F2F2F2;\n      border-radius: 5px;\n      box-shadow: 0 0 6px #B2B2B2;\n      display: inline-block;\n      padding: 10px 18px;\n      position: relative;\n      vertical-align: top;\n      clear: both; }\n    .body main .bubble::before {\n      background-color: #F2F2F2;\n      content: \"\\A0\";\n      display: block;\n      height: 16px;\n      position: absolute;\n      top: 11px;\n      transform: rotate(29deg) skew(-35deg);\n      -moz-transform: rotate(29deg) skew(-35deg);\n      -ms-transform: rotate(29deg) skew(-35deg);\n      -o-transform: rotate(29deg) skew(-35deg);\n      -webkit-transform: rotate(29deg) skew(-35deg);\n      width: 20px; }\n    .body main .you {\n      float: left;\n      margin: 5px 45px 5px 20px; }\n    .body main .you::before {\n      box-shadow: -2px 2px 2px 0 rgba(178, 178, 178, 0.4);\n      left: -9px; }\n    .body main .me {\n      float: right;\n      margin: 5px 20px 5px 45px; }\n    .body main .me::before {\n      box-shadow: 2px -2px 2px 0 rgba(178, 178, 178, 0.4);\n      right: -9px; }\n    .body main input:focus {\n      border-bottom: 1px solid #3F51B5 !important;\n      box-shadow: 0 1px 0 0 #3F51B5 !important; }\n    .body main #timecolor {\n      color: #3F51B5;\n      border-bottom: 1px solid #3F51B5; }\n  .body #footer {\n    background-color: #E8E8EE; }\n    .body #footer a, .body #footer p {\n      color: black; }\n    .body #footer p::first-letter, .body #footer a::first-letter, .body #footer li::first-letter {\n      color: #3F51B5; }\n", ""]);
+	exports.push([module.id, ".body {\n  display: flex;\n  min-height: 100vh;\n  flex-direction: column; }\n  .body nav {\n    background-color: #E8E8EE;\n    margin-bottom: 80px; }\n    .body nav a, .body nav p {\n      color: black; }\n    .body nav a {\n      margin-left: 10px; }\n    .body nav p::first-letter, .body nav a::first-letter {\n      color: #3F51B5; }\n    .body nav #logo {\n      display: inline-block;\n      font-size: 2.1rem;\n      margin-left: 20px; }\n  .body .chatrow {\n    margin-top: -50px; }\n  .body main {\n    flex: 1 0 auto; }\n    .body main #chatwindow {\n      height: 60vh;\n      overflow-y: auto;\n      background-color: #FFFAFA;\n      padding-top: 10px;\n      padding-bottom: 65px; }\n    .body main .userrow {\n      height: 80vh;\n      overflow-y: auto; }\n    @media only screen and (max-width: 601px) {\n      .body main .userrow {\n        height: 16vh;\n        overflow-y: auto; } }\n    .body main .mainrow {\n      margin-bottom: 0px; }\n    .body main #chatheader {\n      background-color: #3F51B5; }\n      .body main #chatheader h5 {\n        color: white; }\n    .body main hr {\n      margin: 0; }\n    .body main .img {\n      display: block;\n      margin: auto;\n      height: 35vh;\n      width: 35vh; }\n    .body main .card-action {\n      min-height: 10vh; }\n    .body main .fail .card, .body main .epicfail .card {\n      background-color: #FFFAFA; }\n    .body main .register .s12, .body main .login .s12 {\n      margin-bottom: 40px; }\n    .body main .userbox {\n      background-color: #C5CAE9;\n      color: white;\n      text-align: center;\n      border-radius: 3px;\n      font-size: 1.5em;\n      padding: 0.2vw 0.8vw;\n      margin-top: 1vh;\n      margin-bottom: 3vh; }\n    .body main .userbox:hover {\n      cursor: pointer;\n      cursor: hand;\n      background-color: #B2BAEB; }\n    .body main .button {\n      background-color: #F44336;\n      border: none;\n      color: white;\n      padding: 15px 32px;\n      text-align: center;\n      text-decoration: none;\n      display: inline-block;\n      font-size: 1.5em;\n      border-radius: 3px; }\n    .body main #buddies {\n      color: black;\n      text-align: center;\n      border-radius: 3px;\n      font-size: 1.5em;\n      padding: 0.2vw 0.8vw;\n      margin-top: 1vh;\n      margin-bottom: 3vh; }\n      .body main #buddies p::first-letter {\n        color: #3F51B5; }\n    .body main #disabledbutton {\n      background-color: #E8E8EE; }\n    .body main .button:hover {\n      background-color: #D32F2F; }\n    .body main .register .center-align, .body main .login .center-align {\n      margin-top: 30px; }\n    .body main .bubble {\n      background-color: #F2F2F2;\n      border-radius: 5px;\n      box-shadow: 0 0 6px #B2B2B2;\n      display: inline-block;\n      padding: 10px 18px;\n      position: relative;\n      vertical-align: top;\n      clear: both; }\n    .body main .bubble::before {\n      background-color: #F2F2F2;\n      content: \"\\A0\";\n      display: block;\n      height: 16px;\n      position: absolute;\n      top: 11px;\n      transform: rotate(29deg) skew(-35deg);\n      -moz-transform: rotate(29deg) skew(-35deg);\n      -ms-transform: rotate(29deg) skew(-35deg);\n      -o-transform: rotate(29deg) skew(-35deg);\n      -webkit-transform: rotate(29deg) skew(-35deg);\n      width: 20px; }\n    .body main .you {\n      float: left;\n      margin: 5px 45px 5px 20px; }\n    .body main .you::before {\n      box-shadow: -2px 2px 2px 0 rgba(178, 178, 178, 0.4);\n      left: -9px; }\n    .body main .me {\n      float: right;\n      margin: 5px 20px 5px 45px; }\n    .body main .me::before {\n      box-shadow: 2px -2px 2px 0 rgba(178, 178, 178, 0.4);\n      right: -9px; }\n    .body main input:focus {\n      border-bottom: 1px solid #3F51B5 !important;\n      box-shadow: 0 1px 0 0 #3F51B5 !important; }\n    .body main #timecolor {\n      color: #3F51B5;\n      border-bottom: 1px solid #3F51B5; }\n    .body main .text {\n      font-size: 0.85em; }\n  .body #footer {\n    background-color: #E8E8EE; }\n    .body #footer a, .body #footer p {\n      color: black; }\n    .body #footer p::first-letter, .body #footer a::first-letter, .body #footer li::first-letter {\n      color: #3F51B5; }\n", ""]);
 
 	// exports
 

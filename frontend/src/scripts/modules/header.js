@@ -1,5 +1,3 @@
-console.log( 'Headers says wsup' )
-
 // Import required modules
 import React from 'react'
 
@@ -32,7 +30,7 @@ export default class Header extends React.Component {
 			)
 		}
 		return (
-			<nav className="z-depth-0">
+			<nav className="z-depth-2">
 				<div className="nav-wrapper">
 					<a href="/" id="logo">Chat appje</a>
 					{menuRender}

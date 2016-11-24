@@ -1,5 +1,3 @@
-console.log( 'Epicfail says wsup' )
-
 // Import required modules
 import React from 'react'
 

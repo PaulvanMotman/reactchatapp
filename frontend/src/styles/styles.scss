@@ -1,12 +1,24 @@
+ // COLOR SCHEME
+$headerbackground: #E8E8EE;
+$darkaccent: #3F51B5;
+$windowbackground: #FFFAFA;
+$buttoninput: #F44336;
+$buttonhover: #D32F2F; 
+$speechbubblebackground: #F2F2F2;
+$userbox:  #C5CAE9;
+$userbox-hover: #B2BAEB;
+
+// SCSS FOR THE ENTIRE BODY
  .body {
 
 	display: flex;
 	min-height: 100vh;
 	flex-direction: column;
 
+	// SCSS FOR THE NAVBAR SECTION
  	nav {
- 		background-color: #E8E8EE;
- 		margin-bottom: 30px;
+ 		background-color: $headerbackground;
+ 		margin-bottom: 80px;
 
  		a, p {
  			color: black;
@@ -17,23 +29,29 @@
  		}
 
  		p::first-letter, a::first-letter {  
- 			color: #3F51B5;
+ 			color: $darkaccent;
  		}
 
  		#logo {
  			display: inline-block;
  			font-size: 2.1rem;
+ 			margin-left: 20px;
  		}
 
  	}
 
+ 	.chatrow {
+ 		margin-top: -50px;
+ 	}
+
+ 	// SCSS FOR THE MAIN SECTION
 	main {
 		flex: 1 0 auto;
 
 		#chatwindow {
-			height: 250px;
+			height: 60vh;
 			overflow-y:auto;
-			background-color: #FFFAFA;
+			background-color: $windowbackground;
 			padding-top: 10px;
 			padding-bottom: 65px;
 		}
@@ -51,8 +69,11 @@
 			}
 		}
 
+		.mainrow {
+			margin-bottom: 0px; 
+		}
 		#chatheader {
-			background-color: #3F51B5; 
+			background-color: $darkaccent; 
 
 			h5 {
 				color: white;
@@ -71,11 +92,11 @@
 		}
 
 		.card-action {
-			min-height: 25vh;
+			min-height: 10vh;
 		}
 
 		.fail .card, .epicfail .card{
-			background-color: #FFFAFA;
+			background-color: $windowbackground;
 		}
 
 		.register .s12, .login .s12 {
@@ -83,7 +104,7 @@
 		}
 
 		.userbox {
-			background-color: #C5CAE9;
+			background-color: $userbox;
 		    color: white;
 		    text-align: center;
 		    border-radius: 3px;
@@ -96,11 +117,11 @@
 		.userbox:hover {
 			cursor: pointer; 
 			cursor: hand;
-			background-color: #B2BAEB;
+			background-color: $userbox-hover;
 		}
 
 		.button {
-			background-color: #F44336; 
+			background-color: $buttoninput; 
 		    border: none;
 		    color: white;
 		    padding: 15px 32px;
@@ -121,16 +142,16 @@
 		    margin-bottom: 3vh;
 
 		    p::first-letter {
-		    	color: #3F51B5;
+		    	color: $darkaccent;
 		    }
 		}
 
 		#disabledbutton {
-			background-color: #E8E8EE;
+			background-color: $headerbackground;
 		}
 
 		.button:hover {
-			background-color: #D32F2F;
+			background-color: $buttonhover;
 		}
 
 		.register .center-align, .login .center-align{
@@ -138,7 +159,7 @@
 		}
 
 		.bubble{
-			background-color: #F2F2F2;
+			background-color: $speechbubblebackground;
 			border-radius: 5px;
 			box-shadow: 0 0 6px #B2B2B2;
 			display: inline-block;
@@ -149,7 +170,7 @@
 		}
 
 		.bubble::before {
-			background-color: #F2F2F2;
+			background-color: $speechbubblebackground;
 			content: "\00a0";
 			display: block;
 			height: 16px;
@@ -183,26 +204,31 @@
 		}
 
 		input:focus {
-		    border-bottom: 1px solid #3F51B5 !important;
-    		box-shadow: 0 1px 0 0 #3F51B5 !important;
+		    border-bottom: 1px solid $darkaccent !important;
+    		box-shadow: 0 1px 0 0 $darkaccent !important;
     	}
 
     	#timecolor {
-    		color: #3F51B5;
-    		border-bottom: 1px solid #3F51B5;
+    		color: $darkaccent;
+    		border-bottom: 1px solid $darkaccent;
+    	}
+
+    	.text {
+    		font-size: 0.85em;
     	}
 
 	}
 
+	// SCSS FOR THE FOOTER SECTION
 	#footer {
-		background-color: #E8E8EE;
+		background-color: $headerbackground;
 
 		a, p {
  			color: black;
  		}
 
  		p::first-letter, a::first-letter, li::first-letter {  
- 			color: #3F51B5;
+ 			color: $darkaccent;
  		}
 
 	}

@@ -1,5 +1,3 @@
-console.log( 'Fail says wsup' )
-
 // Import required modules
 import React from 'react'
 
