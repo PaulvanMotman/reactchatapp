@@ -1,4 +1,4 @@
-var BrowserSyncPlugin = require('browser-sync-webpack-plugin')
+// var BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 
 module.exports = {
   entry: __dirname + '/frontend/src/scripts/main.js',
@@ -9,6 +9,8 @@ module.exports = {
     loaders: [
       {
         test: /\.js$/,
+        // Exclude node_modules so that I import firebase proparly
+        exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
           presets: ['es2015', 'react']
@@ -19,12 +21,14 @@ module.exports = {
         loaders: ["style", "css", "sass"]
       }
     ]
-  },
-  plugins: [
-    new BrowserSyncPlugin( {
-      host: 'localhost',
-      port: 3000,
-      server: { baseDir: ['frontend/public'] }
-    } )
-  ]
+  }
 }
+
+// ,
+//   plugins: [
+//     new BrowserSyncPlugin( {
+//       host: 'localhost',
+//       port: 3000,
+//       server: { baseDir: ['frontend/public'] }
+//     } )
+//   ]

@@ -1,4 +1,21 @@
+import * as firebase from 'firebase'
+
+// Initialize Firebase
+var config = {
+	apiKey: "AIzaSyC_FCqZGCZyKTdEBL4pk0TEHhxA0OKL-2M",
+	authDomain: "chat-appje.firebaseapp.com",
+	databaseURL: "https://chat-appje.firebaseio.com",
+	storageBucket: "chat-appje.appspot.com",
+	messagingSenderId: "71709059581"
+};
+
+firebase.initializeApp(config);
+
+
+
+
 console.log('Main js loaded')
+console.log("hoi")
 
 
 // GLOBAL VARIABLES
