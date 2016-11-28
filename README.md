@@ -1,19 +1,9 @@
 # reactchatapp
 A simple one page chat application build with React ES6 and node.js.
 
-#Usage
+# Usage
 
-Install webpack globally.
-
-```shell
-npm i -g webpack
-```
-
-Install webpack-dev-server too
-
-```shell
-npm i -g webpack-dev-server
-```
+Make sure to have node and webpack installed.
 
 Install dev depenendencies:
 
@@ -38,7 +28,7 @@ var base = Rebase.createClass({
 Rebuild the app with webpack (to include api_key)
 
 ```shell
-webpack --watch --progress
+webpack
 ```
 
 Run app and chat!
