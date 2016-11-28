@@ -1,4 +1,4 @@
-# React Node Chat app!
+# React Node Chat app
 
 <img height="50px" alt="react" src="http://i.imgur.com/D19TgT8.png" />
 <img height="50px" alt="webpack" src="http://i.imgur.com/ZtANAeL.png" />
