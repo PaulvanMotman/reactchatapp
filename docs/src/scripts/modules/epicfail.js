@@ -12,7 +12,7 @@ export default class Epicfail extends React.Component {
 			<div className="col s10 offset-s1 epicfail">
 				<div className="card">
 					<div className="card-content">
-						<img className="img" src="../public/img/epicfail.jpg" />
+						<img className="img" src="./public/img/epicfail.jpg" />
 					</div>
 					<div className="card-action">
 						<div className="row">
