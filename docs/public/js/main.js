@@ -112,7 +112,7 @@
 	// Initialize Firebase
 	var base = _reBase2.default.createClass({
 		// INSERT API KEY HERE AS STRING
-		apiKey: INSERT_KEY,
+		apiKey: "AIzaSyC_FCqZGCZyKTdEBL4pk0TEHhxA0OKL-2M",
 		authDomain: "chat-appje.firebaseapp.com",
 		databaseURL: "https://chat-appje.firebaseio.com",
 		storageBucket: "chat-appje.appspot.com",

@@ -17,8 +17,8 @@ import Rebase from 're-base'
 
 // Initialize Firebase
 var base = Rebase.createClass({
-	// INSERT API KEY HERE AS STRING
-	apiKey: INSERT_KEY,
+	// YES MY API KEY IS FREELY AVAILABLE FOR ANYONE TO USE, SINCE THIS IS JUST A DEMO PROJECT. PLEASE BE KIND :)
+	apiKey: "AIzaSyC_FCqZGCZyKTdEBL4pk0TEHhxA0OKL-2M",	
 	authDomain: "chat-appje.firebaseapp.com",
 	databaseURL: "https://chat-appje.firebaseio.com",
 	storageBucket: "chat-appje.appspot.com",
