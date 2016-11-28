@@ -12,7 +12,7 @@ export default class Fail extends React.Component {
 			<div className="col s10 offset-s1 fail">
 				<div className="card">
 					<div className="card-content">
-						<img className="img" src="../img/fail.jpg" />
+						<img className="img" src="../public/img/fail.jpg" />
 					</div>
 					<div className="card-action">
 						<div className="row">

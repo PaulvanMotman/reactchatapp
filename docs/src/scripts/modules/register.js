@@ -44,7 +44,7 @@ export default class Register extends React.Component {
 
 			<div className="row register mainrow">
 				<div className="col s12 m6">
-					<img className="img" src="../img/hello.jpg" />
+					<img className="img" src="../public/img/hello.jpg" />
 				</div>
 				<div className="col s12 m6">
 					<form className="form" onSubmit={(e) => this.add(e)}>

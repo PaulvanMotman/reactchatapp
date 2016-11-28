@@ -24,7 +24,7 @@ export default class Login extends React.Component {
 
 			<div className="row login mainrow">
 				<div className="col s12 m6">
-					<img className="img" src="../img/almost.jpg" />
+					<img className="img" src="../public/img/almost.jpg" />
 				</div>
 				<div className="col s12 m6">
 					<form className="form" onSubmit={(e) => this.login(e)}>
