@@ -1,5 +1,5 @@
 # reactchatapp
-A simple one page chat application build with React ES6
+A simple one page chat application build with React ES6 and node.js.
 
 #Usage
 
@@ -35,8 +35,14 @@ var base = Rebase.createClass({
 });
 ```
 
+Rebuild the app with webpack (to include api_key)
 
-Run app
+```shell
+webpack --watch --progress
+```
+
+Run app and chat!
+
 ```shell
 node app
 ```
