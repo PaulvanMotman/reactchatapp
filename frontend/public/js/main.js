@@ -44,13 +44,9 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _firebase = __webpack_require__(1);
-
-	var firebase = _interopRequireWildcard(_firebase);
 
 	var _react = __webpack_require__(7);
 
@@ -90,9 +86,17 @@
 
 	__webpack_require__(187);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	var _firebase = __webpack_require__(1);
+
+	var firebase = _interopRequireWildcard(_firebase);
+
+	var _reBase = __webpack_require__(194);
+
+	var _reBase2 = _interopRequireDefault(_reBase);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -100,26 +104,30 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	console.log('Main js loaded');
+
+	// Import required modules
+
+
 	// Initialize Firebase
-	var config = {
-		apiKey: "AIzaSyC_FCqZGCZyKTdEBL4pk0TEHhxA0OKL-2M",
+	var base = _reBase2.default.createClass({
+		// INSERT API KEY HERE AS STRING
+		apiKey: INSERT_KEY,
 		authDomain: "chat-appje.firebaseapp.com",
 		databaseURL: "https://chat-appje.firebaseio.com",
 		storageBucket: "chat-appje.appspot.com",
 		messagingSenderId: "71709059581"
-	};
+	});
 
-	firebase.initializeApp(config);
+	// NOTE THE FOLLOWING:
+	// During development, I use the public rules in place of the default rules to set my files publicly readable and writable. 
+	// This is useful for prototyping, as I can get started without setting up Authentication. 
+	// This level of access means anyone can read or write to my database. 
+	// I should configure more secure rules before launching my app.
 
-	console.log('Main js loaded');
-	console.log("hoi");
-
-	// GLOBAL VARIABLES
-	var conversationcounter = 0;
-
-	// Import required modules
 
 	// Creating the container class
+
 	var Container = function (_React$Component) {
 		_inherits(Container, _React$Component);
 
@@ -139,22 +147,22 @@
 			_this.otherUser = _this.otherUser.bind(_this);
 			_this.getRelevantConversation = _this.getRelevantConversation.bind(_this);
 			// This state is the main state of the app, and data can be sent to child components by storing it in props
-			var time = _this.getTime();
 			_this.state = {
 				action: "register",
-				database: [{ name: 'Paul', email: 'pcvanmotman@gmail.com', password: 'supersecret', convoId: [] }],
+				database: [],
 				currentUser: {},
 				otherUsers: [],
 				otherUser: {},
-				conversations: [{ id: 0, messages: [{ message: "Hi there, how you going? React is pretty neat.", name: "Paul", time: time }] }]
+				conversations: []
 			};
+
 			return _this;
 		}
 		// This functions registers a user and stores it the database, which is currently located in the state
 
 
 		_createClass(Container, [{
-			key: "registerUser",
+			key: 'registerUser',
 			value: function registerUser(newuser) {
 				var _this2 = this;
 
@@ -172,7 +180,7 @@
 			// This function handles the login
 
 		}, {
-			key: "loginUser",
+			key: 'loginUser',
 			value: function loginUser(user) {
 				var _this3 = this;
 
@@ -199,22 +207,39 @@
 					}
 				}
 			}
+			// This function allows me to set up two way data binding between my component's state and my Firebase. 
+			// Whenever Firebase changes, the component's state will change. 
+			// Whenever the component's state changes, Firebase will change.
+
+		}, {
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				base.syncState('database', {
+					context: this,
+					state: 'database',
+					asArray: true
+				});
+				base.syncState('conversations', {
+					context: this,
+					state: 'conversations',
+					asArray: true
+				});
+			}
 			// This function switches the view from register --> login --> chat components
 
 		}, {
-			key: "changeView",
+			key: 'changeView',
 			value: function changeView(a, c) {
 				var _this4 = this;
 
 				this.setState({ action: a, currentUser: c }, function () {
-					console.log(_this4.state);
 					_this4.otherUsers();
 				});
 			}
 			// This function will display the time in 10:30 format
 
 		}, {
-			key: "getTime",
+			key: 'getTime',
 			value: function getTime() {
 				var time = Date.now();
 				var date = new Date(time);
@@ -226,7 +251,7 @@
 			// This function will find the matching Conversation Id's between the current user and the other user
 
 		}, {
-			key: "getRelevantConversation",
+			key: 'getRelevantConversation',
 			value: function getRelevantConversation(a, b) {
 				var match = void 0;
 				for (var i = 0; i < a.length; i++) {
@@ -240,36 +265,35 @@
 			// conversation with the message, the time and the name of the user who sent the message
 
 		}, {
-			key: "updateConversations",
+			key: 'updateConversations',
 			value: function updateConversations(newmessage, user, otheruser) {
-				var _this5 = this;
-
 				var id = this.getRelevantConversation(user.convoId, otheruser.convoId);
 				var time = this.getTime();
 				var conversations = this.state.conversations;
 				conversations[id].messages.push({ message: newmessage, name: user.name, time: time });
-				this.setState({ conversations: conversations }, function () {
-					console.log(_this5.state);
-				});
+				this.setState({ conversations: conversations });
 			}
 			// Based on the user who is about to be created and the users already in the database,
 			// new conversations are created.
 
 		}, {
-			key: "createConversations",
+			key: 'createConversations',
 			value: function createConversations(newuser, database) {
-				var _this6 = this;
-
+				console.log("CHECKKKK THIS");
+				console.log(database);
 				// loop through the database
 				for (var i = 0; i < database.length; i++) {
 					// get the current state of conversations
 					var conversations = this.state.conversations;
-					// push a new conversation to the conversations variable  (conversationcounter is a global variable)
-					conversations.push({ id: conversationcounter, messages: [] });
+					// create a conversationcounter to, so that I can add the index of the conversation within the array to users
+					var conversationcounter = conversations.length - 1;
+					// push a new conversation to the conversations variable
+					// -------------------------------------------------------------------------------------------------- //
+					// Instead of an empty array, I insert a 0. This was needed after the firebase integration, as part of the work-around of not being able to store empty arrays.
+					// -------------------------------------------------------------------------------------------------- //  
+					conversations.push({ messages: [0] });
 					// set the conversations state equal to the variable
-					this.setState({ conversations: conversations }, function () {
-						console.log(_this6.state.conversations);
-					});
+					this.setState({ conversations: conversations });
 					// push the convo ID to the relevant other user
 					database[i].convoId.push(conversationcounter);
 					// push the convo ID to the relevant new user
@@ -283,10 +307,8 @@
 			// This function will detect who the other users are who should be listed in the chat environment
 
 		}, {
-			key: "otherUsers",
+			key: 'otherUsers',
 			value: function otherUsers() {
-				var _this7 = this;
-
 				// store the current user
 				var u = this.state.currentUser;
 				// create a array variable to store the database in
@@ -304,37 +326,35 @@
 				for (var i = 0; i < d.length; i++) {
 					if (d[i].name == u.name && d[i].email == u.email && d[i].password == u.password) {
 						d.splice(i, 1);
-						this.setState({ otherUsers: d }, function () {
-							console.log(_this7.state.otherUsers);
-						});
+						this.setState({ otherUsers: d });
 					}
 				}
 			}
 			// This function will set the state for otheruser.
 
 		}, {
-			key: "otherUser",
+			key: 'otherUser',
 			value: function otherUser(user) {
-				var _this8 = this;
+				var _this5 = this;
 
 				this.setState({ otherUser: user }, function () {
-					console.log(_this8.state);
+					console.log(_this5.state);
 				});
 			}
 			// Render function
 
 		}, {
-			key: "render",
+			key: 'render',
 			value: function render() {
 				var mainContent = void 0;
 				switch (this.state.action) {
 					case "login":
 						mainContent = _react2.default.createElement(
-							"div",
+							'div',
 							null,
 							_react2.default.createElement(_header2.default, { action: this.state.action, changeThatView: this.changeView }),
 							_react2.default.createElement(
-								"main",
+								'main',
 								null,
 								_react2.default.createElement(_login2.default, { changeThatView: this.changeView, loginThatUser: this.loginUser })
 							)
@@ -342,11 +362,11 @@
 						break;
 					case "chat":
 						mainContent = _react2.default.createElement(
-							"div",
+							'div',
 							null,
 							_react2.default.createElement(_header2.default, { action: this.state.action, changeThatView: this.changeView }),
 							_react2.default.createElement(
-								"main",
+								'main',
 								null,
 								_react2.default.createElement(_chat2.default, { updateThoseConversations: this.updateConversations, conversations: this.state.conversations, currentUser: this.state.currentUser, otherUsers: this.state.otherUsers, setOtherUser: this.otherUser, otherUser: this.state.otherUser, getThatReleventConversation: this.getRelevantConversation })
 							)
@@ -354,15 +374,15 @@
 						break;
 					case "noUserFound":
 						mainContent = _react2.default.createElement(
-							"div",
+							'div',
 							null,
 							_react2.default.createElement(_header2.default, { action: this.state.action, changeThatView: this.changeView }),
 							_react2.default.createElement(
-								"main",
+								'main',
 								null,
 								_react2.default.createElement(
-									"div",
-									{ className: "row mainrow" },
+									'div',
+									{ className: 'row mainrow' },
 									_react2.default.createElement(_login2.default, { fail: true, changeThatView: this.changeView, loginThatUser: this.loginUser }),
 									_react2.default.createElement(_fail2.default, null)
 								)
@@ -371,15 +391,15 @@
 						break;
 					case "failedRegistration":
 						mainContent = _react2.default.createElement(
-							"div",
+							'div',
 							null,
 							_react2.default.createElement(_header2.default, { action: this.state.action, changeThatView: this.changeView }),
 							_react2.default.createElement(
-								"main",
+								'main',
 								null,
 								_react2.default.createElement(
-									"div",
-									{ className: "row mainrow" },
+									'div',
+									{ className: 'row mainrow' },
 									_react2.default.createElement(_register2.default, { fail: true, registerThatUser: this.registerUser, database: this.state.database, changeThatView: this.changeView }),
 									_react2.default.createElement(_epicfail2.default, null)
 								)
@@ -388,11 +408,11 @@
 						break;
 					default:
 						mainContent = _react2.default.createElement(
-							"div",
+							'div',
 							null,
 							_react2.default.createElement(_header2.default, { action: this.state.action, changeThatView: this.changeView }),
 							_react2.default.createElement(
-								"main",
+								'main',
 								null,
 								_react2.default.createElement(_register2.default, { registerThatUser: this.registerUser, database: this.state.database, changeThatView: this.changeView })
 							)
@@ -400,8 +420,8 @@
 						break;
 				}
 				return _react2.default.createElement(
-					"div",
-					{ className: "body" },
+					'div',
+					{ className: 'body' },
 					mainContent,
 					_react2.default.createElement(_footer2.default, null)
 				);
@@ -22952,23 +22972,30 @@
 		_createClass(Text, [{
 			key: "render",
 			value: function render() {
-				return _react2.default.createElement(
-					"div",
-					{ className: this.props.setclass },
-					_react2.default.createElement(
-						"p",
-						{ className: "text" },
+				// -------------------------------------------------------------------------------------------------- //
+				// Added this after firebase integration, as part of the work-around of not being able to store empty arrays.
+				// -------------------------------------------------------------------------------------------------- //
+				if (this.props.children.message) {
+					return _react2.default.createElement(
+						"div",
+						{ className: this.props.setclass },
 						_react2.default.createElement(
-							"span",
-							{ id: "timecolor" },
-							this.props.children.time
-						),
-						" ",
-						this.props.children.name,
-						": ",
-						this.props.children.message
-					)
-				);
+							"p",
+							{ className: "text" },
+							_react2.default.createElement(
+								"span",
+								{ id: "timecolor" },
+								this.props.children.time
+							),
+							" ",
+							this.props.children.name,
+							": ",
+							this.props.children.message
+						)
+					);
+				} else {
+					return _react2.default.createElement("div", null);
+				}
 			}
 		}]);
 
@@ -23859,6 +23886,1157 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
+
+/***/ },
+/* 191 */,
+/* 192 */,
+/* 193 */,
+/* 194 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(195);
+
+
+
+/***/ },
+/* 195 */
+/***/ function(module, exports, __webpack_require__) {
+
+	(function webpackUniversalModuleDefinition(root, factory) {
+		if(true)
+			module.exports = factory(__webpack_require__(1));
+		else if(typeof define === 'function' && define.amd)
+			define(["firebase"], factory);
+		else {
+			var a = typeof exports === 'object' ? factory(require("firebase")) : factory(root["Firebase"]);
+			for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
+		}
+	})(this, function(__WEBPACK_EXTERNAL_MODULE_2__) {
+	return /******/ (function(modules) { // webpackBootstrap
+	/******/ 	// The module cache
+	/******/ 	var installedModules = {};
+
+	/******/ 	// The require function
+	/******/ 	function __webpack_require__(moduleId) {
+
+	/******/ 		// Check if module is in cache
+	/******/ 		if(installedModules[moduleId])
+	/******/ 			return installedModules[moduleId].exports;
+
+	/******/ 		// Create a new module (and put it into the cache)
+	/******/ 		var module = installedModules[moduleId] = {
+	/******/ 			exports: {},
+	/******/ 			id: moduleId,
+	/******/ 			loaded: false
+	/******/ 		};
+
+	/******/ 		// Execute the module function
+	/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+
+	/******/ 		// Flag the module as loaded
+	/******/ 		module.loaded = true;
+
+	/******/ 		// Return the exports of the module
+	/******/ 		return module.exports;
+	/******/ 	}
+
+
+	/******/ 	// expose the modules object (__webpack_modules__)
+	/******/ 	__webpack_require__.m = modules;
+
+	/******/ 	// expose the module cache
+	/******/ 	__webpack_require__.c = installedModules;
+
+	/******/ 	// __webpack_public_path__
+	/******/ 	__webpack_require__.p = "";
+
+	/******/ 	// Load entry module and return exports
+	/******/ 	return __webpack_require__(0);
+	/******/ })
+	/************************************************************************/
+	/******/ ([
+	/* 0 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		module.exports = __webpack_require__(1);
+
+
+	/***/ },
+	/* 1 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		'use strict';
+
+		var _firebase = __webpack_require__(2);
+
+		var _firebase2 = _interopRequireDefault(_firebase);
+
+		var _utils = __webpack_require__(3);
+
+		var _validators = __webpack_require__(4);
+
+		var _push2 = __webpack_require__(5);
+
+		var _push3 = _interopRequireDefault(_push2);
+
+		var _fetch2 = __webpack_require__(6);
+
+		var _fetch3 = _interopRequireDefault(_fetch2);
+
+		var _post2 = __webpack_require__(7);
+
+		var _post3 = _interopRequireDefault(_post2);
+
+		var _sync2 = __webpack_require__(8);
+
+		var _sync3 = _interopRequireDefault(_sync2);
+
+		var _bind2 = __webpack_require__(9);
+
+		var _bind3 = _interopRequireDefault(_bind2);
+
+		var _update2 = __webpack_require__(10);
+
+		var _update3 = _interopRequireDefault(_update2);
+
+		var _reset2 = __webpack_require__(11);
+
+		var _reset3 = _interopRequireDefault(_reset2);
+
+		var _removeBinding2 = __webpack_require__(12);
+
+		var _removeBinding3 = _interopRequireDefault(_removeBinding2);
+
+		var _remove2 = __webpack_require__(13);
+
+		var _remove3 = _interopRequireDefault(_remove2);
+
+		var _resetPassword2 = __webpack_require__(14);
+
+		var _resetPassword3 = _interopRequireDefault(_resetPassword2);
+
+		var _createUser2 = __webpack_require__(15);
+
+		var _createUser3 = _interopRequireDefault(_createUser2);
+
+		var _authWithPassword2 = __webpack_require__(16);
+
+		var _authWithPassword3 = _interopRequireDefault(_authWithPassword2);
+
+		var _authWithCustomToken2 = __webpack_require__(17);
+
+		var _authWithCustomToken3 = _interopRequireDefault(_authWithCustomToken2);
+
+		var _authWithOAuthPopup2 = __webpack_require__(18);
+
+		var _authWithOAuthPopup3 = _interopRequireDefault(_authWithOAuthPopup2);
+
+		var _getOAuthRedirectResult2 = __webpack_require__(20);
+
+		var _getOAuthRedirectResult3 = _interopRequireDefault(_getOAuthRedirectResult2);
+
+		var _authWithOAuthToken2 = __webpack_require__(21);
+
+		var _authWithOAuthToken3 = _interopRequireDefault(_authWithOAuthToken2);
+
+		var _authWithOAuthRedirect2 = __webpack_require__(22);
+
+		var _authWithOAuthRedirect3 = _interopRequireDefault(_authWithOAuthRedirect2);
+
+		var _onAuth2 = __webpack_require__(23);
+
+		var _onAuth3 = _interopRequireDefault(_onAuth2);
+
+		var _unauth2 = __webpack_require__(24);
+
+		var _unauth3 = _interopRequireDefault(_unauth2);
+
+		var _getAuth2 = __webpack_require__(25);
+
+		var _getAuth3 = _interopRequireDefault(_getAuth2);
+
+		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+		//database
+
+
+		//helpers
+		module.exports = function () {
+
+		  var apps = {};
+
+		  function init(app) {
+		    return function () {
+		      var firebaseRefs = new Map();
+		      var firebaseListeners = new Map();
+		      var syncs = new WeakMap();
+
+		      return {
+		        name: app.name,
+		        storage: _firebase2.default.storage,
+		        database: _firebase2.default.database,
+		        auth: _firebase2.default.auth,
+		        messaging: _firebase2.default.messaging,
+		        app: _firebase2.default.app,
+		        initializedApp: app,
+		        listenTo: function listenTo(endpoint, options) {
+		          return _bind3.default.call(this, endpoint, options, 'listenTo', {
+		            db: this.database(this.initializedApp),
+		            refs: firebaseRefs,
+		            listeners: firebaseListeners,
+		            syncs: syncs
+		          });
+		        },
+		        bindToState: function bindToState(endpoint, options) {
+		          return _bind3.default.call(this, endpoint, options, 'bindToState', {
+		            db: this.database(this.initializedApp),
+		            refs: firebaseRefs,
+		            listeners: firebaseListeners
+		          });
+		        },
+		        syncState: function syncState(endpoint, options) {
+		          return _sync3.default.call(this, endpoint, options, {
+		            db: this.database(this.initializedApp),
+		            refs: firebaseRefs,
+		            listeners: firebaseListeners,
+		            syncs: syncs
+		          });
+		        },
+		        fetch: function fetch(endpoint, options) {
+		          return (0, _fetch3.default)(endpoint, options, this.database(this.initializedApp));
+		        },
+		        post: function post(endpoint, options) {
+		          return (0, _post3.default)(endpoint, options, this.database(this.initializedApp));
+		        },
+		        update: function update(endpoint, options) {
+		          return (0, _update3.default)(endpoint, options, {
+		            db: this.database(this.initializedApp)
+		          });
+		        },
+		        push: function push(endpoint, options) {
+		          return (0, _push3.default)(endpoint, options, this.database(this.initializedApp));
+		        },
+		        removeBinding: function removeBinding(endpoint) {
+		          (0, _removeBinding3.default)(endpoint, {
+		            refs: firebaseRefs,
+		            listeners: firebaseListeners,
+		            syncs: syncs
+		          });
+		        },
+		        remove: function remove(endpoint, fn) {
+		          return (0, _remove3.default)(endpoint, this.database(this.initializedApp), fn);
+		        },
+		        reset: function reset() {
+		          return (0, _reset3.default)({
+		            refs: firebaseRefs,
+		            listeners: firebaseListeners,
+		            syncs: syncs
+		          });
+		        },
+		        authWithPassword: function authWithPassword(credentials, fn) {
+		          return (0, _authWithPassword3.default)(credentials, fn, this.auth(this.initializedApp));
+		        },
+		        authWithCustomToken: function authWithCustomToken(token, fn) {
+		          return (0, _authWithCustomToken3.default)(token, fn, this.auth(this.initializedApp));
+		        },
+		        authWithOAuthPopup: function authWithOAuthPopup(provider, fn, settings) {
+		          return (0, _authWithOAuthPopup3.default)(provider, fn, settings, this.auth(this.initializedApp));
+		        },
+		        authWithOAuthRedirect: function authWithOAuthRedirect(provider, fn, settings) {
+		          return (0, _authWithOAuthRedirect3.default)(provider, fn, settings, this.auth(this.initializedApp));
+		        },
+		        authWithOAuthToken: function authWithOAuthToken(provider, token, fn, settings) {
+		          return (0, _authWithOAuthToken3.default)(provider, token, fn, settings, this.auth(this.initializedApp));
+		        },
+		        authGetOAuthRedirectResult: function authGetOAuthRedirectResult(fn) {
+		          return (0, _getOAuthRedirectResult3.default)(fn, this.auth(this.initializedApp));
+		        },
+		        onAuth: function onAuth(fn) {
+		          return (0, _onAuth3.default)(fn, this.auth(this.initializedApp));
+		        },
+		        unauth: function unauth(fn) {
+		          return (0, _unauth3.default)(this.auth(this.initializedApp));
+		        },
+		        getAuth: function getAuth() {
+		          return (0, _getAuth3.default)(this.auth(this.initializedApp));
+		        },
+		        createUser: function createUser(credentials, fn) {
+		          return (0, _createUser3.default)(credentials, fn, this.auth(this.initializedApp));
+		        },
+		        resetPassword: function resetPassword(credentials, fn) {
+		          return (0, _resetPassword3.default)(credentials, fn, this.auth(this.initializedApp));
+		        },
+		        delete: function _delete(fn) {
+		          var _this = this;
+
+		          delete apps[this.name];
+		          return this.initializedApp.delete().then(function () {
+		            _this.reset();
+		            if (typeof fn === 'function') {
+		              fn.call(null, true);
+		            } else {
+		              return _firebase2.default.Promise.resolve(true);
+		            }
+		          });
+		        }
+		      };
+		    }();
+		  };
+
+		  return {
+		    createClass: function createClass(config) {
+		      var name = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '[DEFAULT]';
+
+		      if (typeof apps[name] !== 'undefined') {
+		        return apps[name];
+		      } else {
+		        (0, _validators._validateConfig)(config);
+		        var app = _firebase2.default.initializeApp(config, name);
+		      }
+		      apps[name] = init(app);
+		      return apps[name];
+		    }
+		  };
+		}();
+
+		//auth
+
+
+		//user
+
+	/***/ },
+	/* 2 */
+	/***/ function(module, exports) {
+
+		module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
+
+	/***/ },
+	/* 3 */
+	/***/ function(module, exports) {
+
+		'use strict';
+
+		Object.defineProperty(exports, "__esModule", {
+		  value: true
+		});
+
+		function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+		var _isObject = function _isObject(obj) {
+		  return Object.prototype.toString.call(obj) === '[object Object]' ? true : false;
+		};
+
+		var _toArray = function _toArray(snapshot) {
+		  var arr = [];
+		  snapshot.forEach(function (childSnapshot) {
+		    var val = childSnapshot.val();
+		    if (_isObject(val)) {
+		      val.key = childSnapshot.key;
+		    }
+		    arr.push(val);
+		  });
+		  return arr;
+		};
+
+		var _addSync = function _addSync(context, sync, syncs) {
+		  var existingSyncs = syncs.get(context) || [];
+		  existingSyncs.push(sync);
+		  syncs.set(context, existingSyncs);
+		};
+
+		var _throwError = function _throwError(msg, code) {
+		  var err = new Error('REBASE: ' + msg);
+		  err.code = code;
+		  throw err;
+		};
+
+		var _setState = function _setState(newState) {
+		  this.setState(newState);
+		};
+
+		var _returnRef = function _returnRef(endpoint, method, id, context) {
+		  return { endpoint: endpoint, method: method, id: id, context: context };
+		};
+
+		var _addQueries = function _addQueries(ref, queries) {
+		  var needArgs = {
+		    limitToFirst: true,
+		    limitToLast: true,
+		    orderByChild: true,
+		    startAt: true,
+		    endAt: true,
+		    equalTo: true
+		  };
+		  for (var key in queries) {
+		    if (queries.hasOwnProperty(key)) {
+		      if (needArgs[key]) {
+		        ref = ref[key](queries[key]);
+		      } else {
+		        ref = ref[key]();
+		      }
+		    }
+		  }
+		  return ref;
+		};
+
+		var _createHash = function _createHash(endpoint, invoker) {
+		  var hash = 0;
+		  var str = endpoint + invoker + Date.now();
+		  if (str.length == 0) return hash;
+		  for (var i = 0; i < str.length; i++) {
+		    var char = str.charCodeAt(i);
+		    hash = (hash << 5) - hash + char;
+		    hash = hash & hash;
+		  }
+		  return hash;
+		};
+
+		var _addScope = function _addScope(scope, provider) {
+		  if (Array.isArray(scope)) {
+		    scope.forEach(function (item) {
+		      provider.addScope(item);
+		    });
+		  } else {
+		    provider.addScope(scope);
+		  }
+		  return provider;
+		};
+
+		var _firebaseRefsMixin = function _firebaseRefsMixin(id, ref, refs) {
+		  refs.set(id, ref);
+		};
+
+		var _updateSyncState = function _updateSyncState(ref, data) {
+		  if (_isObject(data)) {
+		    for (var prop in data) {
+		      //allow timestamps to be set
+		      if (prop !== '.sv') {
+		        _updateSyncState(ref.child(prop), data[prop]);
+		      } else {
+		        ref.set(data);
+		      }
+		    }
+		  } else {
+		    ref.set(data);
+		  }
+		};
+
+		var _addListener = function _addListener(id, invoker, options, ref, listeners) {
+		  ref = _addQueries(ref, options.queries);
+		  listeners.set(id, ref.on('value', function (snapshot) {
+		    var data = snapshot.val();
+		    data = data === null ? options.asArray === true ? [] : {} : data;
+		    if (invoker === 'listenTo') {
+		      options.asArray === true ? options.then.call(options.context, _toArray(snapshot)) : options.then.call(options.context, data);
+		    } else if (invoker === 'syncState') {
+		      data = options.asArray === true ? _toArray(snapshot) : data;
+		      options.reactSetState.call(options.context, _defineProperty({}, options.state, data));
+		      if (options.then && options.then.called === false) {
+		        options.then.call(options.context);
+		        options.then.called = true;
+		      }
+		    } else if (invoker === 'bindToState') {
+		      var newState = {};
+		      options.asArray === true ? newState[options.state] = _toArray(snapshot) : newState[options.state] = data;
+		      _setState.call(options.context, newState);
+		      if (options.then && options.then.called === false) {
+		        options.then.call(options.context);
+		        options.then.called = true;
+		      }
+		    }
+		  }));
+		};
+
+		exports._addScope = _addScope;
+		exports._createHash = _createHash;
+		exports._addQueries = _addQueries;
+		exports._returnRef = _returnRef;
+		exports._setState = _setState;
+		exports._throwError = _throwError;
+		exports._toArray = _toArray;
+		exports._isObject = _isObject;
+		exports._addSync = _addSync;
+		exports._firebaseRefsMixin = _firebaseRefsMixin;
+		exports._updateSyncState = _updateSyncState;
+		exports._addListener = _addListener;
+
+	/***/ },
+	/* 4 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		'use strict';
+
+		Object.defineProperty(exports, "__esModule", {
+		  value: true
+		});
+		exports._validateEndpoint = exports._validateConfig = exports.optionValidators = undefined;
+
+		var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+		var _utils = __webpack_require__(3);
+
+		var optionValidators = {
+		  notObject: function notObject(options) {
+		    if (!(0, _utils._isObject)(options)) {
+		      (0, _utils._throwError)('The options argument must be an object. Instead, got ' + options, 'INVALID_OPTIONS');
+		    }
+		  },
+		  context: function context(options) {
+		    this.notObject(options);
+		    if (!options.context || !(0, _utils._isObject)(options.context)) {
+		      this.makeError('context', 'object', options.context);
+		    }
+		  },
+		  state: function state(options) {
+		    this.notObject(options);
+		    if (!options.state || typeof options.state !== 'string') {
+		      this.makeError('state', 'string', options.state);
+		    }
+		  },
+		  then: function then(options) {
+		    this.notObject(options);
+		    if (typeof options.then === 'undefined' || typeof options.then !== 'function') {
+		      this.makeError('then', 'function', options.then);
+		    }
+		  },
+		  data: function data(options) {
+		    this.notObject(options);
+		    if (typeof options.data === 'undefined') {
+		      this.makeError('data', 'ANY', options.data);
+		    }
+		  },
+		  query: function query(options) {
+		    this.notObject(options);
+		    var validQueries = ['limitToFirst', 'limitToLast', 'orderByChild', 'orderByValue', 'orderByKey', 'orderByPriority', 'startAt', 'endAt', 'equalTo'];
+		    var queries = options.queries;
+		    for (var key in queries) {
+		      if (queries.hasOwnProperty(key) && validQueries.indexOf(key) === -1) {
+		        (0, _utils._throwError)('The query field must contain valid Firebase queries.  Expected one of [' + validQueries.join(', ') + ']. Instead, got ' + key, 'INVALID_OPTIONS');
+		      }
+		    }
+		  },
+		  makeError: function makeError(prop, type, actual) {
+		    (0, _utils._throwError)('The options argument must contain a ' + prop + ' property of type ' + type + '. Instead, got ' + actual, 'INVALID_OPTIONS');
+		  }
+		};
+
+		var _validateEndpoint = function _validateEndpoint(endpoint) {
+		  var defaultError = 'The Firebase endpoint you are trying to listen to';
+		  var errorMsg;
+		  if (typeof endpoint !== 'string') {
+		    errorMsg = defaultError + ' must be a string. Instead, got ' + endpoint;
+		  } else if (endpoint.length === 0) {
+		    errorMsg = defaultError + ' must be a non-empty string. Instead, got ' + endpoint;
+		  } else if (endpoint.length > 768) {
+		    errorMsg = defaultError + ' is too long to be stored in Firebase. It must be less than 768 characters.';
+		  } else if (/^$|[\[\]\#\$]|.{1}[\.]/.test(endpoint)) {
+		    errorMsg = defaultError + ' in invalid. Paths must be non-empty strings and can\'t contain ".", "#", "$", "[", or "]".';
+		  }
+
+		  if (typeof errorMsg !== 'undefined') {
+		    (0, _utils._throwError)(errorMsg, "INVALID_ENDPOINT");
+		  }
+		};
+
+		var _validateConfig = function _validateConfig(config) {
+		  var defaultError = 'Rebase.createClass failed.';
+		  var errorMsg;
+		  if ((typeof config === 'undefined' ? 'undefined' : _typeof(config)) !== 'object') {
+		    errorMsg = defaultError + ' to migrate from 2.x.x to 3.x.x, the config must be an object. See: https://firebase.google.com/docs/web/setup#add_firebase_to_your_app';
+		  } else if (!config || arguments.length > 1) {
+		    errorMsg = defaultError + ' expects 1 argument.';
+		  }
+
+		  if (typeof errorMsg !== 'undefined') {
+		    (0, _utils._throwError)(errorMsg, "INVALID_CONFIG");
+		  }
+		};
+
+		exports.optionValidators = optionValidators;
+		exports._validateConfig = _validateConfig;
+		exports._validateEndpoint = _validateEndpoint;
+
+	/***/ },
+	/* 5 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		'use strict';
+
+		Object.defineProperty(exports, "__esModule", {
+		  value: true
+		});
+		exports.default = _push;
+
+		var _firebase = __webpack_require__(2);
+
+		var _firebase2 = _interopRequireDefault(_firebase);
+
+		var _validators = __webpack_require__(4);
+
+		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+		function _push(endpoint, options, db) {
+		  (0, _validators._validateEndpoint)(endpoint);
+		  _validators.optionValidators.data(options);
+		  var ref = db.ref(endpoint);
+		  var returnEndpoint;
+		  if (options.then) {
+		    returnEndpoint = ref.push(options.data, options.then);
+		  } else {
+		    returnEndpoint = ref.push(options.data);
+		  }
+		  return returnEndpoint;
+		};
+
+	/***/ },
+	/* 6 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		'use strict';
+
+		Object.defineProperty(exports, "__esModule", {
+		  value: true
+		});
+		exports.default = _fetch;
+
+		var _validators = __webpack_require__(4);
+
+		var _utils = __webpack_require__(3);
+
+		function _fetch(endpoint, options, db) {
+		  (0, _validators._validateEndpoint)(endpoint);
+		  _validators.optionValidators.context(options);
+		  options.queries && _validators.optionValidators.query(options);
+		  var ref = db.ref(endpoint);
+		  ref = (0, _utils._addQueries)(ref, options.queries);
+		  return ref.once('value').then(function (snapshot) {
+		    var data = options.asArray === true ? (0, _utils._toArray)(snapshot) : snapshot.val();
+		    if (options.then) {
+		      options.then.call(options.context, data);
+		    }
+		    return data;
+		  }, function (err) {
+		    //call onFailure callback if it exists otherwise return a rejected promise
+		    if (options.onFailure && typeof options.onFailure === 'function') {
+		      options.onFailure.call(options.context, err);
+		    } else {
+		      return firebase.Promise.reject(err);
+		    }
+		  });
+		};
+
+	/***/ },
+	/* 7 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		'use strict';
+
+		Object.defineProperty(exports, "__esModule", {
+		  value: true
+		});
+		exports.default = _post;
+
+		var _firebase = __webpack_require__(2);
+
+		var _validators = __webpack_require__(4);
+
+		function _post(endpoint, options, db) {
+		  (0, _validators._validateEndpoint)(endpoint);
+		  _validators.optionValidators.data(options);
+		  var ref = db.ref(endpoint);
+		  if (options.then) {
+		    return ref.set(options.data, options.then);
+		  } else {
+		    return ref.set(options.data);
+		  }
+		};
+
+	/***/ },
+	/* 8 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		'use strict';
+
+		Object.defineProperty(exports, "__esModule", {
+		  value: true
+		});
+		exports.default = _sync;
+
+		var _validators = __webpack_require__(4);
+
+		var _utils = __webpack_require__(3);
+
+		function _sync(endpoint, options, state) {
+		  (0, _validators._validateEndpoint)(endpoint);
+		  _validators.optionValidators.context(options);
+		  _validators.optionValidators.state(options);
+		  options.queries && _validators.optionValidators.query(options);
+		  options.then && (options.then.called = false);
+
+		  //store reference to react's setState
+		  if (_sync.called !== true) {
+		    _sync.reactSetState = options.context.setState;
+		    _sync.called = true;
+		  }
+		  options.reactSetState = _sync.reactSetState;
+
+		  var ref = state.db.ref(endpoint);
+		  var id = (0, _utils._createHash)(endpoint, 'syncState');
+		  (0, _utils._firebaseRefsMixin)(id, ref, state.refs);
+		  (0, _utils._addListener)(id, 'syncState', options, ref, state.listeners);
+
+		  var sync = {
+		    id: id,
+		    updateFirebase: _utils._updateSyncState.bind(this, ref),
+		    stateKey: options.state
+		  };
+		  (0, _utils._addSync)(options.context, sync, state.syncs);
+
+		  options.context.setState = function (data, cb) {
+		    var _this = this;
+
+		    var syncsToCall = state.syncs.get(this);
+		    //if sync does not exist, call original Component.setState
+		    if (!syncsToCall || syncsToCall.length === 0) {
+		      return _sync.reactSetState.call(this, data, cb);
+		    }
+		    syncsToCall.forEach(function (sync) {
+		      for (var key in data) {
+		        if (data.hasOwnProperty(key)) {
+		          if (key === sync.stateKey) {
+		            sync.updateFirebase(data[key]);
+		          } else {
+		            _sync.reactSetState.call(_this, data, cb);
+		          }
+		        }
+		      }
+		    });
+		  };
+		  return (0, _utils._returnRef)(endpoint, 'syncState', id, options.context);
+		};
+
+	/***/ },
+	/* 9 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		'use strict';
+
+		Object.defineProperty(exports, "__esModule", {
+		  value: true
+		});
+		exports.default = _bind;
+
+		var _validators = __webpack_require__(4);
+
+		var _utils = __webpack_require__(3);
+
+		function _bind(endpoint, options, invoker, state) {
+		  (0, _validators._validateEndpoint)(endpoint);
+		  _validators.optionValidators.context(options);
+		  invoker === 'listenTo' && _validators.optionValidators.then(options);
+		  invoker === 'bindToState' && _validators.optionValidators.state(options);
+		  options.queries && _validators.optionValidators.query(options);
+		  options.then && (options.then.called = false);
+
+		  var id = (0, _utils._createHash)(endpoint, invoker);
+		  var ref = state.db.ref(endpoint);
+		  (0, _utils._firebaseRefsMixin)(id, ref, state.refs);
+		  (0, _utils._addListener)(id, invoker, options, ref, state.listeners);
+		  return (0, _utils._returnRef)(endpoint, invoker, id, options.context);
+		};
+
+	/***/ },
+	/* 10 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		'use strict';
+
+		Object.defineProperty(exports, "__esModule", {
+		  value: true
+		});
+		exports.default = _update;
+
+		var _validators = __webpack_require__(4);
+
+		function _update(endpoint, options, state) {
+		  (0, _validators._validateEndpoint)(endpoint);
+		  _validators.optionValidators.data(options);
+		  var ref = state.db.ref(endpoint);
+		  if (options.then) {
+		    return ref.update(options.data, options.then);
+		  } else {
+		    return ref.update(options.data);
+		  }
+		};
+
+	/***/ },
+	/* 11 */
+	/***/ function(module, exports) {
+
+		'use strict';
+
+		Object.defineProperty(exports, "__esModule", {
+		  value: true
+		});
+		exports.default = _reset;
+		function _reset(state) {
+		  state.refs.forEach(function (ref, id) {
+		    ref.off('value', state.listeners.get(id));
+		  });
+		  state.listeners = new Map();
+		  state.refs = new Map();
+		  state.syncs = new WeakMap();
+		  return null;
+		};
+
+	/***/ },
+	/* 12 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		"use strict";
+
+		Object.defineProperty(exports, "__esModule", {
+		  value: true
+		});
+		exports.default = _removeBinding;
+
+		var _utils = __webpack_require__(3);
+
+		function _removeBinding(_ref, _ref2) {
+		  var endpoint = _ref.endpoint,
+		      method = _ref.method,
+		      id = _ref.id,
+		      context = _ref.context;
+		  var refs = _ref2.refs,
+		      listeners = _ref2.listeners,
+		      syncs = _ref2.syncs;
+
+		  var ref = refs.get(id);
+		  var listener = listeners.get(id);
+		  if (typeof ref === "undefined") {
+		    var errorMsg = "Unexpected value. Ref was either never bound or has already been unbound.";
+		    (0, _utils._throwError)(errorMsg, "UNBOUND_ENDPOINT_VARIABLE");
+		  }
+		  ref.off('value', listener);
+		  refs.delete(id);
+		  listeners.delete(id);
+		  var currentSyncs = syncs.get(context);
+		  if (currentSyncs && currentSyncs.length > 0) {
+		    var idx = currentSyncs.findIndex(function (item, index) {
+		      return item.id === id;
+		    });
+		    if (idx !== -1) {
+		      currentSyncs.splice(idx, 1);
+		      syncs.set(context, currentSyncs);
+		    }
+		  }
+		};
+
+	/***/ },
+	/* 13 */
+	/***/ function(module, exports) {
+
+		"use strict";
+
+		Object.defineProperty(exports, "__esModule", {
+		  value: true
+		});
+
+		exports.default = function (endpoint, db, fn) {
+		  return db.ref().child(endpoint).remove(fn);
+		};
+
+	/***/ },
+	/* 14 */
+	/***/ function(module, exports) {
+
+		"use strict";
+
+		Object.defineProperty(exports, "__esModule", {
+		   value: true
+		});
+		exports.default = _resetPassword;
+		function _resetPassword(credentials, fn, auth) {
+		   var email = credentials.email;
+
+		   return auth.sendPasswordResetEmail(email).then(function () {
+		      return fn(null);
+		   }).catch(function (error) {
+		      return fn(error);
+		   });
+		};
+
+	/***/ },
+	/* 15 */
+	/***/ function(module, exports) {
+
+		"use strict";
+
+		Object.defineProperty(exports, "__esModule", {
+		  value: true
+		});
+		exports.default = _createUser;
+		function _createUser(credentials, fn, auth) {
+		  var email = credentials.email,
+		      password = credentials.password;
+
+		  return auth.createUserWithEmailAndPassword(email, password).then(function (authData) {
+		    return fn(null, authData);
+		  }).catch(function (err) {
+		    return fn(err);
+		  });
+		};
+
+	/***/ },
+	/* 16 */
+	/***/ function(module, exports) {
+
+		"use strict";
+
+		Object.defineProperty(exports, "__esModule", {
+		  value: true
+		});
+		exports.default = _authWithPassword;
+		function _authWithPassword(credentials, fn, auth) {
+		  var email = credentials.email,
+		      password = credentials.password;
+
+		  return auth.signInWithEmailAndPassword(email, password).then(function (authData) {
+		    return fn(null, authData);
+		  }).catch(function (err) {
+		    return fn(err);
+		  });
+		}
+
+	/***/ },
+	/* 17 */
+	/***/ function(module, exports) {
+
+		"use strict";
+
+		Object.defineProperty(exports, "__esModule", {
+		  value: true
+		});
+		exports.default = _authWithCustomToken;
+		function _authWithCustomToken(token, fn, auth) {
+		  return auth.signInWithCustomToken(token).then(function (user) {
+		    return fn(null, user);
+		  }).catch(function (error) {
+		    return fn(error);
+		  });
+		}
+
+	/***/ },
+	/* 18 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		'use strict';
+
+		Object.defineProperty(exports, "__esModule", {
+		    value: true
+		});
+		exports.default = _authWithOAuthPopup;
+
+		var _getAuthProvider2 = __webpack_require__(19);
+
+		var _getAuthProvider3 = _interopRequireDefault(_getAuthProvider2);
+
+		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+		function _authWithOAuthPopup(provider, fn, settings, auth) {
+		    settings = settings || {};
+		    var authProvider = (0, _getAuthProvider3.default)(provider, settings);
+		    return auth.signInWithPopup(authProvider).then(function (authData) {
+		        return fn(null, authData);
+		    }).catch(function (error) {
+		        return fn(error);
+		    });
+		}
+
+	/***/ },
+	/* 19 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		'use strict';
+
+		Object.defineProperty(exports, "__esModule", {
+		  value: true
+		});
+		exports.default = _getAuthProvider;
+
+		var _utils = __webpack_require__(3);
+
+		var _firebase = __webpack_require__(2);
+
+		function _getFacebookProvider(settings) {
+		  var provider = new _firebase.auth.FacebookAuthProvider();
+		  if (settings.scope) {
+		    provider = (0, _utils._addScope)(settings.scope, provider);
+		  }
+		  return provider;
+		}
+
+		function _getTwitterProvider() {
+		  return new _firebase.auth.TwitterAuthProvider();
+		}
+
+		function _getGithubProvider(settings) {
+		  var provider = new _firebase.auth.GithubAuthProvider();
+		  if (settings.scope) {
+		    provider = (0, _utils._addScope)(settings.scope, provider);
+		  }
+		  return provider;
+		};
+
+		function _getGoogleProvider(settings) {
+		  var provider = new _firebase.auth.GoogleAuthProvider();
+		  if (settings.scope) {
+		    provider = (0, _utils._addScope)(settings.scope, provider);
+		  }
+		  return provider;
+		};
+
+		function _getAuthProvider(service, settings) {
+		  switch (service) {
+		    case 'twitter':
+		      return _getTwitterProvider();
+		      break;
+		    case 'google':
+		      return _getGoogleProvider(settings);
+		      break;
+		    case 'facebook':
+		      return _getFacebookProvider(settings);
+		      break;
+		    case 'github':
+		      return _getGithubProvider(settings);
+		      break;
+		    default:
+		      (0, _utils._throwError)('Expected auth provider requested. Available auth providers: facebook,twitter,github, google', 'UNKNOWN AUTH PROVIDER');
+		      break;
+		  }
+		};
+
+	/***/ },
+	/* 20 */
+	/***/ function(module, exports) {
+
+		"use strict";
+
+		Object.defineProperty(exports, "__esModule", {
+		    value: true
+		});
+		exports.default = _getOAuthRedirectResult;
+		function _getOAuthRedirectResult(fn, auth) {
+		    return auth.getRedirectResult().then(function (user) {
+		        return fn(null, user);
+		    }).catch(function (error) {
+		        return fn(error);
+		    });
+		}
+
+	/***/ },
+	/* 21 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		'use strict';
+
+		Object.defineProperty(exports, "__esModule", {
+		    value: true
+		});
+		exports.default = _authWithOAuthToken;
+
+		var _getAuthProvider2 = __webpack_require__(19);
+
+		var _getAuthProvider3 = _interopRequireDefault(_getAuthProvider2);
+
+		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+		function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+		function _authWithOAuthToken(provider, token, fn, settings, auth) {
+		    settings = settings || {};
+		    var authProvider = (0, _getAuthProvider3.default)(provider, settings);
+		    var credential = authProvider.credential.apply(authProvider, [token].concat(_toConsumableArray(settings.providerOptions)));
+		    return auth.signInWithCredential(credential).then(function (authData) {
+		        return fn(null, authData);
+		    }).catch(function (error) {
+		        return fn(error);
+		    });
+		}
+
+	/***/ },
+	/* 22 */
+	/***/ function(module, exports, __webpack_require__) {
+
+		'use strict';
+
+		Object.defineProperty(exports, "__esModule", {
+		    value: true
+		});
+		exports.default = _authWithOAuthRedirect;
+
+		var _getAuthProvider2 = __webpack_require__(19);
+
+		var _getAuthProvider3 = _interopRequireDefault(_getAuthProvider2);
+
+		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+		function _authWithOAuthRedirect(provider, fn, settings, auth) {
+		    settings = settings || {};
+		    var authProvider = (0, _getAuthProvider3.default)(provider, settings);
+		    return auth.signInWithRedirect(authProvider).then(function () {
+		        return fn(null);
+		    }).catch(function (error) {
+		        return fn(error);
+		    });
+		}
+
+	/***/ },
+	/* 23 */
+	/***/ function(module, exports) {
+
+		"use strict";
+
+		Object.defineProperty(exports, "__esModule", {
+		  value: true
+		});
+		exports.default = _onAuth;
+		function _onAuth(fn, auth) {
+		  return auth.onAuthStateChanged(fn);
+		}
+
+	/***/ },
+	/* 24 */
+	/***/ function(module, exports) {
+
+		"use strict";
+
+		Object.defineProperty(exports, "__esModule", {
+		  value: true
+		});
+		exports.default = _unauth;
+		function _unauth(auth) {
+		  return auth.signOut();
+		}
+
+	/***/ },
+	/* 25 */
+	/***/ function(module, exports) {
+
+		"use strict";
+
+		Object.defineProperty(exports, "__esModule", {
+		  value: true
+		});
+		exports.default = _getAuth;
+		function _getAuth(auth) {
+		  return auth.currentUser;
+		}
+
+	/***/ }
+	/******/ ])
+	});
+	;
 
 /***/ }
 /******/ ]);

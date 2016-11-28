@@ -1,0 +1,4 @@
+{
+	"database": [{"name": "Paul", "email": "pcvanmotman@gmail.com", "password": "supersecret", "convoId": [0]}],
+	"conversations": [{"messages": [{"message": "Hi there, how you going? React is pretty neat.", "name": "Paul", "time": "12:00"}]}]
+} 

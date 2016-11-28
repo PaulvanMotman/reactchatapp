@@ -1,26 +1,4 @@
-import * as firebase from 'firebase'
-
-// Initialize Firebase
-var config = {
-	apiKey: "AIzaSyC_FCqZGCZyKTdEBL4pk0TEHhxA0OKL-2M",
-	authDomain: "chat-appje.firebaseapp.com",
-	databaseURL: "https://chat-appje.firebaseio.com",
-	storageBucket: "chat-appje.appspot.com",
-	messagingSenderId: "71709059581"
-};
-
-firebase.initializeApp(config);
-
-
-
-
 console.log('Main js loaded')
-console.log("hoi")
-
-
-// GLOBAL VARIABLES
-var conversationcounter = 0 
-
 
 // Import required modules
 import React from 'react'
@@ -33,6 +11,25 @@ import Login from './modules/login.js'
 import Fail from './modules/fail.js'
 import Epicfail from './modules/epicfail.js'
 import '../styles/styles.scss'
+import * as firebase from 'firebase'
+import Rebase from 're-base'
+
+
+// Initialize Firebase
+var base = Rebase.createClass({
+	// INSERT API KEY HERE AS STRING
+	apiKey: INSERT_KEY,
+	authDomain: "chat-appje.firebaseapp.com",
+	databaseURL: "https://chat-appje.firebaseio.com",
+	storageBucket: "chat-appje.appspot.com",
+	messagingSenderId: "71709059581"
+});
+
+// NOTE THE FOLLOWING:
+// During development, I use the public rules in place of the default rules to set my files publicly readable and writable. 
+// This is useful for prototyping, as I can get started without setting up Authentication. 
+// This level of access means anyone can read or write to my database. 
+// I should configure more secure rules before launching my app.
 
 
 // Creating the container class
@@ -50,15 +47,15 @@ class Container extends React.Component {
 		this.otherUser = this.otherUser.bind(this)
 		this.getRelevantConversation = this.getRelevantConversation.bind(this)
 		// This state is the main state of the app, and data can be sent to child components by storing it in props
-		var time = this.getTime()
 		this.state = {
 			action: "register",
-			database: [{name: 'Paul', email: 'pcvanmotman@gmail.com', password: 'supersecret', convoId: []},],
+			database: [],
 			currentUser: {},
 			otherUsers: [],
 			otherUser: {},
-			conversations: [{id: 0, messages: [{message: "Hi there, how you going? React is pretty neat.", name: "Paul", time: time}]}],
+			conversations: [],
 		} 
+
 	}
 	// This functions registers a user and stores it the database, which is currently located in the state
 	registerUser (newuser) {
@@ -74,9 +71,6 @@ class Container extends React.Component {
 			// It's important to use a callback here, so the view is changed AFTER the database is made
 			this.changeView("login", {})
 		})
-
-
-
 	}
 	// This function handles the login
 	loginUser (user) {
@@ -103,10 +97,24 @@ class Container extends React.Component {
 			}
 		}
 	}
+	// This function allows me to set up two way data binding between my component's state and my Firebase. 
+	// Whenever Firebase changes, the component's state will change. 
+	// Whenever the component's state changes, Firebase will change.
+	componentDidMount(){
+		base.syncState(`database`, {
+			context: this,
+			state: 'database',
+			asArray: true
+		});
+		base.syncState(`conversations`, {
+			context: this,
+			state: 'conversations',
+			asArray: true
+		});
+	}
 	// This function switches the view from register --> login --> chat components
 	changeView (a, c) {
 		this.setState({ action: a, currentUser: c }, () => { 
-			console.log(this.state)
 			this.otherUsers() 
 		})
 	}
@@ -136,21 +144,26 @@ class Container extends React.Component {
 		let time = this.getTime()
 		let conversations = this.state.conversations
 		conversations[id].messages.push({ message: newmessage, name: user.name, time: time })
-		this.setState({ conversations: conversations}, () => { console.log(this.state) })
+		this.setState({ conversations: conversations})
 	}
 	// Based on the user who is about to be created and the users already in the database,
 	// new conversations are created.
 	createConversations (newuser, database) {
+		console.log("CHECKKKK THIS")
+		console.log(database)
 		// loop through the database
 		for (var i = 0; i < database.length; i++) {
 			// get the current state of conversations
 			var conversations = this.state.conversations
-			// push a new conversation to the conversations variable  (conversationcounter is a global variable)
-			conversations.push({ id: conversationcounter, messages: [] })
+			// create a conversationcounter to, so that I can add the index of the conversation within the array to users
+			var conversationcounter = conversations.length - 1
+			// push a new conversation to the conversations variable
+			// -------------------------------------------------------------------------------------------------- //
+			// Instead of an empty array, I insert a 0. This was needed after the firebase integration, as part of the work-around of not being able to store empty arrays.
+			// -------------------------------------------------------------------------------------------------- //  
+			conversations.push({ messages: [0] })
 			// set the conversations state equal to the variable
-			this.setState({ conversations: conversations }, () => {
-				console.log(this.state.conversations)
-			})
+			this.setState({ conversations: conversations })
 			// push the convo ID to the relevant other user
 			database[i].convoId.push(conversationcounter)
 			// push the convo ID to the relevant new user
@@ -181,9 +194,7 @@ class Container extends React.Component {
 		for (var i = 0; i < d.length; i++) {
 			if (d[i].name == u.name && d[i].email == u.email && d[i].password == u.password) {
 				d.splice(i,1)
-				this.setState({ otherUsers: d}, () => { 
-					console.log(this.state.otherUsers)
-				})
+				this.setState({ otherUsers: d})
 			}
 		}
 	}
@@ -262,9 +273,6 @@ class Container extends React.Component {
 		)
 	}
 }
-
-
-
 
 
 

@@ -20,9 +20,24 @@ Install dev depenendencies:
 ```shell
 npm install
 ```
-Run app
 
+In frontend/src/scripts/main.js insert the api key
+
+``` shell
+// Initialize Firebase
+var base = Rebase.createClass({
+    // INSERT API KEY HERE
+    apiKey: INSERT_KEY,
+    authDomain: "chat-appje.firebaseapp.com",
+    databaseURL: "https://chat-appje.firebaseio.com",
+    storageBucket: "chat-appje.appspot.com",
+    messagingSenderId: "71709059581"
+});
+```
+
+
+Run app
 ```shell
-webpack --watch --progress
+node app
 ```
 
