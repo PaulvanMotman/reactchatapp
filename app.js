@@ -1,17 +1,12 @@
 // Requiring modulus
-
 const express = require('express');
 const bodyParser= require('body-parser')
 
 const app = express();
 
-// Setting views
-app.set('views', './frontend/public');
-app.set('view engine', 'html');
-
 //
 app.use(bodyParser.urlencoded({extended: true}))
-app.use(express.static('./frontend/public/'));
+app.use(express.static('./docs/'));
 
 app.get('/', (req, res) => {
 	res.render("index")
