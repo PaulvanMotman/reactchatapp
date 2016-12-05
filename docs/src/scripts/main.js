@@ -43,6 +43,7 @@ class Container extends React.Component {
 		this.updateConversations = this.updateConversations.bind(this)
 		this.createConversations = this.createConversations.bind(this)
 		this.getTime = this.getTime.bind(this)
+		this.updateScroll = this.updateScroll.bind(this)
 		this.otherUsers = this.otherUsers.bind(this)
 		this.otherUser = this.otherUser.bind(this)
 		this.getRelevantConversation = this.getRelevantConversation.bind(this)
@@ -204,6 +205,11 @@ class Container extends React.Component {
 			console.log(this.state)
 		})
 	}
+	// this function automaticly makes sure that with every new message the window scrolls down
+	updateScroll () {
+	    var element = document.getElementById("chatwindow")
+	    element.scrollTop = element.scrollHeight
+	}
 	// Render function
 	render() {
 		let mainContent
@@ -223,7 +229,7 @@ class Container extends React.Component {
 					<div>
 						<Header action={this.state.action} changeThatView={this.changeView}/>
 						<main>
-							<Chat updateThoseConversations={this.updateConversations} conversations={this.state.conversations} currentUser={this.state.currentUser} otherUsers={this.state.otherUsers} setOtherUser={this.otherUser} otherUser={this.state.otherUser} getThatReleventConversation={this.getRelevantConversation}/>
+							<Chat updateThatScroll={this.updateScroll} updateThoseConversations={this.updateConversations} conversations={this.state.conversations} currentUser={this.state.currentUser} otherUsers={this.state.otherUsers} setOtherUser={this.otherUser} otherUser={this.state.otherUser} getThatReleventConversation={this.getRelevantConversation}/>
 						</main>
 					</div>
 				)

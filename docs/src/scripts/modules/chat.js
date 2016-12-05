@@ -10,7 +10,6 @@ export default class Chat extends React.Component {
 		super(props)
 		this.eachText = this.eachText.bind(this)
 		this.add = this.add.bind(this)
-		this.updateScroll = this.updateScroll.bind(this)
 		this.eachUser = this.eachUser.bind(this)
 	}
 	// function that adds new messages to the chat
@@ -18,12 +17,7 @@ export default class Chat extends React.Component {
 		e.preventDefault()
 		this.props.updateThoseConversations(this.refs.newText.value, this.props.currentUser, this.props.otherUser)
 		this.refs.newText.value = ''
-		this.updateScroll()
-	}
-	// this function automaticly makes sure that with every new message the window scrolls down
-	updateScroll () {
-	    var element = document.getElementById("chatwindow")
-	    element.scrollTop = element.scrollHeight
+		this.props.updateThatScroll()
 	}
 	// function that creates html tag for each message
 	eachText(text, i) {
@@ -50,6 +44,9 @@ export default class Chat extends React.Component {
 				{user}
 			</User>
 		)
+	}
+	componentDidUpdate(){
+		this.props.updateThatScroll() 
 	}
 	render() {
 		let mainContent
